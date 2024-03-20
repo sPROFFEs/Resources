@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>pr0ff3</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+    <link rel="stylesheet" href="css/font-awsome.css">
+    <style>
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: "Lato", sans-serif;
+        }
+
+        body,
+        html {
+            height: 100%;
+            color: #777;
+            line-height: 1.8;
+        }
+
+        /* Create a Parallax Effect */
+        .bgimg-1,
+        .bgimg-2,
+        .bgimg-3 {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        /* First image (Logo. Full height) */
+        .bgimg-1 {
+            background-image: url('/images/main.jpg');
+            min-height: 100%;
+        }
+
+        /* Second image (Portfolio) */
+        .bgimg-2 {
+            background-image: url("/images/main1.jpg");
+            min-height: 400px;
+        }
+
+        /* Third image (Contact) */
+        .bgimg-3 {
+            background-image: url("/images/main2.jpg");
+            min-height: 400px;
+        }
+
+        .w3-wide {
+            letter-spacing: 10px;
+        }
+
+        .w3-hover-opacity {
+            cursor: pointer;
+        }
+
+        /* Turn off parallax scrolling for tablets and phones */
+        @media only screen and (max-device-width: 1600px) {
+
+            .bgimg-1,
+            .bgimg-2,
+            .bgimg-3 {
+                background-attachment: scroll;
+                min-height: 400px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar (sit on top) -->
+    <div class="w3-top">
+        <div class="w3-bar" id="myNavbar">
+            <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right"
+                href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
+                <i class="fa fa-bars"></i>
+            </a>
+            <a href="#home" class="w3-bar-item w3-button">HOME</a>
+            <a href="#about" class="w3-bar-item w3-button w3-hide-small">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-filled" width="15"
+                    height="20" viewBox="0 0 19 13" stroke-width="1.5" stroke="#2c3e50" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M12 2a5 5 0 1 1 -5 5l.005 -.217a5 5 0 0 1 4.995 -4.783z" stroke-width="0"
+                        fill="currentColor" />
+                    <path d="M14 14a5 5 0 0 1 5 5v1a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-1a5 5 0 0 1 5 -5h4z"
+                        stroke-width="0" fill="currentColor" />
+                </svg> ABOUT</a>
+            <a href="#portfolio" class="w3-bar-item w3-button w3-hide-small">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-database-search" width="16"
+                    height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M4 6c0 1.657 3.582 3 8 3s8 -1.343 8 -3s-3.582 -3 -8 -3s-8 1.343 -8 3"
+                        fill="currentColor" />
+                    <path d="M4 6v6c0 1.657 3.582 3 8 3m8 -3.5v-5.5" fill="currentColor" />
+                    <path d="M4 12v6c0 1.657 3.582 3 8 3" fill="currentColor" />
+                    <path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" fill="currentColor" />
+                    <path d="M20.2 20.2l1.8 1.8" fill="currentColor" />
+                </svg> RESOURCES</a>
+
+            <a href="#contact" class="w3-bar-item w3-button w3-hide-small">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail-filled" width="16"
+                    height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path
+                        d="M22 7.535v9.465a3 3 0 0 1 -2.824 2.995l-.176 .005h-14a3 3 0 0 1 -2.995 -2.824l-.005 -.176v-9.465l9.445 6.297l.116 .066a1 1 0 0 0 .878 0l.116 -.066l9.445 -6.297z"
+                        stroke-width="0" fill="currentColor" />
+                    <path
+                        d="M19 4c1.08 0 2.027 .57 2.555 1.427l-9.555 6.37l-9.555 -6.37a2.999 2.999 0 0 1 2.354 -1.42l.201 -.007h14z"
+                        stroke-width="0" fill="currentColor" />
+                </svg> CONTACT</a>
+        </div>
+
+        <!-- Navbar on small screens -->
+        <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium">
+            <a href="#about" class="w3-bar-item w3-button" onclick="toggleFunction()">ABOUT</a>
+            <a href="#portfolio" class="w3-bar-item w3-button" onclick="toggleFunction()">PORTFOLIO</a>
+            <a href="#contact" class="w3-bar-item w3-button" onclick="toggleFunction()">CONTACT</a>
+            <a href="#" class="w3-bar-item w3-button">SEARCH</a>
+        </div>
+    </div>
+
+    <!-- First Parallax Image with Logo Text -->
+    <div class="bgimg-1 w3-display-container w3-opacity-min" id="home">
+        <div class="w3-display-middle" style="white-space:nowrap;">
+            <span class="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-animate-opacity">Ethical <span
+                    class="w3-hide-small">Hacking</span> by pr0ff3</span>
+        </div>
+    </div>
+
+    <!-- Container (About Section) -->
+    <div class="w3-content w3-container w3-padding-64" id="about">
+        <h3 class="w3-center">ABOUT ME</h3>
+        <p>I have created this website to showcase my work and skills in a simple and visual way. I am passionate about
+            computing in all its aspects, from hardware to software. In this broad field of IT, it is necessary to make
+            decisions about which areas to specialize in. For me, those branches have been hardware maintenance for end
+            users and data centers, as well as cybersecurity. Currently, I am expanding into other areas such as Machine
+            Learning or web programming because I would like to analyze more deeply their implications from a
+            cybersecurity perspective.</p>
+        <div class="w3-row">
+            <div class="w3-col m6 w3-center w3-padding-large">
+                <p><b></i>My Name</b></p><br>
+                <img src="/images/logo.jpg" class="w3-round w3-image w3-opacity w3-hover-opacity-off" alt="Logo"
+                    width="300" height="333">
+            </div>
+
+            <!-- Hide this text on small devices -->
+            <div class="w3-col m6 w3-hide-small w3-padding-large">
+                <p>This website has not only been created to showcase my experiences and journey, but also to offer my
+                    projects and the knowledge I have been able to acquire gradually through notes, scripts,
+                    information, new tools, etc.</p>
+            </div>
+        </div>
+        <p class="w3-large w3-center w3-padding-16">Im really good at:</p>
+        <p class="w3-wide">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-cpu" width="16" height="16"
+                viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M5 5m0 1a1 1 0 0 1 1 -1h12a1 1 0 0 1 1 1v12a1 1 0 0 1 -1 1h-12a1 1 0 0 1 -1 -1z" />
+                <path d="M9 9h6v6h-6z" />
+                <path d="M3 10h2" />
+                <path d="M3 14h2" />
+                <path d="M10 3v2" />
+                <path d="M14 3v2" />
+                <path d="M21 10h-2" />
+                <path d="M21 14h-2" />
+                <path d="M14 21v-2" />
+                <path d="M10 21v-2" />
+            </svg>
+            </i>Hardware maintenance
+        </p>
+        <div class="w3-light-grey">
+            <div class="w3-container w3-padding-small w3-dark-grey w3-center" style="width:90%">90%</div>
+        </div>
+        <p class="w3-wide">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-fingerprint" width="16"
+                height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M18.9 7a8 8 0 0 1 1.1 5v1a6 6 0 0 0 .8 3" />
+                <path d="M8 11a4 4 0 0 1 8 0v1a10 10 0 0 0 2 6" />
+                <path d="M12 11v2a14 14 0 0 0 2.5 8" />
+                <path d="M8 15a18 18 0 0 0 1.8 6" />
+                <path d="M4.9 19a22 22 0 0 1 -.9 -7v-1a8 8 0 0 1 12 -6.95" />
+            </svg>
+            </i>Cybersecurity
+        </p>
+        <div class="w3-light-grey">
+            <div class="w3-container w3-padding-small w3-dark-grey w3-center" style="width:70%">70%</div>
+        </div>
+        <p class="w3-wide">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-code" width="16" height="16"
+                viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M7 8l-4 4l4 4" />
+                <path d="M17 8l4 4l-4 4" />
+                <path d="M14 4l-4 16" />
+            </svg>
+            </i>Programming
+        </p>
+        <div class="w3-light-grey">
+            <div class="w3-container w3-padding-small w3-dark-grey w3-center" style="width:50%">50%</div>
+        </div>
+    </div>
+
+    <div class="w3-row w3-center w3-dark-grey w3-padding-16">
+        <div class="w3-quarter w3-section">
+            <span class="w3-xlarge">0</span><br>
+            Partners
+        </div>
+        <div class="w3-quarter w3-section">
+            <span class="w3-xlarge">4</span><br>
+            Projects Done
+        </div>
+        <div class="w3-quarter w3-section">
+            <span class="w3-xlarge">99+</span><br>
+            Coffee
+        </div>
+        <div class="w3-quarter w3-section">
+            <span class="w3-xlarge">99+</span><br>
+            Hours
+        </div>
+    </div>
+
+    <!-- Second Parallax Image with Portfolio Text -->
+    <div class="bgimg-2 w3-display-container w3-opacity-min">
+        <div class="w3-display-middle">
+            <span class="w3-xxlarge w3-text-white w3-wide">RESOURCES</span>
+        </div>
+    </div>
+
+    <!-- Container (Portfolio Section) -->
+    <div class="w3-content w3-container w3-padding-64" id="portfolio">
+        <h3 class="w3-center">MY WORK</h3>
+        <p class="w3-center"><em>Here are some of my latest work.<br> Click on the links to know
+                more</em></p><br>
+
+        <!-- Responsive Grid. Four columns on tablets, laptops and desktops. Will stack on mobile devices/small screens (100% width) -->
+        <div class="w3-row-padding w3-center">
+            <div class="w3-col m3">
+                <a href="https://github.com/sPROFFEs/MetaSpidey" style="text-decoration: none;">MetaSpidey
+                    <img src="/images/metaspidey.jpg" style="width:100%; border-radius:18%" onclick="onClick(this)"
+                        class="w3-hover-opacity" alt="MetaSpidey">
+                </a>
+            </div>
+
+            <div class="w3-col m3">
+                <a href="https://github.com/sPROFFEs/CookieBLK" style="text-decoration: none;">CookieDestroyer
+                    <img src="/images/cookie.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity"
+                        alt="CookieDestroyer">
+                </a>
+            </div>
+
+            <div class="w3-col m3">
+                <a href="https://sproffes.github.io/Website-Templeates/" style="text-decoration: none;">Website
+                    Templeates
+                    <img src="/images/template.PNG" style="width:100%; margin-top: 10%;" onclick="onClick(this)"
+                        class="w3-hover-opacity" alt="Website-Templeates">
+                </a>
+            </div>
+
+            <div class="w3-col m3">
+                <a href="hacking/index.html" style="text-decoration: none;">Cybersecurity
+                    <img src="/images/hacking.png" style="width:100%" onclick="onClick(this)" class="w3-hover-opacity"
+                        alt="Cybersecurity">
+                </a>
+            </div>
+        </div>
+
+        <!-- <div class="w3-row-padding w3-center w3-section">
+            <button class="w3-button w3-padding-large w3-light-grey" style="margin-top:64px">LOAD MORE</button>
+        </div> -->
+    </div>
+
+    <!-- Modal for full size images on click-->
+    <div id="modal01" class="w3-modal w3-black" onclick="this.style.display='none'">
+        <span class="w3-button w3-large w3-black w3-display-topright" title="Close Modal Image"><i
+                class="fa fa-remove"></i></span>
+        <div class="w3-modal-content w3-animate-zoom w3-center w3-transparent w3-padding-64">
+            <img id="img01" class="w3-image">
+            <p id="caption" class="w3-opacity w3-large"></p>
+        </div>
+    </div>
+
+    <!-- Third Parallax Image with Portfolio Text -->
+    <div class="bgimg-3 w3-display-container w3-opacity-min">
+        <div class="w3-display-middle">
+            <span class="w3-xxlarge w3-text-white w3-wide">CONTACT</span>
+        </div>
+    </div>
+
+    <!-- Container (Contact Section) -->
+    <div class="w3-content w3-container w3-padding-64" id="contact">
+        <h3 class="w3-center">WHERE I WORK</h3>
+        <p class="w3-center"><em>Let me now your feedback!</em></p>
+
+        <div class="w3-row w3-padding-32 w3-section">
+            <div class="w3-col m4 w3-container">
+                <img src="/images/computer.jpg" class="w3-image w3-round" style="width:100% border-radius=20%">
+            </div>
+            <div class="w3-col m8 w3-panel">
+                <div class="w3-large w3-margin-bottom">
+                    <i class="fa-fw w3-hover-text-black w3-xlarge w3-margin-right">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-map-pin-filled"
+                            width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path
+                                d="M18.364 4.636a9 9 0 0 1 .203 12.519l-.203 .21l-4.243 4.242a3 3 0 0 1 -4.097 .135l-.144 -.135l-4.244 -4.243a9 9 0 0 1 12.728 -12.728zm-6.364 3.364a3 3 0 1 0 0 6a3 3 0 0 0 0 -6z"
+                                stroke-width="0" fill="currentColor" />
+                        </svg>
+                    </i> Andalucía,
+                    ES<br>
+                    <i class="fa-fw w3-hover-text-black w3-xlarge w3-margin-right">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-phone-filled"
+                            width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path
+                                d="M9 3a1 1 0 0 1 .877 .519l.051 .11l2 5a1 1 0 0 1 -.313 1.16l-.1 .068l-1.674 1.004l.063 .103a10 10 0 0 0 3.132 3.132l.102 .062l1.005 -1.672a1 1 0 0 1 1.113 -.453l.115 .039l5 2a1 1 0 0 1 .622 .807l.007 .121v4c0 1.657 -1.343 3 -3.06 2.998c-8.579 -.521 -15.418 -7.36 -15.94 -15.998a3 3 0 0 1 2.824 -2.995l.176 -.005h4z"
+                                stroke-width="0" fill="currentColor" />
+                        </svg>
+                    </i> Phone: ?<br>
+                    <i class="fa-fw w3-hover-text-black w3-xlarge w3-margin-right">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail-filled"
+                            width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path
+                                d="M22 7.535v9.465a3 3 0 0 1 -2.824 2.995l-.176 .005h-14a3 3 0 0 1 -2.995 -2.824l-.005 -.176v-9.465l9.445 6.297l.116 .066a1 1 0 0 0 .878 0l.116 -.066l9.445 -6.297z"
+                                stroke-width="0" fill="currentColor" />
+                            <path
+                                d="M19 4c1.08 0 2.027 .57 2.555 1.427l-9.555 6.37l-9.555 -6.37a2.999 2.999 0 0 1 2.354 -1.42l.201 -.007h14z"
+                                stroke-width="0" fill="currentColor" />
+                        </svg>
+                    </i> Email:
+                    julioproffessor@gmail.com<br>
+                </div>
+                <p>Swing by for a cup of coffee</i>, or leave me a note:</p>
+                <a href="mailto:julioproffessor@gmail.com">
+                    <button class="w3-button w3-black w3-right w3-section">Send Mail</button>
+                </a>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="w3-center w3-black w3-padding-64 w3-opacity w3-hover-opacity-off">
+        <a href="#home" class="w3-button w3-light-grey">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-big-up-lines-filled"
+                width="16" height="16" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path
+                    d="M10.586 3l-6.586 6.586a2 2 0 0 0 -.434 2.18l.068 .145a2 2 0 0 0 1.78 1.089h2.586v2a1 1 0 0 0 1 1h6l.117 -.007a1 1 0 0 0 .883 -.993l-.001 -2h2.587a2 2 0 0 0 1.414 -3.414l-6.586 -6.586a2 2 0 0 0 -2.828 0z"
+                    stroke-width="0" fill="currentColor" />
+                <path d="M15 20a1 1 0 0 1 .117 1.993l-.117 .007h-6a1 1 0 0 1 -.117 -1.993l.117 -.007h6z"
+                    stroke-width="0" fill="currentColor" />
+                <path d="M15 17a1 1 0 0 1 .117 1.993l-.117 .007h-6a1 1 0 0 1 -.117 -1.993l.117 -.007h6z"
+                    stroke-width="0" fill="currentColor" />
+            </svg>
+            </i>To the top</a>
+        <div class="w3-xlarge w3-section">
+            <a href="https://www.linkedin.com/in/pr0ff3">
+                <i class="w3-hover-opacity">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-linkedin"
+                        width="30" height="30" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"
+                            fill="currentColor" />
+                        <path d="M8 11l0 5" fill="currentColor" />
+                        <path d="M8 8l0 .01" fill="currentColor" />
+                        <path d="M12 16l0 -5" fill="currentColor" />
+                        <path d="M16 16v-3a2 2 0 0 0 -4 0" fill="currentColor" />
+                    </svg>
+                </i>
+            </a>
+
+        </div>
+        <p><a href="https://github.com/sPROFFEs" title="pr0ff3" target="_blank" class="w3-hover-text-green">All rights
+                reserved. © <span id="currentYear"></span></a></p>
+
+        <script>
+            var currentYear = new Date().getFullYear();
+            document.getElementById("currentYear").innerHTML = currentYear;
+        </script>
+
+    </footer>
+
+    <script>
+        // Modal Image Gallery
+        function onClick(element) {
+            document.getElementById("img01").src = element.src;
+            document.getElementById("modal01").style.display = "block";
+            var captionText = document.getElementById("caption");
+            captionText.innerHTML = element.alt;
+        }
+
+        // Change style of navbar on scroll
+        window.onscroll = function () { myFunction() };
+        function myFunction() {
+            var navbar = document.getElementById("myNavbar");
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                navbar.className = "w3-bar" + " w3-card" + " w3-animate-top" + " w3-white";
+            } else {
+                navbar.className = navbar.className.replace(" w3-card w3-animate-top w3-white", "");
+            }
+        }
+
+        // Used to toggle the menu on small screens when clicking on the menu button
+        function toggleFunction() {
+            var x = document.getElementById("navDemo");
+            if (x.className.indexOf("w3-show") == -1) {
+                x.className += " w3-show";
+            } else {
+                x.className = x.className.replace(" w3-show", "");
+            }
+        }
+    </script>
+
+</body>
+
+</html>
