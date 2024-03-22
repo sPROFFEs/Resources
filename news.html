@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>News</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karma">
+    <style>
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: "Karma", sans-serif;
+            color: aliceblue;
+            
+        }
+
+        .w3-bar-block .w3-bar-item {
+            padding: 20px
+        }
+
+        body {
+            background-color: #191919;
+        }
+
+        .mi-color{
+            background-color: #191919;
+        }
+        iframe{
+            background-color: aliceblue;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar (hidden by default) -->
+    <nav class="w3-sidebar w3-bar-block w3-card w3-top w3-xlarge w3-animate-left mi-color"
+        style="display:none;z-index:2;width:40%;min-width:300px" id="mySidebar">
+        <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button">Close Menu</a>
+        <a href="index.html" onclick="w3_close()" class="w3-bar-item w3-button">Back</a>
+        <p style="text-align: center; text-decoration: underline; font-weight: bold; font-size: xx-large;"><a href="#cybersecurity" onclick="w3_close()">Cybersecurity</a></p>
+        <a href="#DarkReading" onclick="w3_close()" class="w3-bar-item w3-button">DarkReading</a>
+        <a href="#HackRead" onclick="w3_close()" class="w3-bar-item w3-button">HackRead</a>
+        <a href="#KrebsonSecurity" onclick="w3_close()" class="w3-bar-item w3-button">KrebsonSecurity</a>
+        <a href="#Securityweek" onclick="w3_close()" class="w3-bar-item w3-button">Securityweek</a>
+        <a href="#HelpNetSecurity" onclick="w3_close()" class="w3-bar-item w3-button">HelpNetSecurity</a>
+        <a href="https://www.infosecurity-magazine.com/" onclick="w3_close()" class="w3-bar-item w3-button">InfoScurity-Magazine</a>
+        <a href="https://cybersecurityventures.com/today/" onclick="w3_close()" class="w3-bar-item w3-button">CyberCrime Magazine</a>
+        <a href="https://www.csoonline.com/" onclick="w3_close()" class="w3-bar-item w3-button">CSO</a>
+        <a href="https://thehackernews.com/" onclick="w3_close()" class="w3-bar-item w3-button">The Hacker News</a>
+        <a href="https://owasp.org/news/" onclick="w3_close()" class="w3-bar-item w3-button">OWASP News</a>
+        <a href="https://www.scmagazine.com/" onclick="w3_close()" class="w3-bar-item w3-button">SC Magazine</a>
+        <p style="text-align: center; text-decoration: underline; font-weight: bold; font-size: xx-large;"><a href="#tech" onclick="w3_close()">Technology</a></p>
+        <a href="#Businessinsider" onclick="w3_close()" class="w3-bar-item w3-button">Businessinsider</a>
+        <a href="#Wired" onclick="w3_close()" class="w3-bar-item w3-button">Wired</a>
+        <a href="#VentureBeat" onclick="w3_close()" class="w3-bar-item w3-button">VentureBeat</a>
+        <a href="https://www.theverge.com/" onclick="w3_close()" class="w3-bar-item w3-button">TheVerge</a>
+        <a href="https://techcrunch.com/" onclick="w3_close()" class="w3-bar-item w3-button">TechCrunch</a>
+        <a href="#HardZone" onclick="w3_close()" class="w3-bar-item w3-button">HardZone</a>
+        <a href="#ElChapuzasInformatico" onclick="w3_close()" class="w3-bar-item w3-button">ElChapuzasInformático</a>
+        <a href="https://www.profesionalreview.com/" onclick="w3_close()" class="w3-bar-item w3-button">ProfesionalReview</a>
+        <p style="text-align: center; text-decoration: underline; font-weight: bold; font-size: xx-large;"><a href="#games" onclick="w3_close()">Videogames</a></p>
+        <a href="https://www.eurogamer.net/" onclick="w3_close()" class="w3-bar-item w3-button">Eurogamer</a>
+        <a href="https://blog.playstation.com/" onclick="w3_close()" class="w3-bar-item w3-button">PlayStation</a>
+        <a href="https://es.ign.com/" onclick="w3_close()" class="w3-bar-item w3-button">IGN</a>
+        <a href="#GameSpot" onclick="w3_close()" class="w3-bar-item w3-button">GameSpot</a>
+        <a href="https://kotaku.com/" onclick="w3_close()" class="w3-bar-item w3-button">Kotaku</a>
+        <a href="https://www.pcgamer.com/news/" onclick="w3_close()" class="w3-bar-item w3-button">PcGamer</a>
+        <a href="#MetaCritic" onclick="w3_close()" class="w3-bar-item w3-button">MetaCritic</a>
+        <a href="https://vandal.elespanol.com/noticias/videojuegos" onclick="w3_close()" class="w3-bar-item w3-button">Vandal</a>
+        <a href="#LevelUP" onclick="w3_close()" class="w3-bar-item w3-button">LevelUP</a>
+        <p style="text-align: center; text-decoration: underline; font-weight: bold; font-size: xx-large;"><a href="#phones" onclick="w3_close()">SmartPhones & Wearables</a></p>
+        <a href="#Droid-Life" onclick="w3_close()" class="w3-bar-item w3-button">Droid-Life</a>
+        <a href="#topesdegama" onclick="w3_close()" class="w3-bar-item w3-button">Topes de gama</a>
+        <a href="#movilzona" onclick="w3_close()" class="w3-bar-item w3-button">MovilZona</a>
+        <a href="#computerhoy" onclick="w3_close()" class="w3-bar-item w3-button">ComputerHoy</a>
+        <a href="#elrincondechina" onclick="w3_close()" class="w3-bar-item w3-button">ElRincondeChina</a>
+        <a href="https://www.geeknetic.es/smartphones/noticias/" onclick="w3_close()" class="w3-bar-item w3-button">Geeknetic</a>
+        <a href="https://www.xatakandroid.com/categoria/moviles-android" onclick="w3_close()" class="w3-bar-item w3-button">XatakaAndroid</a>
+    </nav>
+
+    <!-- Top menu -->
+    <div class="w3-top">
+        <div class="w3-white w3-xlarge" style="max-width:1200px;margin:auto">
+            <div class="w3-button w3-padding-16 w3-left mi-color" onclick="w3_open()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-category" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M4 4h6v6h-6z" />
+                    <path d="M14 4h6v6h-6z" />
+                    <path d="M4 14h6v6h-6z" />
+                    <path d="M17 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                  </svg>
+            </div>
+            <div class="w3-right w3-padding-16">
+                <a href="#" id="popup-trigger" onclick="w3_close()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-info-square" width="32" height="32" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M12 9h.01" />
+                        <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14z" />
+                        <path d="M11 12h1v4h1" />
+                      </svg>
+                </a>
+            </div>
+            <div id="popup" class="popup">
+                <div class="popup-content" style="border-radius: 10px;">
+                    <span class="close" onclick="closePopup()">&times;</span>
+                    <h3 style="text-align: center; font-weight: bold; font-size: larger; color: #000;">Disclaimer</h3>
+                    <p>This content is not my property, all legal rights are held by their respective entities. 
+                        This page only offers the content in a non-profit condescended form, only for the user's convenience.
+                        I am not responsible for the content displayed within their respective websites.
+                        Thanks for your attention and enjoy the content.</p>
+                </div>
+            </div>            
+            <div class="w3-center w3-padding-16 mi-color" style="color: aliceblue; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; font-size: xx-large;">News</div>
+        </div>
+    </div>
+
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-main w3-content w3-padding" style="max-width:1200px;margin-top:100px">
+
+        <!-- First Photo Grid-->
+        <div class="w3-row-padding w3-padding-16 w3-center">
+            <div class="w3-quarter-news" id="cybersecurity">
+                <h1 style="font-weight: 700">Cybersecurity</h1>
+            </div>
+            <div class="w3-quarter-news" id="DarkReading">
+                <h3>DarkReading</h3>
+                <iframe loading="lazy" style="border-radius: 10px;" src="https://www.darkreading.com/" width="100%"
+                    height="900px"></iframe>
+            </div>
+            <div class="w3-quarter-news" id="Securityweek">
+                <h3>Securityweek</h3>
+                <iframe loading="lazy" style="border-radius: 10px;" src="https://www.securityweek.com/" width="100%"
+                    height="900px"></iframe>
+            </div>
+            <div class="w3-quarter-news" id="KrebsonSecurity">
+                <h3>KrebsonSecurity</h3>
+                <iframe loading="lazy" style="border-radius: 10px;" src="https://krebsonsecurity.com/" width="100%"
+                    height="900px"></iframe>
+            </div>
+            <div class="w3-quarter-news" id="HelpNetSecurity">
+                <h3>HelpNetSecurity</h3>
+                <iframe loading="lazy" style="border-radius: 10px;" src="https://www.helpnetsecurity.com/" width="100%"
+                    height="900px"></iframe>
+            </div>
+            <div class="w3-quarter-news" id="HackRead">
+                <h3>HackRead</h3>
+                <iframe loading="lazy" style="border-radius: 10px;" src="https://www.hackread.com/" width="100%"
+                    height="900px"></iframe>
+            </div>
+        </div>
+
+        <!-- Second Photo Grid-->
+        <div class="w3-row-padding w3-padding-16 w3-center">
+            <div class="w3-quarter-news" id="tech">
+                <h1 style="font-weight: 700">Technology</h1>
+            </div>
+            <div class="w3-quarter-news" id="Businessinsider">
+                <h3>Businessinsider</h3>
+                <iframe loading="lazy" style="border-radius: 10px;" src="https://www.businessinsider.com/" width="100%"
+                    height="900px"></iframe>
+            </div>
+            <div class="w3-quarter-news" id="Wired">
+                <h3>Wired</h3>
+                <iframe loading="lazy" style="border-radius: 10px;" src="https://www.wired.com/" width="100%"
+                    height="900px"></iframe>
+            </div>
+            <div class="w3-quarter-news" id="VentureBeat">
+                <h3>VentureBeat</h3>
+                <iframe loading="lazy" style="border-radius: 10px;" src="https://venturebeat.com/" width="100%"
+                    height="900px"></iframe>
+            </div>
+            <div class="w3-quarter-news" id="HardZone">
+                <h3>HardZone</h3>
+                <iframe loading="lazy" style="border-radius: 10px;" src="https://hardzone.es/" width="100%"
+                    height="900px"></iframe>
+            </div>
+            <div class="w3-quarter-news" id="ElChapuzasInformatico">
+                <h3>ElChapuzasInformático</h3>
+                <iframe loading="lazy" style="border-radius: 10px;" src="https://elchapuzasinformatico.com/" width="100%"
+                    height="900px"></iframe>
+            </div>
+        </div>
+
+        <div class="w3-row-padding w3-padding-16 w3-center">
+            <div class="w3-quarter-news" id="games">
+                <h1 style="font-weight: 700">Videogames</h1>
+            </div>
+            <div class="w3-quarter-news" id="GameSpot">
+                <h3>GameSpot</h3>
+                <iframe loading="lazy" style="border-radius: 10px;" src="https://www.gamespot.com/news/" width="100%"
+                    height="900px"></iframe>
+            </div>
+            <div class="w3-quarter-news" id="MetaCritic">
+                <h3>MetaCritic</h3>
+                <iframe loading="lazy" style="border-radius: 10px;" src="https://www.metacritic.com/game/" width="100%"
+                    height="900px"></iframe>
+            </div>
+            <div class="w3-quarter-news" id="LevelUP">
+                <h3>LevelUP</h3>
+                <iframe loading="lazy" style="border-radius: 10px;" src="https://www.levelup.com/noticias" width="100%"
+                    height="900px"></iframe>
+            </div>
+
+        <div class="w3-row-padding w3-padding-16 w3-center">
+            <div class="w3-quarter-news" id="phones">
+                <h1 style="font-weight: 700">SmartPhones & Wearables</h1>
+            </div>
+            <div class="w3-quarter-news" id="Droid-Life">
+                <h3>Droid-Life</h3>
+                <iframe loading="lazy" style="border-radius: 10px;" src="https://www.droid-life.com/" width="100%"
+                    height="900px"></iframe>
+            </div>
+            <div class="w3-quarter-news" id="topesdegama">
+                <h3>Topes de gama</h3>
+                <iframe loading="lazy" style="border-radius: 10px;" src="https://topesdegama.com/noticias/movil" width="100%"
+                    height="900px"></iframe>
+            </div>
+            <div class="w3-quarter-news" id="movilzona">
+                <h3>MovilZona</h3>
+                <iframe loading="lazy" style="border-radius: 10px;" src="https://www.movilzona.es/noticias/" width="100%"
+                    height="900px"></iframe>
+            </div>
+            <div class="w3-quarter-news" id="computerhoy">
+                <h3>ComputerHoy</h3>
+                <iframe loading="lazy" style="border-radius: 10px;" src="https://computerhoy.com/moviles" width="100%"
+                    height="900px"></iframe>
+            </div>
+            <div class="w3-quarter-news" id="elrincondechina">
+                <h3>ElRincondeChina</h3>
+                <iframe loading="lazy" style="border-radius: 10px;" src="https://elrincondechina.com/category/noticias/noticias-de-moviles-smartphones/" width="100%"
+                    height="900px"></iframe>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="w3-row-padding w3-padding-32" id="footer">
+            <div class="w3-quarter-news">
+                <p>Powered by <a href="https://github.com/sPROFFEs" target="_blank"> pr0ff3 </a></p>
+            </div>
+
+        </footer>
+
+        <!-- End page content -->
+    </div>
+
+    <script>
+        // Script to open and close sidebar
+        function w3_open() {
+            document.getElementById("mySidebar").style.display = "block";
+        }
+
+        function w3_close() {
+            document.getElementById("mySidebar").style.display = "none";
+        }
+
+        // Obtén el enlace y el popup
+        var popupTrigger = document.getElementById("popup-trigger");
+        var popup = document.getElementById("popup");
+
+        // Cuando se hace clic en el enlace, muestra el popup
+        popupTrigger.addEventListener("click", function (event) {
+            event.preventDefault(); // Evita el comportamiento predeterminado del enlace
+            popup.style.display = "block";
+        });
+
+        // Cierra el popup cuando se hace clic en el botón de cierre
+        function closePopup() {
+            popup.style.display = "none";
+        }
+
+    </script>
+
+</body>
+
+</html>

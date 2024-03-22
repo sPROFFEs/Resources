@@ -26,65 +26,16 @@ body {
 
 p,
 body {
-    color: #EEEEEE;
+    color:aliceblue;
 }
 
 span,
 body {
-    color: #ffffff;
-}
-
-button {
-    background-color: #d3d3d3;
-    border: none;
-    border-radius: 2%;
-    color: white;
-    padding: 3px 6px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 2px 1px;
-    transition-duration: 0.4s;
-    cursor: pointer;
-}
-
-button:hover {
-    color: #78c54f;
+    color: #cfcfcf;
 }
 
 #index_header {
     text-align: center;
-}
-
-.two-panels {
-    background: #252525;
-}
-
-div.two-panels {
-    height: inherit;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-}
-
-div.tree-panel {
-    flex: 19vw;
-    margin-left: 1vw;
-    height: 100%;
-    overflow: auto;
-    border-right: 3px solid;
-
-    /*background-color: #EEEEEE;
-    border-top: 1px solid #DDDDDD;
-    border-bottom: 1px solid #DDDDDD;
-    margin-bottom: 20px;*/
-    /*margin: 0.75em 0 0.75em 20px;*/
 }
 
 div.page-panel {
@@ -110,69 +61,6 @@ div.page {
 .clear {
     clear: both
 }
-
-/*******************************************************************************
- * TREE INDEX
- ******************************************************************************/
-
-div.tree {
-    font-size: 12px;
-    color: #302d2d;
-}
-
-/* fix for firefox */
-div.tree button {
-    border-width: 2px;
-}
-
-div.tree a,
-div.tree a:visited {
-    color: #a34040;
-    text-decoration: none;
-}
-
-div.tree ul {
-    padding-inline-start: 20px;
-    list-style-type: none;
-    line-height: 0.3;
-}
-
-div.tree ul.outermost {
-    padding-inline-start: 0;
-}
-
-div.tree li {
-    padding-inline-start: 0;
-}
-
-div.tree li.leaf {
-    padding-inline-start: 10px;
-    line-height: 2;
-}
-
-.tree li a {
-    width: 100%;
-    display: inline-block;
-}
-
-.tree li:hover {
-    background: rgba(193, 193, 193, 0.7);
-    color: white;
-}
-
-.tree li {
-    white-space: nowrap;
-}
-
-div.tree a.show,
-div.tree a.hide {
-    display: none;
-}
-
-.hide {
-    display: none;
-}
-
 /*******************************************************************************
  * NODE PAGES
  ******************************************************************************/
@@ -201,14 +89,17 @@ th {
 div.page h1 {
     font-weight: bold;
     display: inline;
+    color: aliceblue;
 }
 
 div.page h1.title {
     text-align: center;
-    background: rgb(107, 107, 107);
+    background: rgb(121, 121, 121);
     margin: 0 auto 1vh auto;
     width: 100%;
     display: inline-block;
+    border-radius: 5px;
+    
 }
 
 div.page h2 {
@@ -216,7 +107,7 @@ div.page h2 {
     /*padding-bottom: 0.5em;*/
     font-weight: bold;
     font-size: 150%;
-    color: #666666;
+    color:aliceblue;
     display: inline;
 }
 
@@ -224,7 +115,7 @@ div.page h3 {
     padding-top: 0.75em;
     font-weight: bold;
     font-size: 125%;
-    color: #666666;
+    color: azure;
     display: inline;
 }
 
@@ -237,14 +128,15 @@ div.page pre {
     font-family: "Courier New", Courier, monospace;
     font-weight: normal;
     font-size: 13px;
-    background-color: #7c7c7c;
-    border: 1px solid #3e8d3b;
+    background-color: aliceblue;
+    border: 1px solid;
+    color: #202A2C;
 }
 
 div .codebox {
     display: inline-block;
     padding: 5px 7px;
-    min-width: 30%;
+    min-width: 100%;
 }
 
 div.page p.tagged-text,
