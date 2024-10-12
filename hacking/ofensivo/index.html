@@ -1,67 +1,116 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <title>Offensive</title>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="../../css/styles.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-    <link rel="stylesheet" href="../../css/font-awsome.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap">
+    <link rel="stylesheet" href="../../css/font-awesome.min.css">
     <style>
-        .w3-sidebar a {
-            font-family: "Roboto", sans-serif
-        }
-
-        body,
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6,
-        .w3-wide {
-            font-family: "Montserrat", sans-serif;
+        :root {
+            --primary-color: #1a1a1a;
+            --secondary-color: #2c2c2c;
+            --accent-color: #4a90e2;
+            --text-color: #f0f0f0;
+            --hover-color: #3a3a3a;
         }
 
         body {
-            background-color: #191919;
-        }
-
-        .page-panel {
-            flex: 80vw;
+            font-family: "Roboto", sans-serif;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            line-height: 1.6;
             margin: 0;
             padding: 0;
-            font-size: 0;
         }
 
-        iframe {
-            width: 100%;
-            border: 0px;
-            margin-top: 0px;
-            height: 1000px;
-            box-sizing: border-box;
+        .w3-sidebar {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            width: 250px;
+            padding-top: 20px;
+            position: fixed;
+            height: 100%;
             overflow-y: auto;
         }
 
-        ul {
-            list-style: none;
-            width: min-content;
+        .w3-sidebar a {
+            padding: 10px 15px;
+            text-decoration: none;
+            font-size: 15px;
+            color: var(--text-color);
+            display: block;
+            transition: 0.3s;
+        }
+
+        .w3-sidebar a:hover {
+            background-color: var(--hover-color);
+        }
+
+        .w3-sidebar .w3-button {
+            width: 100%;
+            text-align: left;
+        }
+
+        .w3-main {
+            margin-left: 250px;
+            padding: 20px;
+        }
+
+        .w3-container h3 {
+            margin-bottom: 20px;
+        }
+
+        iframe {
+            border: none;
+            width: 100%;
+            height: calc(100vh - 100px);
+        }
+
+        .icon-tabler {
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+
+        .w3-bar-item svg {
+            margin-right: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .w3-sidebar {
+                width: 100%;
+                position: relative;
+            }
+            .w3-main {
+                margin-left: 0;
+            }
+        }
+
+        #footer {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        #footer a {
+            color: var(--accent-color);
         }
     </style>
 </head>
 
-<body class="w3-content" style="max-width:1200px">
+<body>
 
     <!-- Sidebar/menu -->
-    <nav class="w3-sidebar w3-bar-block w3-collapse w3-top"
-        style="z-index:3;width:auto;  background-color: #191919; margin-left: 0;" id="mySidebar">
-        <div class="w3-container w3-display-container w3-padding-16">
-            <i onclick="w3_close()" class="fa fa-remove w3-hide-large w3-button w3-display-topright"></i>
-            <h3 class="w3-wide"><a style="text-decoration: none; font-weight: 900; color: aliceblue;"
-                    href="../index.html">OFFENSIVE</a>
-            </h3>
+    <nav class="w3-sidebar w3-bar-block w3-collapse w3-animate-left" id="mySidebar">
+        <div class="w3-container">
+            <h3 class="w3-wide"><a href="../index.html" style="text-decoration: none; font-weight: 700;">OFFENSIVE</a></h3>
         </div>
         <div class="w3-padding-64 w3-large w3-text-grey" style="font-weight:bold">
             <ul class='outermost'>
@@ -765,43 +814,34 @@
     <header class="w3-bar w3-top w3-hide-large w3-black w3-xlarge">
         <div class="w3-bar-item w3-padding-24 w3-wide">OFFENSIVE</div>
         <a href="javascript:void(0)" class="w3-bar-item w3-button w3-padding-24 w3-right" onclick="w3_open()">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-category" width="32" height="32"
-                viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round"
-                stroke-linejoin="round">
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M4 4h6v6h-6z" />
-                <path d="M14 4h6v6h-6z" />
-                <path d="M4 14h6v6h-6z" />
-                <path d="M17 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-menu-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <line x1="4" y1="6" x2="20" y2="6"></line>
+                <line x1="4" y1="12" x2="20" y2="12"></line>
+                <line x1="4" y1="18" x2="20" y2="18"></line>
             </svg>
         </a>
     </header>
 
     <!-- Overlay effect when opening sidebar on small screens -->
-    <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu"
-        id="myOverlay"></div>
+    <div class="w3-overlay w3-hide-large" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
 
     <!-- !PAGE CONTENT! -->
-    <div class="w3-main" style="margin-left:300px;">
-
+    <div class="w3-main">
         <!-- Push down content on small screens -->
         <div class="w3-hide-large" style="margin-top:83px"></div>
 
-        <div class="page-panel"><iframe src='' id='page_frame'></iframe></div>
+        <div class="page-panel">
+            <iframe src="" id="page_frame"></iframe>
+        </div>
 
         <!-- Footer -->
-        <footer class="w3-small w3-center" id="footer">
-            <div class="w3-black w3-center w3-padding-24">
-                <p>Powered by <a href="https://github.com/sPROFFEs" target="_blank"> pr0ff3 </a></p>
-            </div>
+        <footer id="footer">
+            <p>Powered by <a href="https://github.com/sPROFFEs" target="_blank">pr0ff3</a></p>
         </footer>
-        <!-- End page content -->
     </div>
 
-
-    <script src='res/script3.js'></script>
+    <script src="res/script3.js"></script>
 </body>
-
-
 
 </html>

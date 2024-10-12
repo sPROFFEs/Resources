@@ -1,110 +1,77 @@
-right_arrow_heavy = '&#129090;'
-left_arrow_heavy = '&#129088;'
+// Constants
+const RIGHT_ARROW_HEAVY = '&#129090;';
+const LEFT_ARROW_HEAVY = '&#129088;';
 
-
-function changeFrame(file_path){
-	var iframe = document.getElementById("page_frame");
-	iframe.src = file_path;
+// Functions
+function changeFrame(filePath) {
+    const iframe = document.getElementById("page_frame");
+    iframe.src = filePath;
 }
 
-function toggleSubTree(element){
-	var nextSibling = element.parentElement.nextElementSibling;
-	if(nextSibling.tagName === 'UL'){
-		nextSibling.classList.toggle('hide');
-		if(element.textContent === '+'){
-			element.textContent = '-'
-		}else{
-			element.textContent = '+'
-		}
-	}
+function toggleSubTree(element) {
+    const nextSibling = element.parentElement.nextElementSibling;
+    if (nextSibling && nextSibling.tagName === 'UL') {
+        nextSibling.classList.toggle('hide');
+        element.textContent = element.textContent === '+' ? '-' : '+';
+    }
 }
 
-function expandAllSubtrees(element){
-	var subtrees = document.getElementsByClassName("subtree");
-	for(var i=0; i<subtrees.length; i++){
-		var subtree = subtrees[i];
-		subtree.classList.remove('hide');
-		subtree.previousElementSibling.firstChild.textContent = '-';
-	}
+function expandAllSubtrees() {
+    document.querySelectorAll(".subtree").forEach(subtree => {
+        subtree.classList.remove('hide');
+        subtree.previousElementSibling.firstChild.textContent = '-';
+    });
 }
 
-function collapseAllSubtrees(element){
-	var subtrees = document.getElementsByClassName("subtree");
-	for(var i=0; i<subtrees.length; i++){
-		var subtree = subtrees[i];
-		subtree.classList.add('hide');
-		subtree.previousElementSibling.firstChild.textContent = '+';
-	}
-}
-function toggle_tree_panel() {
-	var tree = get_tree_panel();
-	var toggle_btn = document.getElementById('tree_panel_toggle_btn')
-	if (tree.style.display === 'none') {
-		tree.style.display = 'inline'
-		toggle_btn.innerHTML = left_arrow_heavy
-		toggle_btn.onmouseenter = null
-	} else {
-		tree.style.display = 'none'
-		toggle_btn.innerHTML = right_arrow_heavy
-		toggle_btn.onmouseenter = toggle_tree_panel
-	}
+function collapseAllSubtrees() {
+    document.querySelectorAll(".subtree").forEach(subtree => {
+        subtree.classList.add('hide');
+        subtree.previousElementSibling.firstChild.textContent = '+';
+    });
 }
 
-function get_tree() {
-	return document.getElementsByClassName("tree")[0]
-}
-function get_tree_panel() {
-	return document.getElementsByClassName("tree-panel")[0]
-}
-
-
-window.onload = function() {
-	var show_page = window.location.hash.substr(1);
-	if (show_page !== '') {
-		changeFrame(show_page);
-	}
-
-	// Unwrap the header
-	let tree = get_tree()
-	let para = tree.children[0]
-
-	let index_txt = para.children[0].innerHTML
-	let index_title = document.createElement("h1")
-	index_title.innerHTML = index_txt
-	index_title.id = 'index_header'
-	tree.insertBefore(index_title, tree.children[0])
-
-
-	// Remove unwrapped elements
-	para.removeChild(para.children[0])
-
-	// Keybinds
-	document.onkeydown = handle_keypress
-
-	// Toggle tree panel button
-	let panels = document.getElementsByClassName("two-panels")[0]
-	let toggle_btn = document.createElement("button")
-	toggle_btn.onclick = toggle_tree_panel
-	toggle_btn.innerHTML = left_arrow_heavy
-	toggle_btn.id = 'tree_panel_toggle_btn'
-	panels.insertBefore(toggle_btn, panels.children[1])
-
+function toggleTreePanel() {
+    const tree = document.querySelector(".tree-panel");
+    const toggleBtn = document.getElementById('tree_panel_toggle_btn');
+    if (tree.style.display === 'none') {
+        tree.style.display = 'inline';
+        toggleBtn.innerHTML = LEFT_ARROW_HEAVY;
+        toggleBtn.onmouseenter = null;
+    } else {
+        tree.style.display = 'none';
+        toggleBtn.innerHTML = RIGHT_ARROW_HEAVY;
+        toggleBtn.onmouseenter = toggleTreePanel;
+    }
 }
 
-function handle_keypress(ev) {
-	switch(ev.key) {
-		case "Escape":
-			toggle_tree_panel()
-			break
-	}
+function handleKeypress(ev) {
+    if (ev.key === "Escape") {
+        toggleTreePanel();
+    }
 }
 
 function w3_open() {
-	document.getElementById("mySidebar").style.display = "block";
-	document.getElementById("myOverlay").style.display = "block";
+    document.getElementById("mySidebar").style.display = "block";
+    document.getElementById("myOverlay").style.display = "block";
 }
 
 function w3_close() {
-	document.getElementById("mySidebar").style.display = "none";
-	document.getElementById("myOverlay").style.display = "none";
+    document.getElementById("mySidebar").style.display = "none";
+    document.getElementById("myOverlay").style.display = "none";
 }
+
+// Event Listeners
+window.addEventListener('load', () => {
+    const showPage = window.location.hash.substr(1);
+    if (showPage) {
+        changeFrame(showPage);
+    }
+
+    document.addEventListener('keydown', handleKeypress);
+
+    const toggleBtn = document.createElement("button");
+    toggleBtn.onclick = toggleTreePanel;
+    toggleBtn.innerHTML = LEFT_ARROW_HEAVY;
+    toggleBtn.id = 'tree_panel_toggle_btn';
+    document.querySelector(".two-panels").insertBefore(toggleBtn, document.querySelector(".two-panels").children[1]);
+});
