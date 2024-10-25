@@ -1,0 +1,166 @@
+/* Minimalistic, tech-themed style */
+body {
+    background-color: #121212;
+    color: #E0E0E0;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+h1,
+h2,
+h3 {
+    color: #48a9ff;
+}
+
+a {
+    color: #48a9ff;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #48a9ff;
+}
+
+.container {
+    width: 90%;
+    max-width: auto;
+    /* Ampliar ancho máximo para mejor distribución */
+    margin: auto;
+    padding: 20px;
+}
+
+.navbar {
+    background-color: #1F1F1F;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.navbar a,
+.navbar button {
+    margin: 0 15px;
+    font-weight: bold;
+    color: #48a9ff;
+    transition: color 0.3s ease;
+}
+
+.navbar a:hover,
+.navbar button:hover {
+    color: #48a9ff;
+}
+
+.footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9em;
+    color: #666666;
+    background-color: #1F1F1F;
+}
+
+.card-container {
+    display: flex;
+    /* Usar flexbox para diseño horizontal */
+    flex-wrap: wrap;
+    /* Permitir que las tarjetas se envuelvan */
+    gap: 20px;
+    /* Espacio entre tarjetas */
+    justify-content: space-between;
+    /* Espaciado uniforme */
+    
+}
+
+.card {
+    background-color: #1A1A1A;
+    padding: 20px;
+    border-radius: 8px;
+    flex: 1 1 calc(30% - 20px);
+    /* Ancho adaptable */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s;
+    /* Animación al pasar el mouse */
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    /* Efecto de elevación */
+}
+
+button {
+    background-color: #48a9ff;
+    color: #121212;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #48a9ff;
+}
+
+/* Estilos para el menú desplegable vertical con columnas ajustables */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    z-index: 1000; /* Asegura que el menú esté por encima de otros elementos */
+}
+
+.dropbtn {
+    background-color: #1F1F1F; /* Color de fondo */
+    color: #48a9ff; /* Color del texto */
+    font-weight: bold;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: color 0.3s ease, background-color 0.3s ease; /* Suave transición */
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #1A1A1A; /* Color de fondo */
+    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.5); /* Sombra más pronunciada */
+    z-index: 1;
+    border-radius: 8px; /* Bordes redondeados */
+    margin-top: 5px; /* Espacio entre el botón y el menú */
+    padding: 10px; /* Espaciado interno del menú */
+    opacity: 0; /* Comienza invisible */
+    visibility: hidden; /* Ocultar el contenido */
+    transition: opacity 0.3s ease; /* Suave transición */
+    display: grid; /* Usar grid para distribución */
+    grid-template-columns: repeat(3, auto); /* 3 columnas automáticas */
+    gap: 10px; /* Espacio entre columnas */
+}
+
+.dropdown-content.show {
+    display: grid; /* Mostrar el menú en forma de grid */
+    opacity: 1; /* Hacerlo visible */
+    visibility: visible; /* Cambiar la visibilidad */
+}
+
+.dropdown-content a {
+    color: #48a9ff; /* Color del texto */
+    padding: 12px; /* Espaciado interno */
+    text-decoration: none;
+    display: block; /* Asegura que el enlace ocupe todo el ancho */
+    transition: background-color 0.3s ease; /* Transición suave */
+}
+
+.dropdown-content a:hover {
+    background-color: #2E2E2E; /* Color de fondo al pasar el mouse */
+    color: #48a9ff; /* Color del texto al pasar el mouse */
+}
+
+.dropdown:hover .dropdown-content {
+    display: grid; /* Mostrar el menú en hover */
+    opacity: 1; /* Hacerlo visible */
+    visibility: visible; /* Cambiar la visibilidad */
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #2E2E2E; /* Color de fondo del botón al pasar el mouse */
+    color: #48a9ff; /* Color del texto del botón al pasar el mouse */
+}

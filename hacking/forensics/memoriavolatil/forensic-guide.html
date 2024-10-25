@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adquisición de Evidencias Volátiles</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            color: #2563eb;
+            border-bottom: 2px solid #2563eb;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #1d4ed8;
+            margin-top: 30px;
+        }
+        .tool-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: #f8fafc;
+        }
+        .tool-name {
+            font-weight: bold;
+            color: #1e40af;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .warning {
+            background-color: #fee2e2;
+            border: 1px solid #ef4444;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        code {
+            background-color: #f1f5f9;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        .author {
+            font-style: italic;
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+        .image-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .image-caption {
+            font-size: 0.9em;
+            color: #6b7280;
+            margin-top: 8px;
+        }
+        .download-link {
+            display: inline-block;
+            background-color: #2563eb;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            margin: 10px 0;
+            transition: background-color 0.3s;
+        }
+        .download-link:hover {
+            background-color: #1d4ed8;
+        }
+    </style>
+    <a href="../index.html" class="back-button">← Volver</a>
+</head>
+<body>
+    <h1>Adquisición de Evidencias Volátiles</h1>
+  
+    <h2>Introducción</h2>
+    <p>Esta guía presenta diferentes herramientas y métodos para realizar volcados de memoria RAM en caliente en sistemas Windows y Linux. Se analizarán cuatro herramientas principales, sus características y procedimientos de uso.</p>
+
+    <h2>Configuración Previa en Windows</h2>
+    <div class="warning">
+        <strong>¡Importante!</strong>
+        <p>Para realizar volcados de memoria en Windows 10/11 es necesario desactivar la medida de seguridad de aislamiento del núcleo en la configuración de seguridad del dispositivo.</p>
+    </div>
+    <div class="image-container">
+        <img src="1.png" alt="Configuración de Seguridad de Windows" />
+        <p class="image-caption">Configuración de seguridad del dispositivo en Windows</p>
+    </div>
+
+    <h2>Herramientas Seleccionadas</h2>
+
+    <div class="tool-card">
+        <div class="tool-name">1. DumpIT (Windows)</div>
+        <p>Herramienta gratuita para Windows que permite realizar volcados de memoria de forma simple y directa.</p>
+        <a href="https://www.comae.com/" class="download-link">Descargar DumpIT</a>
+        <div class="image-container">
+            <img src="2.png" alt="Interfaz de DumpIT" />
+            <p class="image-caption">Interfaz de línea de comandos de DumpIT</p>
+        </div>
+        <p><strong>Características principales:</strong></p>
+        <ul>
+            <li>Ejecución simple con un solo comando</li>
+            <li>Debe ejecutarse como administrador</li>
+            <li>El volcado se realiza en la misma ubicación del ejecutable</li>
+        </ul>
+    </div>
+
+    <div class="tool-card">
+        <div class="tool-name">2. Belkasoft RAM Capturer (Windows)</div>
+        <p>Programa gratuito que requiere registro previo para su descarga oficial.</p>
+        <a href="https://belkasoft.com/ram-capturer" class="download-link">Descargar Belkasoft RAM Capturer</a>
+        <div class="image-container">
+            <img src="3.png" alt="Interfaz de Belkasoft RAM Capturer" />
+            <p class="image-caption">Interfaz de Belkasoft RAM Capturer mostrando la selección de ruta</p>
+        </div>
+        <p><strong>Características principales:</strong></p>
+        <ul>
+            <li>Disponible en versiones de 32 y 64 bits</li>
+            <li>Interfaz que permite seleccionar la ruta de destino</li>
+            <li>Proceso de volcado simplificado</li>
+        </ul>
+    </div>
+
+    <div class="tool-card">
+        <div class="tool-name">3. LiME (Linux)</div>
+        <p>Proyecto open source para volcado de RAM en sistemas Linux, incluyendo Android.</p>
+        <a href="https://github.com/504ensicsLabs/LiME" class="download-link">Repositorio de LiME en GitHub</a>
+        <p><strong>Instalación:</strong></p>
+        <code>git clone https://github.com/504ensicsLabs/LiME.git</code>
+        <div class="image-container">
+            <img src="4.png" alt="Compilación de LiME" />
+            <p class="image-caption">Proceso de compilación de LiME y archivo resultante</p>
+        </div>
+        <p><strong>Características principales:</strong></p>
+        <ul>
+            <li>Compatible con múltiples distribuciones Linux</li>
+            <li>Soporta volcado remoto mediante netcat</li>
+            <li>Utiliza el kernel de forma directa</li>
+            <li>Soporta formatos raw y lime</li>
+        </ul>
+    </div>
+
+    <div class="tool-card">
+        <div class="tool-name">4. Microsoft AVML (Linux)</div>
+        <p>Herramienta desarrollada por Microsoft para volcado de RAM en sistemas Linux.</p>
+        <a href="https://github.com/microsoft/avml" class="download-link">Repositorio de AVML en GitHub</a>
+        <div class="image-container">
+            <img src="5.png" alt="Compilación de AVML" />
+            <img src="6.png" alt="Comparación de tamaños AVML" />
+            <p class="image-caption">Comparación de tamaños de volcado con y sin compresión en AVML</p>
+        </div>
+        <p><strong>Características principales:</strong></p>
+        <ul>
+            <li>Distribuida como binario ejecutable</li>
+            <li>Incluye opciones de compresión</li>
+            <li>No requiere instalación</li>
+        </ul>
+    </div>
+
+    <h2>Conclusiones y Recomendaciones</h2>
+    <p><strong>Para Windows:</strong> DumpIT es la opción recomendada por su mínimo impacto en el sistema y facilidad de uso. No requiere instalación y puede ejecutarse directamente desde un dispositivo externo.</p>
+
+    <p><strong>Para Linux:</strong> Aunque LiME es una herramienta muy potente y compatible, AVML puede ser más práctica en muchos casos ya que:</p>
+    <ul>
+        <li>No requiere instalación de dependencias</li>
+        <li>Se ejecuta como binario independiente</li>
+        <li>No necesita modificar módulos del kernel</li>
+    </ul>
+
+    <footer style="margin-top: 50px; text-align: center; color: #6b7280; border-top: 1px solid #e5e7eb; padding-top: 20px;">
+        <p>Documento creado como parte del curso de Análisis Forense Informático</p>
+    </footer>
+</body>
+</html>
