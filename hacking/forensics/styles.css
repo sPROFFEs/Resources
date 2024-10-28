@@ -1,166 +1,262 @@
-/* Minimalistic, tech-themed style */
+/* Variables globales - manteniendo consistencia */
+:root {
+    --color-bg: #0a0a0a;
+    --color-bg-dark: #050505;
+    --color-primary: #00ff9d;
+    --color-secondary: #0066ff;
+    --color-text: #ffffff;
+    --color-text-dim: #a0a0a0;
+    --color-border: rgba(255, 255, 255, 0.1);
+    --font-mono: 'JetBrains Mono', monospace;
+    --transition: all 0.3s ease;
+    --glow: 0 0 10px rgba(0, 255, 157, 0.3);
+}
+
+/* Base styles */
 body {
-    background-color: #121212;
-    color: #E0E0E0;
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: 'Inter', sans-serif;
     line-height: 1.6;
+    margin: 0;
+    min-height: 100vh;
 }
 
-h1,
-h2,
-h3 {
-    color: #48a9ff;
-}
-
-a {
-    color: #48a9ff;
-    text-decoration: none;
-}
-
-a:hover {
-    color: #48a9ff;
-}
-
-.container {
-    width: 90%;
-    max-width: auto;
-    /* Ampliar ancho máximo para mejor distribución */
-    margin: auto;
-    padding: 20px;
-}
-
+/* Navbar */
 .navbar {
-    background-color: #1F1F1F;
-    padding: 10px 0;
-    text-align: center;
-}
-
-.navbar a,
-.navbar button {
-    margin: 0 15px;
-    font-weight: bold;
-    color: #48a9ff;
-    transition: color 0.3s ease;
-}
-
-.navbar a:hover,
-.navbar button:hover {
-    color: #48a9ff;
-}
-
-.footer {
-    text-align: center;
-    padding: 20px;
-    font-size: 0.9em;
-    color: #666666;
-    background-color: #1F1F1F;
-}
-
-.card-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(5, 5, 5, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1rem 2rem;
     display: flex;
-    /* Usar flexbox para diseño horizontal */
-    flex-wrap: wrap;
-    /* Permitir que las tarjetas se envuelvan */
-    gap: 20px;
-    /* Espacio entre tarjetas */
-    justify-content: space-between;
-    /* Espaciado uniforme */
-    
+    align-items: center;
+    gap: 2rem;
+    border-bottom: 1px solid var(--color-border);
+    z-index: 1000;
 }
 
-.card {
-    background-color: #1A1A1A;
-    padding: 20px;
-    border-radius: 8px;
-    flex: 1 1 calc(30% - 20px);
-    /* Ancho adaptable */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s;
-    /* Animación al pasar el mouse */
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    /* Efecto de elevación */
-}
-
-button {
-    background-color: #48a9ff;
-    color: #121212;
-    padding: 10px 20px;
-    border: none;
+.navbar a {
+    color: var(--color-text);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    transition: var(--transition);
+    padding: 0.5rem 1rem;
     border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
-button:hover {
-    background-color: #48a9ff;
+.navbar a:hover {
+    color: var(--color-primary);
+    background: rgba(0, 255, 157, 0.05);
 }
 
-/* Estilos para el menú desplegable vertical con columnas ajustables */
+/* Dropdown mejorado */
 .dropdown {
     position: relative;
-    display: inline-block;
-    z-index: 1000; /* Asegura que el menú esté por encima de otros elementos */
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    color: var(--color-text);
+    font-family: var(--font-mono);
 }
 
-.dropbtn {
-    background-color: #1F1F1F; /* Color de fondo */
-    color: #48a9ff; /* Color del texto */
-    font-weight: bold;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: color 0.3s ease, background-color 0.3s ease; /* Suave transición */
+.dropdown::after {
+    content: '▼';
+    margin-left: 0.5rem;
+    font-size: 0.8em;
+    transition: transform 0.3s ease;
+}
+
+.dropdown:hover::after {
+    transform: rotate(180deg);
 }
 
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #1A1A1A; /* Color de fondo */
-    box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.5); /* Sombra más pronunciada */
-    z-index: 1;
-    border-radius: 8px; /* Bordes redondeados */
-    margin-top: 5px; /* Espacio entre el botón y el menú */
-    padding: 10px; /* Espaciado interno del menú */
-    opacity: 0; /* Comienza invisible */
-    visibility: hidden; /* Ocultar el contenido */
-    transition: opacity 0.3s ease; /* Suave transición */
-    display: grid; /* Usar grid para distribución */
-    grid-template-columns: repeat(3, auto); /* 3 columnas automáticas */
-    gap: 10px; /* Espacio entre columnas */
-}
-
-.dropdown-content.show {
-    display: grid; /* Mostrar el menú en forma de grid */
-    opacity: 1; /* Hacerlo visible */
-    visibility: visible; /* Cambiar la visibilidad */
-}
-
-.dropdown-content a {
-    color: #48a9ff; /* Color del texto */
-    padding: 12px; /* Espaciado interno */
-    text-decoration: none;
-    display: block; /* Asegura que el enlace ocupe todo el ancho */
-    transition: background-color 0.3s ease; /* Transición suave */
-}
-
-.dropdown-content a:hover {
-    background-color: #2E2E2E; /* Color de fondo al pasar el mouse */
-    color: #48a9ff; /* Color del texto al pasar el mouse */
+    top: 100%;
+    left: 0;
+    min-width: 200px;
+    background: var(--color-bg-dark);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 0.5rem 0;
+    margin-top: 0.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .dropdown:hover .dropdown-content {
-    display: grid; /* Mostrar el menú en hover */
-    opacity: 1; /* Hacerlo visible */
-    visibility: visible; /* Cambiar la visibilidad */
+    display: block;
+    animation: fadeIn 0.3s ease;
 }
 
-.dropdown:hover .dropbtn {
-    background-color: #2E2E2E; /* Color de fondo del botón al pasar el mouse */
-    color: #48a9ff; /* Color del texto del botón al pasar el mouse */
+.dropdown-content a {
+    display: block;
+    padding: 0.75rem 1.5rem;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.dropdown-content a:hover {
+    background: rgba(0, 255, 157, 0.1);
+    color: var(--color-primary);
+    padding-left: 2rem;
+}
+
+/* Container principal */
+.container {
+    max-width: 1200px;
+    margin: 7rem auto 2rem;
+    padding: 0 2rem;
+}
+
+/* Título principal con efecto */
+h1 {
+    font-family: var(--font-mono);
+    font-size: 3rem;
+    color: var(--color-primary);
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    text-shadow: var(--glow);
+}
+
+h1::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: var(--color-primary);
+    border-radius: 2px;
+    box-shadow: var(--glow);
+}
+
+/* Grid de tarjetas */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin: 4rem 0;
+}
+
+/* Tarjetas individuales */
+.card {
+    background: var(--color-bg-dark);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 255, 157, 0.1);
+    border-color: var(--color-primary);
+}
+
+.card:hover::before {
+    transform: translateX(100%);
+}
+
+.card h3 {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.card h3 a {
+    color: var(--color-text);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.card h3 a:hover {
+    color: var(--color-primary);
+}
+
+.card p {
+    color: var(--color-text-dim);
+    margin-top: 1rem;
+    font-size: 0.95rem;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--color-text-dim);
+    border-top: 1px solid var(--color-border);
+    margin-top: 4rem;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 1rem;
+    }
+    
+    .container {
+        padding: 1rem;
+        margin-top: 5rem;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .card-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .card {
+        padding: 1.5rem;
+    }
+}
+
+/* Efecto de texto descriptivo */
+.card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover::after {
+    opacity: 1;
 }
