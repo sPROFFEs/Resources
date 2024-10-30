@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #1a1a1a;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .window {
+            background: #f0f0f0;
+            border: 1px solid #999;
+            border-radius: 4px;
+            width: 1000px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+        
+        .title-bar {
+            background: #e1e1e1;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #ccc;
+        }
+        
+        .title {
+            color: #333;
+            font-size: 14px;
+        }
+        
+        .window-buttons {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .window-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .minimize { background: #a6a6a6; }
+        .maximize { background: #a6a6a6; }
+        .close { background: #3584e4; }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .config-panel {
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 15px;
+        }
+        
+        .section-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .basic-config {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 10px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        select {
+            width: 100%;
+            padding: 4px;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+        }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 15px 0;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #333;
+        }
+        
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 15px;
+        }
+        
+        .action-button {
+            padding: 8px;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+        
+        .result-panel {
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .view-tabs {
+            display: flex;
+            padding: 10px 10px 0;
+            background: #f5f5f5;
+            border-bottom: 1px solid #ccc;
+        }
+        
+        .view-tab {
+            padding: 6px 12px;
+            background: #e9e9e9;
+            border: 1px solid #ccc;
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+            margin-right: 4px;
+            cursor: pointer;
+            color: #666;
+        }
+        
+        .view-tab.active {
+            background: #fff;
+            color: #333;
+            position: relative;
+            bottom: -1px;
+        }
+        
+        .result-content {
+            padding: 15px;
+            flex-grow: 1;
+            font-family: monospace;
+            white-space: pre;
+            overflow-y: auto;
+            height: 500px;
+        }
+        
+        .json-view {
+            color: #333;
+        }
+        
+        .json-key { color: #0451a5; }
+        .json-string { color: #a31515; }
+        .json-number { color: #098658; }
+        
+        .tree-view {
+            font-family: monospace;
+            line-height: 1.4;
+        }
+        
+        .tree-item {
+            padding-left: 20px;
+        }
+        
+        .tree-expand {
+            cursor: pointer;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="window">
+        <div class="title-bar">
+            <img src="/api/placeholder/16/16" alt="icon" style="margin-right: 8px;">
+            <div class="title">Generador de Identidades</div>
+            <div class="window-buttons">
+                <div class="window-button minimize"></div>
+                <div class="window-button maximize"></div>
+                <div class="window-button close"></div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="config-panel">
+                <div class="section-title">Configuración</div>
+                
+                <div class="basic-config">
+                    <div class="section-title">Configuración Básica</div>
+                    
+                    <div class="form-group">
+                        <label>País:</label>
+                        <select>
+                            <option>Brasil</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Género:</label>
+                        <select>
+                            <option>Masculino</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Rango de Edad:</label>
+                        <select>
+                            <option>18-25</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="section-title">Opciones de Generación</div>
+                <div class="checkbox-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" checked> Foto de Perfil
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" checked> Información Financiera
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" checked> Datos Personales
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" checked> Presencia en Internet
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" checked> Características Físicas
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" checked> Información de Vehículo
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" checked> Información de Contacto
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" checked> Rasgos de Personalidad
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" checked> Datos Laborales
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" checked> Datos de Seguimiento
+                    </label>
+                </div>
+                
+                <div class="section-title">Acciones</div>
+                <div class="actions">
+                    <button class="action-button">Generar Nueva Identidad</button>
+                    <button class="action-button">Guardar Identidad</button>
+                    <button class="action-button">Copiar al Portapapeles</button>
+                    <button class="action-button">Abrir Email Temporal</button>
+                </div>
+            </div>
+            
+            <div class="result-panel">
+                <div class="view-tabs">
+                    <div class="view-tab">Vista Básica</div>
+                    <div class="view-tab active">JSON Completo</div>
+                    <div class="view-tab">Vista completa</div>
+                </div>
+                
+                <div class="result-content json-view">
+{
+    <span class="json-key">"meta"</span>: {
+        <span class="json-key">"generado_el"</span>: <span class="json-string">"2024-10-30T08:37:30.470263"</span>,
+        <span class="json-key">"version"</span>: <span class="json-string">"2.0"</span>,
+        <span class="json-key">"pais"</span>: <span class="json-string">"Brasil"</span>,
+        <span class="json-key">"locale"</span>: <span class="json-string">"pt_BR"</span>
+    },
+    <span class="json-key">"datos_personales"</span>: {
+        <span class="json-key">"nombre"</span>: <span class="json-string">"Dom"</span>,
+        <span class="json-key">"apellidos"</span>: <span class="json-string">"Leão"</span>,
+        <span class="json-key">"nombre_completo"</span>: <span class="json-string">"Dom Leão"</span>,
+        <span class="json-key">"género"</span>: <span class="json-string">"Masculino"</span>,
+        <span class="json-key">"fecha_nacimiento"</span>: <span class="json-string">"2005-12-10"</span>,
+        <span class="json-key">"edad"</span>: <span class="json-number">18</span>,
+        <span class="json-key">"estado_civil"</span>: <span class="json-string">"Viudo/a"</span>,
+        <span class="json-key">"nacionalidad"</span>: <span class="json-string">"Brasil"</span>
+    }
+}</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

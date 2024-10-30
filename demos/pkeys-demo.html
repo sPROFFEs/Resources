@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: #1a1a1a;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        
+        .window {
+            background: #2d2d2d;
+            border: 1px solid #000;
+            border-radius: 4px;
+            width: 400px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+        
+        .title-bar {
+            background: #2d2d2d;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #000;
+        }
+        
+        .title {
+            color: #fff;
+            font-size: 14px;
+        }
+        
+        .window-buttons {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .window-button {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .minimize { background: #a6a6a6; }
+        .maximize { background: #a6a6a6; }
+        .close { background: #3584e4; }
+        
+        .content {
+            padding: 20px;
+        }
+        
+        .logo-banner {
+            background: #3584e4;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .logo-text {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 4px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .dots {
+            color: white;
+            letter-spacing: 4px;
+            margin: 10px 0;
+        }
+        
+        .lock-icon {
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            border-radius: 4px;
+            display: inline-block;
+            position: relative;
+            margin-top: 10px;
+        }
+        
+        .menu-button {
+            background: #2b5a99;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 10px;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .menu-button:hover {
+            background: #3584e4;
+        }
+        
+        .developer-text {
+            color: #a6a6a6;
+            font-size: 12px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        /* Estilos para la ventana de lista de servicios */
+        .services-window {
+            display: none;
+            background: #cecece;
+            width: 600px;
+        }
+        
+        .services-content {
+            padding: 20px;
+        }
+        
+        .services-header {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .group-filter {
+            margin-bottom: 20px;
+        }
+        
+        .services-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        
+        .services-table th {
+            text-align: left;
+            padding: 8px;
+            background: #e6e6e6;
+        }
+        
+        .services-table td {
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+        
+        .table-buttons button {
+            margin-right: 5px;
+            padding: 4px 8px;
+            background: #e6e6e6;
+            border: 1px solid #999;
+            border-radius: 2px;
+        }
+        
+        .back-button {
+            width: 100%;
+            padding: 8px;
+            margin-top: 20px;
+            background: #e6e6e6;
+            border: 1px solid #999;
+            cursor: pointer;
+        }
+
+        /* Estilos para la ventana de contraseña */
+        .password-window {
+            display: none;
+            width: 300px;
+            background: #cecece;
+        }
+        
+        .password-content {
+            padding: 20px;
+        }
+        
+        .password-label {
+            margin-bottom: 10px;
+        }
+        
+        .password-input {
+            width: 100%;
+            padding: 4px;
+            margin-bottom: 15px;
+        }
+        
+        .password-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .password-button {
+            padding: 6px 20px;
+            background: #e6e6e6;
+            border: 1px solid #999;
+            cursor: pointer;
+        }
+
+        #mainWindow { display: block; }
+        #servicesWindow { display: none; }
+        #passwordWindow { display: none; }
+    </style>
+</head>
+<body>
+    <!-- Ventana Principal -->
+    <div id="mainWindow" class="window">
+        <div class="title-bar">
+            <img src="/api/placeholder/16/16" alt="icon" style="margin-right: 8px;">
+            <div class="title">Password Manager</div>
+            <div class="window-buttons">
+                <div class="window-button minimize"></div>
+                <div class="window-button maximize"></div>
+                <div class="window-button close"></div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="logo-banner">
+                <div class="logo-text">PKEYS MANAGER</div>
+                <div class="dots">• • • • • • •</div>
+                <div class="lock-icon"></div>
+            </div>
+            
+            <button class="menu-button" onclick="showServices()">Add New Password</button>
+            <button class="menu-button" onclick="showServices()">List Services</button>
+            <button class="menu-button">Exit</button>
+            
+            <div class="developer-text">Developed by PR0FF3</div>
+        </div>
+    </div>
+
+    <!-- Ventana de Lista de Servicios -->
+    <div id="servicesWindow" class="window services-window">
+        <div class="title-bar">
+            <img src="/api/placeholder/16/16" alt="icon" style="margin-right: 8px;">
+            <div class="title">Password Manager</div>
+            <div class="window-buttons">
+                <div class="window-button minimize"></div>
+                <div class="window-button maximize"></div>
+                <div class="window-button close"></div>
+            </div>
+        </div>
+        <div class="services-content">
+            <div class="services-header">List of Services</div>
+            
+            <div class="group-filter">
+                Group: <input type="text" value="123" style="width: 100px">
+            </div>
+            
+            <table class="services-table">
+                <tr>
+                    <th>ID</th>
+                    <th>Service</th>
+                    <th>Username</th>
+                    <th>Group</th>
+                    <th>Actions</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>123</td>
+                    <td>123</td>
+                    <td>123</td>
+                    <td class="table-buttons">
+                        <button>Show Password</button>
+                        <button>Update Password</button>
+                        <button>Delete Password</button>
+                    </td>
+                </tr>
+            </table>
+            
+            <button class="back-button" onclick="showMain()">Back</button>
+            <div class="developer-text">Developed by PR0FF3</div>
+        </div>
+    </div>
+
+    <!-- Ventana de Contraseña -->
+    <div id="passwordWindow" class="window password-window">
+        <div class="title-bar">
+            <div class="title">Password</div>
+            <div class="window-buttons">
+                <div class="window-button minimize"></div>
+                <div class="window-button maximize"></div>
+                <div class="window-button close"></div>
+            </div>
+        </div>
+        <div class="password-content">
+            <div class="password-label">Enter the password to decrypt the database:</div>
+            <input type="password" class="password-input">
+            <div class="password-buttons">
+                <button class="password-button">OK</button>
+                <button class="password-button">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showMain() {
+            document.getElementById('mainWindow').style.display = 'block';
+            document.getElementById('servicesWindow').style.display = 'none';
+            document.getElementById('passwordWindow').style.display = 'none';
+        }
+        
+        function showServices() {
+            document.getElementById('mainWindow').style.display = 'none';
+            document.getElementById('servicesWindow').style.display = 'block';
+            document.getElementById('passwordWindow').style.display = 'none';
+        }
+        
+        function showPassword() {
+            document.getElementById('mainWindow').style.display = 'none';
+            document.getElementById('servicesWindow').style.display = 'none';
+            document.getElementById('passwordWindow').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
