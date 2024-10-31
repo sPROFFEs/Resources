@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Forensics Guide | Guía de Análisis Forense</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        :root {
+            --primary-color: #00ff8c;
+            --bg-color: #050505;
+            --text-color: #e6f1ff;
+            --secondary-bg: #0a0a0a;
+            --accent-color: #64ffda;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            background: var(--secondary-bg);
+            padding: 2rem 0;
+            margin-bottom: 3rem;
+            border-bottom: 2px solid var(--primary-color);
+            position: relative;
+        }
+
+        .language-switch {
+            position: absolute;
+            top: 1rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .language-btn {
+            background: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--text-color);
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .language-btn:hover,
+        .language-btn.active {
+            background: var(--primary-color);
+            color: var(--bg-color);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            margin: 2rem 0 1rem;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 1rem;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin: 1.5rem 0 1rem;
+        }
+
+        .guide-section {
+            background: var(--secondary-bg);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(100, 255, 218, 0.1);
+        }
+
+        .image-container {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--accent-color);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .image-caption {
+            color: var(--accent-color);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: -1;
+            background: linear-gradient(rgba(0, 255, 140, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 140, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        nav {
+            background: var(--secondary-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        nav ul {
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        nav a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        .warning {
+            background: rgba(255, 99, 71, 0.1);
+            border-left: 4px solid tomato;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .tip {
+            background: rgba(100, 255, 218, 0.1);
+            border-left: 4px solid var(--accent-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .step {
+            margin-bottom: 1.5rem;
+            padding-left: 1rem;
+            border-left: 2px solid var(--accent-color);
+        }
+
+        [data-lang] {
+            display: none;
+        }
+
+        [data-lang].active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <a href="../index.html" class="back-link">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+                Volver
+            </a>
+            <div class="language-switch">
+                <button id="es-btn" class="language-btn active" onclick="setLanguage('es')">ES</button>
+                <button id="en-btn" class="language-btn" onclick="setLanguage('en')">EN</button>
+            </div>
+        </nav>
+
+    </div>
+
+    <div class="container">
+        <div data-lang="es" class="active">
+            <h1>Clonado en caliente y con cifrado</h1>
+            <p>Adquisición de Evidencias en Máquina Encendida</p>
+        </div>
+        <div data-lang="en">
+            <h1>Live and encrypted cloning</h1>
+            <p>Live Machine Evidence Acquisition</p>
+        </div>
+    </div>
+    <div class="container">
+        <nav>
+            <div data-lang="es" class="active">
+                <ul>
+                    <li><a href="#tpm-config">Configuración TPM</a></li>
+                    <li><a href="#disk-cloning">Clonación de Disco con DD y FTK</a></li>
+                    <li><a href="#directory-cloning">Clonación de Directorio con FTK Imager</a></li>
+                    <li><a href="#encryption-process">Proceso de Cifrado</a></li>
+                    <li><a href="#evidence-verification">Clonado del disco cifrado</a></li>
+                    <li><a href="#dirclone">Clonado del directorio dentro del disco cifrado</a></li>
+                </ul>
+            </div>
+            <div data-lang="en">
+                <ul>
+                    <li><a href="#tpm-config">TPM Configuration</a></li>
+                    <li><a href="#disk-cloning">Disk Cloning with DD & FTK</a></li>
+                    <li><a href="#directory-cloning">Directory Cloning with FTK Imager</a></li>
+                    <li><a href="#encryption-process">Encryption Process</a></li>
+                    <li><a href="#dirclone">Cloning of directory within the encrypted disk</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <section id="tpm-config" class="guide-section">
+            <div data-lang="es" class="active">
+                <h2>Configuración del TPM</h2>
+                <div class="step">
+                    <h3>Configuración en Máquina Virtual</h3>
+                    <p>Para máquinas virtuales, es necesario realizar una configuración especial del TPM antes de poder
+                        activar BitLocker.</p>
+                    <div class="warning">
+                        La simulación del chip TPM es necesaria en entornos virtuales.
+                    </div>
+                </div>
+                <div class="image-container">
+                    <img src="tpm-config.png" alt="Configuración TPM">
+                    <img src="tmp1.png" alt="Configuración TPM">
+                    <p class="image-caption">Figura 1: Configuración del TPM en entorno virtual</p>
+                </div>
+            </div>
+            <div data-lang="en">
+                <h2>TPM Configuration</h2>
+                <div class="step">
+                    <h3>Virtual Machine Setup</h3>
+                    <p>For virtual machines, special TPM configuration is required before BitLocker can be activated.
+                    </p>
+                    <div class="warning">
+                        TPM chip simulation is necessary in virtual environments.
+                    </div>
+                </div>
+                <div class="image-container">
+                    <img src="tpm-config.png" alt="TPM Configuration">
+                    <img src="tmp1.png" alt="TPM Configuration">
+                    <p class="image-caption">Figure 1: TPM configuration in virtual environment</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="disk-cloning" class="guide-section">
+            <div data-lang="es" class="active">
+                <h2>Clonación de Disco con DD y Montaje FTK</h2>
+                <div class="step">
+                    <h3>Paso 1: Preparación del Entorno</h3>
+                    <p>Asegúrese de tener en cuenta el tamaño de los discos para el sistema operativo Windows 10 Pro y
+                        abra CMD como administrador.</p>
+                    <div class="tip">
+                        Siempre verifique los requisitos de espacio en disco antes de comenzar el proceso de clonación.
+                    </div>
+                </div>
+                <div class="image-container">
+                    <img src="disk-listing.png" alt="Listado de discos en CMD">
+                    <p class="image-caption">Figura 1: Listado de discos físicos en CMD</p>
+                </div>
+                <div class="image-container">
+                    <img src="clonado-dd.png" alt="Comando de clonado DD">
+                    <p class="image-caption">Figura 2: Comando de clonado DD</p>
+                </div>
+                <div class="image-container">
+                    <img src="montaje3.png" alt="montado en FTK">
+                    <img src="montaje2.png" alt="montado en FTK">
+                    <img src="montaje1.png" alt="montado en FTK">
+                    <p class="image-caption">Figure 3: Montado en FTK Imager</p>
+                </div>
+            </div>
+            <div data-lang="en">
+                <h2>Disk Cloning with DD and FTK Mounting</h2>
+                <div class="step">
+                    <h3>Step 1: Environment Preparation</h3>
+                    <p>Ensure proper disk sizing for Windows 10 Pro system and open CMD as administrator.</p>
+                    <div class="tip">
+                        Always verify disk space requirements before starting the cloning process.
+                    </div>
+                </div>
+                <div class="image-container">
+                    <img src="disk-listing.png" alt="Disk listing in CMD">
+                    <p class="image-caption">Figure 1: Physical disk listing in CMD</p>
+                </div>
+                <div class="image-container">
+                    <img src="clonado-dd.png" alt="Cloning DD CMD">
+                    <p class="image-caption">Figure 2: Cloning DD CMD</p>
+                </div>
+                <div class="image-container">
+                    <img src="montaje3.png" alt="Mounting on FTK">
+                    <img src="montaje2.png" alt="Mounting on FTK">
+                    <img src="montaje1.png" alt="Mounting on FTK">
+                    <p class="image-caption">Figure 3: Mounting on FTK Imager</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="directory-cloning" class="guide-section">
+            <div data-lang="es" class="active">
+                <h2>Clonación de Directorio con FTK Imager</h2>
+                <div class="warning">
+                    Nota: Este proceso excluye archivos eliminados, metadatos y archivos del sistema.
+                </div>
+                <div class="image-container">
+                    <img src="dir1.png" alt="Clonación de directorio en FTK">
+                    <img src="dir2.png" alt="Clonación de directorio en FTK">
+                    <img src="dir3.png" alt="Clonación de directorio en FTK">
+                    <img src="dir4.png" alt="Clonación de directorio en FTK">
+                    <img src="dir5.png" alt="Clonación de directorio en FTK">
+                    <img src="dir6.png" alt="Clonación de directorio en FTK">
+                    <img src="dir7.png" alt="Clonación de directorio en FTK">
+                    <p class="image-caption">Figura 1: Proceso de clonación de directorio</p>
+                </div>
+            </div>
+            <div data-lang="en">
+                <h2>Directory Cloning with FTK Imager</h2>
+                <div class="warning">
+                    Note: This process excludes deleted files, metadata, and system files.
+                </div>
+                <div class="image-container">
+                    <img src="dir1.png" alt="Directory cloning in FTK">
+                    <img src="dir2.png" alt="Directory cloning in FTK">
+                    <img src="dir3.png" alt="Directory cloning in FTK">
+                    <img src="dir4.png" alt="Directory cloning in FTK">
+                    <img src="dir5.png" alt="Directory cloning in FTK">
+                    <img src="dir6.png" alt="Directory cloning in FTK">
+                    <img src="dir7.png" alt="Directory cloning in FTK">
+                    <p class="image-caption">Figure 1: Directory cloning process</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="encryption-process" class="guide-section">
+            <div data-lang="es" class="active">
+                <h2>Proceso de Cifrado</h2>
+                <div class="step">
+                    <h3>Cifrado con Bitlocker</h3>
+                    <p>El proceso requiere modificar una política de BitLocker para permitir el uso en dispositivos TPM
+                        no compatibles</p>
+                    <div class="tip">
+                        Guarde la clave de recuperación en un lugar seguro.
+                    </div>
+                </div>
+                <div class="image-container">
+                    <img src="cif1.png" alt="Configuración de BitLocker">
+                    <img src="cif2.png" alt="Configuración de BitLocker">
+                    <img src="cif3.png" alt="Configuración de BitLocker">
+                    <img src="cif4.png" alt="Configuración de BitLocker">
+                    <img src="cif5.png" alt="Configuración de BitLocker">
+                    <img src="cif6.png" alt="Configuración de BitLocker">
+                    <img src="cif7.png" alt="Configuración de BitLocker">
+                    <img src="cif8.png" alt="Configuración de BitLocker">
+                    <img src="cif9.png" alt="Configuración de BitLocker">
+                    <p class="image-caption">Figura 3: Proceso de configuración de BitLocker</p>
+                </div>
+                <div class="step">
+                    <h3>Proceso de Cifrado</h3>
+                    <p>El cifrado del disco se realizará al reiniciar el equipo.</p>
+                </div>
+                <div class="image-container">
+                    <img src="cif10.png" alt="Configuración de BitLocker">
+                    <img src="cif11.png" alt="Configuración de BitLocker">
+                    <p class="image-caption">Figura 6: Progreso del proceso de cifrado</p>
+                </div>
+            </div>
+            <div data-lang="en">
+                <h2>Encryption process</h2>
+                <h3>Bitlocker process</h3>
+                <p>The process requires modifying a BitLocker policy to allow use on non-TPM compatible devices</p>
+                <div class="tip">
+                    Keep the password in a safe place.
+                </div>
+                <div class="image-container">
+                    <img src="cif1.png" alt="BitLocker Configuration">
+                    <img src="cif2.png" alt="BitLocker Configuration">
+                    <img src="cif3.png" alt="BitLocker Configuration">
+                    <img src="cif4.png" alt="BitLocker Configuration">
+                    <img src="cif5.png" alt="BitLocker Configuration">
+                    <img src="cif6.png" alt="BitLocker Configuration">
+                    <img src="cif7.png" alt="BitLocker Configuration">
+                    <img src="cif8.png" alt="BitLocker Configuration">
+                    <img src="cif9.png" alt="BitLocker Configuration">
+                    <img src="cif10.png" alt="BitLocker Configuration">
+                    <img src="cif11.png" alt="BitLocker Configuration">
+                    <p class="image-caption">Figure 3: BitLocker configuration process</p>
+                </div>
+                <div class="step">
+                    <h3>Encryption Process</h3>
+                    <p>Disk encryption will begin after system restart.</p>
+                </div>
+                <div class="image-container">
+                    <img src="cif10.png" alt="Configuración de BitLocker">
+                    <img src="cif11.png" alt="Configuración de BitLocker">
+                    <p class="image-caption">Figura 6: BitLocker configuration process</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="evidence-verification" class="guide-section">
+            <div data-lang="es" class="active">
+                <h2>Proceso de clonado en disco con BitLocker</h2>
+                <div class="step">
+                    <h3>FTK Imager</h3>
+                    <p>Ahora hacemos una imagen de clonado del disco completo con FTK.</p>
+                    <div class="tip">
+                        Clonará el disco completo encriptado
+                    </div>
+                </div>
+                <div class="image-container">
+                    <img src="cloncif1.png" alt="Verificación de hash">
+                    <p class="image-caption">Figura 7: Verificación de integridad mediante hash</p>
+                </div>
+                <div class="step">
+                    <h3>Acceso al Contenido Clonado</h3>
+                    <p>Ahora si montamos la imagen veremos como de las tres particiones que hay en el disco
+                        únicamente la de boot y recuperación de windows son visibles. Sin embargo vemos
+                        como la partición del disco principal de sistema no es reconocida</p>
+                </div>
+                <div class="image-container">
+                    <img src="cloncif2.png" alt="Verificación de contenido">
+                    <p class="image-caption">Figura 8: Verificación de acceso al contenido encriptado clonado</p>
+                </div>
+            </div>
+            <div data-lang="en">
+                <h2>Disk cloning process with BitLocker</h2>
+                <div class="step">
+                    <h3>FTK Imager</h3>
+                    <p>Now we create a full disk clone image with FTK</p>
+                    <div class="tip">
+                        It will clone the complete encrypted disk
+                    </div>
+                </div>
+                <div class="image-container">
+                    <img src="cloncif1.png" alt="Hash verification">
+                    <p class="image-caption">Figure 7: Integrity verification through hash</p>
+                </div>
+                <div class="step">
+                    <h3>Cloned Content Access</h3>
+                    <p>Now if we mount the image, we will see that of the three partitions on the disk, only the Windows
+                        boot and recovery partitions are visible. However, we can see that the main system disk
+                        partition is not recognized</p>
+                </div>
+                <div class="image-container">
+                    <img src="cloncif2.png" alt="Content verification">
+                    <p class="image-caption">Figure 8: encrypted cloned content access verification</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="dirclone" class="guide-section">
+            <div data-lang="es" class="active">
+                <h2>Clonado directorio cifrado dentro de disco con BitLocker</h2>
+                <div class="step">
+                    <p>Si de igual forma hacemos un clonado únicamente del directorio users del disco C.</p>
+                    <div class="tip">
+                        En este caso vemos que el clonado si es accesible debido a que el clonado es
+                        únicamente del directorio y no del disco completo por lo que los datos son obtenidos ya
+                        descifrados.
+                    </div>
+                </div>
+                <div class="image-container">
+                    <img src="cifdir1.png" alt="Verificación de hash">
+                    <p class="image-caption">Figura 7: Directorio dentro del disco cifrado clonado</p>
+                </div>
+            </div>
+            <div data-lang="en">
+                <h2>Cloning encrypted directory within a BitLocker disk</h2>
+                <div class="step">
+                    <p>If we similarly clone only the users directory from the C drive.</p>
+                    <div class="tip">
+                        In this case, we can see that the clone is accessible because the cloning is only of the
+                        directory and not the entire disk, therefore the data is obtained already decrypted.
+                    </div>
+                </div>
+                <div class="image-container">
+                    <img src="cifdir1.png" alt="Hash verification">
+                    <p class="image-caption">Figure 7: Directory within the encrypted cloned disk</p>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        const translations = {
+            'es': {
+                'title': 'Guía de Análisis Forense Digital | Digital Forensics Guide',
+                // Add more translations as needed
+            },
+            'en': {
+                'title': 'Digital Forensics Guide | Guía de Análisis Forense',
+                // Add more translations as needed
+            }
+        };
+
+        function setLanguage(lang) {
+            // Update active language button
+            document.querySelectorAll('.language-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(`${lang}-btn`).classList.add('active');
+
+            // Update document language
+            document.documentElement.lang = lang;
+
+            // Update title
+            document.title = translations[lang].title;
+
+            // Show/hide content based on language
+            document.querySelectorAll('[data-lang]').forEach(element => {
+                if (element.getAttribute('data-lang') === lang) {
+                    element.classList.add('active');
+                } else {
+                    element.classList.remove('active');
+                }
+            });
+
+            // Save preference
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        // Load preferred language on startup
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferredLanguage') || 'es';
+            setLanguage(savedLang);
+        });
+    </script>
+</body>
+
+</html>

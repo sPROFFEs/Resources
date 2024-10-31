@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adquisición de Evidencias Volátiles - Guía Forense</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="back-link">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            Volver
+        </a>
+    </nav>
+
+    <article class="guide-content">
+        <h1>Adquisición de Evidencias Volátiles</h1>
+
+        <section class="guide-section">
+            <h2>Introducción</h2>
+            <p>Esta guía presenta diferentes herramientas y métodos para realizar volcados de memoria RAM en caliente en sistemas Windows y Linux. Se analizarán cuatro herramientas principales, sus características y procedimientos de uso.</p>
+        </section>
+
+        <section class="guide-section">
+            <h2>Configuración Previa en Windows</h2>
+            <div class="warning-box">
+                <div class="warning-icon">⚠️</div>
+                <div class="warning-content">
+                    <strong>¡Importante!</strong>
+                    <p>Para realizar volcados de memoria en Windows 10/11 es necesario desactivar la medida de seguridad de aislamiento del núcleo en la configuración de seguridad del dispositivo.</p>
+                </div>
+            </div>
+
+            <div class="image-container">
+                <img src="1.png" alt="Configuración de seguridad del dispositivo en Windows">
+                <div class="image-caption">Configuración de seguridad del dispositivo en Windows</div>
+            </div>
+        </section>
+
+        <section class="guide-section">
+            <h2>Herramientas Seleccionadas</h2>
+
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h3 class="tool-name">1. DumpIT (Windows)</h3>
+                </div>
+                <div class="tool-content">
+                    <p>Herramienta gratuita para Windows que permite realizar volcados de memoria de forma simple y directa.</p>
+                    
+                    <a href="https://www.comae.com/" class="download-button" target="_blank">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                        </svg>
+                        Descargar DumpIT
+                    </a>
+
+                    <div class="image-container">
+                        <img src="2.png" alt="Interfaz de línea de comandos de DumpIT">
+                        <div class="image-caption">Interfaz de línea de comandos de DumpIT</div>
+                    </div>
+
+                    <div class="features-list">
+                        <h4>Características principales:</h4>
+                        <ul>
+                            <li>Ejecución simple con un solo comando</li>
+                            <li>Debe ejecutarse como administrador</li>
+                            <li>El volcado se realiza en la misma ubicación del ejecutable</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h3 class="tool-name">2. Belkasoft RAM Capturer (Windows)</h3>
+                </div>
+                <div class="tool-content">
+                    <p>Programa gratuito que requiere registro previo para su descarga oficial.</p>
+                    
+                    <a href="https://belkasoft.com/ram-capturer" class="download-button" target="_blank">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                        </svg>
+                        Descargar Belkasoft RAM Capturer
+                    </a>
+
+                    <div class="image-container">
+                        <img src="3.png" alt="Interfaz de Belkasoft RAM Capturer">
+                        <div class="image-caption">Interfaz de Belkasoft RAM Capturer mostrando la selección de ruta</div>
+                    </div>
+
+                    <div class="features-list">
+                        <h4>Características principales:</h4>
+                        <ul>
+                            <li>Disponible en versiones de 32 y 64 bits</li>
+                            <li>Interfaz que permite seleccionar la ruta de destino</li>
+                            <li>Proceso de volcado simplificado</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h3 class="tool-name">3. LiME (Linux)</h3>
+                </div>
+                <div class="tool-content">
+                    <p>Proyecto open source para volcado de RAM en sistemas Linux, incluyendo Android.</p>
+                    
+                    <a href="https://github.com/504ensicsLabs/LiME" class="download-button" target="_blank">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"/>
+                        </svg>
+                        Repositorio de LiME
+                    </a>
+
+                    <div class="code-block">
+                        <code>git clone https://github.com/504ensicsLabs/LiME.git</code>
+                    </div>
+
+                    <div class="image-container">
+                        <img src="4.png" alt="Compilación de LiME">
+                        <div class="image-caption">Proceso de compilación de LiME y archivo resultante</div>
+                    </div>
+
+                    <div class="features-list">
+                        <h4>Características principales:</h4>
+                        <ul>
+                            <li>Compatible con múltiples distribuciones Linux</li>
+                            <li>Soporta volcado remoto mediante netcat</li>
+                            <li>Utiliza el kernel de forma directa</li>
+                            <li>Soporta formatos raw y lime</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h3 class="tool-name">4. Microsoft AVML (Linux)</h3>
+                </div>
+                <div class="tool-content">
+                    <p>Herramienta desarrollada por Microsoft para volcado de RAM en sistemas Linux.</p>
+                    
+                    <a href="https://github.com/microsoft/avml" class="download-button" target="_blank">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5"/>
+                        </svg>
+                        Repositorio de AVML
+                    </a>
+
+                    <div class="image-container">
+                        <img src="5.png" alt="Compilación de AVML">
+                        <img src="6.png" alt="Comparación de tamaños AVML">
+                        <div class="image-caption">Comparación de tamaños de volcado con y sin compresión en AVML</div>
+                    </div>
+
+                    <div class="features-list">
+                        <h4>Características principales:</h4>
+                        <ul>
+                            <li>Distribuida como binario ejecutable</li>
+                            <li>Incluye opciones de compresión</li>
+                            <li>No requiere instalación</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="guide-section conclusions">
+            <h2>Conclusiones y Recomendaciones</h2>
+
+            <div class="conclusion-block windows">
+                <h3>Para Windows:</h3>
+                <p>DumpIT es la opción recomendada por su mínimo impacto en el sistema y facilidad de uso. No requiere instalación y puede ejecutarse directamente desde un dispositivo externo.</p>
+            </div>
+
+            <div class="conclusion-block linux">
+                <h3>Para Linux:</h3>
+                <p>Aunque LiME es una herramienta muy potente y compatible, AVML puede ser más práctica en muchos casos ya que:</p>
+                <ul>
+                    <li>No requiere instalación de dependencias</li>
+                    <li>Se ejecuta como binario independiente</li>
+                    <li>No necesita modificar módulos del kernel</li>
+                </ul>
+            </div>
+        </section>
+
+        <footer class="guide-footer">
+            <p>Análisis Forense Informático</p>
+        </footer>
+    </article>
+</body>
+</html>

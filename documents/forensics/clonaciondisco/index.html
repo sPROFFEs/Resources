@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Procedimiento - Adquisición de Evidencias (Cold Clone)</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../memoriavolatil/styles.css">
+    <style>
+        /* Estilos específicos para la guía de clonación */
+        .step-container {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .step-card {
+            background: var(--color-bg-dark);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 157, 0.1);
+        }
+
+        .instructions-block {
+            margin: 1.5rem 0;
+        }
+
+        .instructions-block h4 {
+            color: var(--color-primary);
+            font-family: var(--font-mono);
+            margin-bottom: 1rem;
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .code-block {
+            background: var(--color-bg);
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            overflow-x: auto;
+            border: 1px solid var(--color-border);
+        }
+
+        .code-block code {
+            font-family: var(--font-mono);
+            color: var(--color-primary);
+        }
+
+        .code-caption {
+            color: var(--color-text-dim);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .step-card {
+                padding: 1.5rem;
+            }
+
+            .image-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="back-link">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+            Volver
+        </a>
+    </nav>
+
+    <article class="guide-content">
+        <h1>Guía de Procedimiento - Adquisición de Evidencias (Cold Clone)</h1>
+
+        <section class="guide-section">
+            <h2>Descripción General</h2>
+
+            <div class="step-container">
+                <div class="step-card">
+                    <h3>Paso 1: Configuración de la Máquina Virtual</h3>
+                    <p>Descarga el archivo proporcionado y configura el segundo disco en el programa de virtualización.
+                    </p>
+
+                    <div class="instructions-block">
+                        <h4>Instrucciones Detalladas</h4>
+                        <p>Añade el disco descargado con la opción "add" y arranca la máquina con un live ISO de Kali
+                            Linux.
+                            Selecciona la opción "forensic" para evitar contaminación del disco.</p>
+
+                        <div class="image-grid">
+                            <div class="image-container">
+                                <img src="disco1.png" alt="Configuración del disco (ejemplo 1)">
+                                <div class="image-caption">Configuración inicial del disco</div>
+                            </div>
+                            <div class="image-container">
+                                <img src="disco2.png" alt="Configuración del disco (ejemplo 2)">
+                                <div class="image-caption">Selección de disco virtual</div>
+                            </div>
+                            <div class="image-container">
+                                <img src="disco3.png" alt="Configuración del disco (ejemplo 3)">
+                                <div class="image-caption">Configuración completada</div>
+                            </div>
+                            <div class="image-container">
+                                <img src="arranque.png" alt="Pantalla de arranque">
+                                <div class="image-caption">Arranque en modo forense</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h3>Paso 2: Verificación de Discos</h3>
+                    <p>En Kali Linux, usa el siguiente comando para listar los discos disponibles:</p>
+
+                    <div class="code-block">
+                        <code>fdisk -l</code>
+                    </div>
+
+                    <div class="instructions-block">
+                        <h4>Instrucciones Detalladas</h4>
+                        <p>Verifica que puedes ver el disco de evidencia y el disco contenedor.
+                            Asegúrate de que hay espacio suficiente en el disco contenedor.</p>
+
+                        <div class="image-container">
+                            <img src="fdisk.png" alt="Salida de comando fdisk -l">
+                            <div class="image-caption">Resultado del comando fdisk -l</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h3>Paso 3: Cálculo del Hash de la Evidencia</h3>
+                    <p>Antes de empezar con el clonado o la creación de una imagen, calcula el hash del disco de
+                        evidencia:</p>
+
+                    <div class="code-block">
+                        <code>sha512sum /dev/sdX</code>
+                        <div class="code-caption">(Reemplaza /dev/sdX con el dispositivo adecuado)</div>
+                    </div>
+
+                    <div class="image-container">
+                        <img src="hashevidencia.png" alt="Cálculo del hash de evidencia">
+                        <div class="image-caption">Hash calculado de la evidencia original</div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h3>Paso 4: Clonado del Disco</h3>
+                    <p>Ejecuta el comando de clonado:</p>
+
+                    <div class="code-block">
+                        <code>dd if=/dev/sdX of=/dev/sdY bs=4M</code>
+                    </div>
+
+                    <p>Verifica el hash del disco clonado:</p>
+
+                    <div class="code-block">
+                        <code>sha512sum /dev/sdY</code>
+                    </div>
+
+                    <div class="image-grid">
+                        <div class="image-container">
+                            <img src="clonado.png" alt="Proceso de clonado">
+                            <div class="image-caption">Proceso de clonado en ejecución</div>
+                        </div>
+                        <div class="image-container">
+                            <img src="hashclonado.png" alt="Verificación del hash">
+                            <div class="image-caption">Verificación del hash del clonado</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <h3>Paso 5: Creación de Imagen del Disco</h3>
+                    <p>Crea una imagen del disco de evidencia:</p>
+
+                    <div class="code-block">
+                        <code>dd if=/dev/sdX of=/ruta/a/imagen.img bs=4M</code>
+                    </div>
+
+                    <p>Verifica el hash de la imagen:</p>
+
+                    <div class="code-block">
+                        <code>sha512sum /ruta/a/imagen.img</code>
+                    </div>
+
+                    <div class="image-grid">
+                        <div class="image-container">
+                            <img src="imagen1.png" alt="Creación de imagen paso 1">
+                            <div class="image-caption">Inicio del proceso de imagen</div>
+                        </div>
+                        <div class="image-container">
+                            <img src="imagen2.png" alt="Creación de imagen paso 2">
+                            <div class="image-caption">Progreso de la imagen</div>
+                        </div>
+                        <div class="image-container">
+                            <img src="imagen3.png" alt="Creación de imagen paso 3">
+                            <div class="image-caption">Verificación de la imagen</div>
+                        </div>
+                        <div class="image-container">
+                            <img src="imagen4.png" alt="Creación de imagen paso 4">
+                            <div class="image-caption">Comprobación final</div>
+                        </div>
+                        <div class="image-container">
+                            <img src="imagen5.png" alt="Creación de imagen paso 5">
+                            <div class="image-caption">Proceso completado</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </article>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+
+</html>
