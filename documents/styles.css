@@ -211,3 +211,116 @@ footer a:hover {
         padding: 0.6rem 1rem;
     }
 }
+
+.useful-links-section {
+    max-width: 1400px;
+    margin: 4rem auto;
+    padding: 0 2rem;
+}
+
+.section-title {
+    font-family: var(--font-mono);
+    font-size: large;
+    color: var(--color-primary);
+    text-align: center;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background: var(--color-primary);
+    border-radius: 2px;
+}
+
+.accordion-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.accordion-item {
+    background: transparent;
+    border: 1px solid #00ff9d30;
+    border-radius: 8px;
+}
+
+.accordion-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background: none;
+    border: none;
+    color: #00ff9d;
+    font-family: 'JetBrains Mono', monospace;
+    cursor: pointer;
+}
+
+.accordion-icon {
+    transition: transform 0.3s ease;
+}
+
+.accordion-item.active .accordion-icon {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    background: #0a0a0a;
+    border-top: 1px solid #00ff9d30;
+    transition: max-height 0.3s ease-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.accordion-item.active .accordion-content {
+    max-height: 500px; /* Altura máxima para el contenido */
+    padding: 1rem;
+}
+
+.accordion-content a {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.accordion-content a:hover {
+    background: #00ff9d20;
+    color: #00ff9d;
+    transform: translateX(10px);
+}
+
+/* Estilos para el hover state del acordeón */
+.accordion-header:hover {
+    background: #00ff9d10;
+}
+
+@media (max-width: 768px) {
+    .useful-links-section {
+        padding: 0 1rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .accordion-grid {
+        grid-template-columns: 1fr;
+    }
+}
