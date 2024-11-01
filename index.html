@@ -88,8 +88,19 @@
             <h2 class="section-title" data-i18n="about-title">About Me</h2>
             <div class="about-grid">
                 <div class="about-image">
-                    <img src="images/logo.jpg" alt="Profile" class="profile-img">
+                    <div class="image-container">
+                        <img src="images/logo.jpg" alt="Profile" class="profile-img active">
+                        <img src="images/logo-alt.jpg" alt="Alternative Profile" class="profile-img">
+                    </div>
                     <div class="about-image-overlay"></div>
+                    <button class="switch-image-btn" aria-label="Switch Profile Image">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                            <line x1="12" y1="17" x2="12" y2="17"></line>
+                        </svg>
+                    </button>
                 </div>
                 <div class="about-content">
                     <p class="about-text" data-i18n="about-description">
@@ -132,7 +143,7 @@
                                 <img src="images/vmware-svgrepo-com.svg" alt="vmware-svgrepo-com"></img>
                                 <span>VMWare</span>
                             </div>
-                            <div class="tech-icon" >
+                            <div class="tech-icon">
                                 <img src="images/web-svgrepo-com.svg" alt="web-svgrepo-com"></img>
                                 <span data-i18n="stack-skill">Redes</span>
                             </div>
@@ -207,12 +218,13 @@
             <div class="projects-grid">
                 <article class="project-card">
                     <div class="project-image">
-                        <img src="images/documentation-svgrepo-com.svg" alt="documentation-svgrepo-com" style="height: fit-content">
+                        <img src="images/documentation-svgrepo-com.svg" alt="documentation-svgrepo-com"
+                            style="height: fit-content">
                     </div>
                     <div class="project-content">
                         <h3 data-i18n="projects-docu" class="project-title">Documentation</h3>
                         <p data-i18n="project-docu-desc" class="project-description">
-                            Collection of documents on defensive cybersecurity, forensics, 
+                            Collection of documents on defensive cybersecurity, forensics,
                             hacking, malware, and more. Comprehensive guides for security professionals.
                         </p>
                         <div class="project-tags">
@@ -229,12 +241,13 @@
                 </article>
                 <article class="project-card">
                     <div class="project-image">
-                        <img src="images/metaspidey.jpg" alt="metaspidey" >
+                        <img src="images/metaspidey.jpg" alt="metaspidey">
                     </div>
                     <div class="project-content">
                         <h3 class="project-title">MetaSpidey</h3>
-                        <p data-i18n="project-metaspidey-desc" class="project-description" >
-                            Script for performing brute force on the directories of a URL, downloading files from those that exist, and performing a metadata analysis. 
+                        <p data-i18n="project-metaspidey-desc" class="project-description">
+                            Script for performing brute force on the directories of a URL, downloading files from those
+                            that exist, and performing a metadata analysis.
                         </p>
                         <div class="project-tags">
                             <span data-i18n="projects-metaspidey-tag1" class="project-tag">Python</span>
@@ -243,7 +256,8 @@
                         </div>
                         <div class="project-links">
                             <a href="https://github.com/sPROFFEs/MetaSpidey" class="project-link github">
-                                <img width="20" height="20" fill="currentColor" src="images/github-142-svgrepo-com.svg"></img>
+                                <img width="20" height="20" fill="currentColor"
+                                    src="images/github-142-svgrepo-com.svg"></img>
                                 GitHub
                             </a>
                             <a href="demos/metaspidey-demo.html" class="project-link demo">
@@ -260,8 +274,9 @@
                     <div class="project-content">
                         <h3 class="project-title">PKeysManager</h3>
                         <p data-i18n="project-pkeys-desc" class="project-description">
-                            Simple and useful password manager developed on python. Creates a database encrypted by a password, generates secure passwords and save it hashed and salted on the database.
-                            If you dont trust the application just look the code and modify it. 
+                            Simple and useful password manager developed on python. Creates a database encrypted by a
+                            password, generates secure passwords and save it hashed and salted on the database.
+                            If you dont trust the application just look the code and modify it.
                         <div class="project-tags">
                             <span data-i18n="projects-pkeys-tag1" class="project-tag">Python</span>
                             <span data-i18n="projects-pkeys-tag2" class="project-tag">UI</span>
@@ -269,7 +284,8 @@
                         </div>
                         <div class="project-links">
                             <a href="https://github.com/sPROFFEs/PasswordManager" class="project-link github">
-                                <img width="20" height="20" fill="currentColor" src="images/github-142-svgrepo-com.svg"></img>
+                                <img width="20" height="20" fill="currentColor"
+                                    src="images/github-142-svgrepo-com.svg"></img>
                                 GitHub
                             </a>
                             <a href="demos/pkeys-demo.html" class="project-link demo">
@@ -286,8 +302,10 @@
                     <div class="project-content">
                         <h3 class="project-title">FakeFace</h3>
                         <p data-i18n="projects-fakeface-desc" class="project-description">
-                            This project provides a random identity generator in Python, perfect for software testing and generating sample data. 
-                            The generator creates fictitious profiles that include names, surnames, addresses, phone numbers, dates of birth and more. 
+                            This project provides a random identity generator in Python, perfect for software testing
+                            and generating sample data.
+                            The generator creates fictitious profiles that include names, surnames, addresses, phone
+                            numbers, dates of birth and more.
                         <div class="project-tags">
                             <span data-i18n="projects-fakeface-tag1" class="project-tag">Python</span>
                             <span data-i18n="projects-fakeface-tag2" class="project-tag">UI</span>
@@ -295,7 +313,8 @@
                         </div>
                         <div class="project-links">
                             <a href="https://github.com/sPROFFEs/FakeFace" class="project-link github">
-                                <img width="20" height="20" fill="currentColor" src="images/github-142-svgrepo-com.svg"></img>
+                                <img width="20" height="20" fill="currentColor"
+                                    src="images/github-142-svgrepo-com.svg"></img>
                                 GitHub
                             </a>
                             <a href="demos/fakeface-demo.html" class="project-link demo">
@@ -320,9 +339,10 @@
                 <div class="contact-info">
                     <div class="contact-item">
                         <div class="contact-item-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                                <polyline points="22,6 12,13 2,6"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                                <polyline points="22,6 12,13 2,6" />
                             </svg>
                         </div>
                         <div class="contact-item-content">
@@ -330,13 +350,14 @@
                             <div class="contact-item-value">sdksdk.thimble195@aleeas.com</div>
                         </div>
                     </div>
-    
+
                     <!-- Location Item -->
                     <div class="contact-item">
                         <div class="contact-item-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                                <circle cx="12" cy="10" r="3"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                                <circle cx="12" cy="10" r="3" />
                             </svg>
                         </div>
                         <div class="contact-item-content">
@@ -344,35 +365,40 @@
                             <div class="contact-item-value">Spain</div>
                         </div>
                     </div>
-    
+
                     <!-- Social Links -->
                     <div class="social-links">
-                        <a href="https://www.linkedin.com/in/pr0ff3" class="social-link" target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.linkedin.com/in/pr0ff3" class="social-link" target="_blank"
+                            rel="noopener noreferrer">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-                                <rect x="2" y="9" width="4" height="12"/>
-                                <circle cx="4" cy="4" r="2"/>
+                                <path
+                                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                                <rect x="2" y="9" width="4" height="12" />
+                                <circle cx="4" cy="4" r="2" />
                             </svg>
                             LinkedIn
                         </a>
-                        <a href="https://github.com/sPROFFEs" class="social-link" target="_blank" rel="noopener noreferrer">
+                        <a href="https://github.com/sPROFFEs" class="social-link" target="_blank"
+                            rel="noopener noreferrer">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                                <path
+                                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
                             </svg>
                             GitHub
                         </a>
                     </div>
                 </div>
-    
+
                 <!-- Decoration or Map Area -->
                 <div class="contact-decoration">
                     <!-- Aquí podrías añadir un mapa interactivo o una decoración -->
                     <div class="decoration-content">
-                        <svg width="200" height="200" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="0.5">
+                        <svg width="200" height="200" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)"
+                            stroke-width="0.5">
                             <!-- Patrón decorativo o icono grande -->
-                            <circle cx="12" cy="12" r="10"/>
-                            <circle cx="12" cy="12" r="6"/>
-                            <circle cx="12" cy="12" r="2"/>
+                            <circle cx="12" cy="12" r="10" />
+                            <circle cx="12" cy="12" r="6" />
+                            <circle cx="12" cy="12" r="2" />
                         </svg>
                     </div>
                 </div>
@@ -397,6 +423,14 @@
     <script src="js/main-js.js"></script>
     <script src="js/matrix-js.js"></script>
     <script src="js/translations-js.js"></script>
+    <script>
+        document.querySelector('.switch-image-btn').addEventListener('click', () => {
+            const images = document.querySelectorAll('.profile-img');
+            images.forEach(img => {
+                img.classList.toggle('active');
+            });
+        });
+    </script>
 
 
 </body>
