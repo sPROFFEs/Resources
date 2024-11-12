@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clonado de Disco por Red</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .image-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin: 2rem 0;
+        }
+        
+        .image-container.small {
+            flex: 1;
+            max-width: 48%;
+        }
+        
+        .image-container.small img {
+            width: 100%;
+            height: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .image-row {
+                flex-direction: column;
+            }
+            
+            .image-container.small {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="back-link">← Volver</a>
+    </nav>
+
+    <main class="guide-content">
+        <h1>Clonado de Disco por Red</h1>
+
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Configuración Inicial</h2>
+                </div>
+                <div class="tool-content">
+                    <p>Para comenzar vamos a plantear la máquina de la que debemos obtener las evidencias que en este caso es llamada DC-1.</p>
+                    
+                    <div class=class="image-container small">
+                        <img src="1.png" alt="Configuración DC-1">
+                        <div class="image-caption">Máquina DC-1 con 4GB de disco duro en red privada host-only</div>
+                    </div>
+
+                    <p>Como observamos tenemos una máquina ligera con tan solo 4Gb de disco duro ya que se trata de un "mini" servidor vulnerable pero para el caso nos servirá.</p>
+                    
+                    <div class="image-row">
+                        <img src="2.png" alt="Configuración Kali">
+                        <img src="3.png" alt="Configuración Kali">
+                    </div>
+                    <div class="image-caption">Máquina Kali y Parrot en la misma red local</div>
+
+                    <div class="warning-box">
+                        <div class="warning-icon">ℹ️</div>
+                        <div class="warning-content">
+                            <strong>Nota</strong>
+                            <p>Más adelante se añade una nota al proceso de clonado por netcat porque han surgido complicaciones con el sistema inicial de la estación forense parrot. Así que en esa parte se hace un cambio a esta máquina kali.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Preparación del Entorno</h2>
+                </div>
+                <div class="tool-content">
+                    <p>Para comenzar la máquina forense debe estar ya encendida y antes de abrir la máquina de las evidencias vamos a asignarle el inicio de kali live.</p>
+                    
+                    <div class="image-container small">
+                        <img src="4.png" alt="Inicio Kali Live">
+                        <div class="image-caption">Inicio de máquina en modo Kali Live</div>
+                    </div>
+
+                    <p>Recordad iniciar la máquina en modo forense.</p>
+                    <div class="image-container small">
+                        <img src="5.png" alt="Verificación de conectividad">
+                        <div class="image-caption">Comprobación de conectividad entre máquinas</div>
+                    </div>
+                    
+                    <h3>Verificación de Conectividad</h3>
+                    <div class="image-container small">
+                        <img src="6.png" alt="Verificación de conectividad">
+                        <div class="image-caption">Comprobación de conectividad entre máquinas</div>
+                    </div>
+
+                    <h3>Identificación de Discos</h3>
+                    <div class="image-container small">
+                        <img src="7.png" alt="Listado de discos">
+                        <div class="image-caption">Listado de discos disponibles</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Clonado por SSH</h2>
+                </div>
+                <div class="tool-content">
+                    <p>En este caso haremos uso de una conexión mediante SSH para la transferencia de datos.</p>
+
+                    <h3>Configuración de SSH en Parrot OS</h3>
+                    <div class="code-block">
+                        <code>
+                            # 1. Verificar instalación SSH<br>
+                            sudo apt install openssh-server<br><br>
+                            # 2. Habilitar e iniciar servicio SSH<br>
+                            sudo systemctl enable ssh<br>
+                            sudo systemctl start ssh<br><br>
+                            # 3. Verificar estado del servicio<br>
+                            sudo systemctl status ssh<br><br>
+                            # 4. Configurar firewall<br>
+                            sudo ufw allow 22/tcp<br>
+                            sudo ufw enable<br><br>
+                            # 5. Verificar puerto<br>
+                            sudo netstat -tulpn | grep 22
+                        </code>
+                    </div>
+
+                    <div class="image-container">
+                        <img src="8.png" alt="Clonado por SSH">
+                        <img src="9.png" alt="Clonado por SSH">
+                        <img src="10.png" alt="Clonado por SSH">
+                        <div class="image-caption">Proceso de clonado mediante SSH</div>
+                    </div>
+
+                    <div class="warning-box">
+                        <div class="warning-icon">💡</div>
+                        <div class="warning-content">
+                            <strong>Tip</strong>
+                            <p>Este mismo proceso se puede realizar comprimiendo la clonación para que pese menos:</p>
+                            <code>dd if=/dev/sdaX | gzip -1 - | ssh usuario@estacion_forense "dd of=/ruta/imagen.gz"</code>
+                        </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Clonado por Netcat</h2>
+                </div>
+                <div class="tool-content">
+                    <p>En este caso haremos uso de netcat para el envío de los datos por red.</p>
+                    
+                    <div class="warning-box">
+                        <div class="warning-icon">⚠️</div>
+                        <div class="warning-content">
+                            <strong>Advertencia</strong>
+                            <p>Se trata de un proceso más rápido debido a que el envío de datos se hace por el protocolo UDP pero es más susceptible a fallos o corrupción de paquetes en tránsito debido a la naturaleza del mismo.</p>
+                        </div>
+                    </div>
+
+                    <div class="warning-box">
+                        <div class="warning-icon">ℹ️</div>
+                        <div class="warning-content">
+                            <strong>Nota</strong>
+                            <p>En este proceso he tenido problemas con la máquina original utilizada como estación forense por lo que se ha cambiado rápidamente a un kali linux ya que la original era un Parrot OS. El problema reside en la configuración del firewall en parrot y aun no he dado con la solución.</p>
+                        </div>
+                    </div>
+
+                    <div class="image-container">
+                        <img src="11.png" alt="Clonado por Netcat">
+                        <img src="12.png" alt="Clonado por Netcat">
+                        <div class="image-caption">Proceso de clonado mediante Netcat</div>
+                    </div>
+
+                    <h3>Verificación de Hash</h3>
+                    <div class="image-container">
+                        <img src="13.png" alt="Verificación de hash">
+                        <div class="image-caption">Comparación de hash entre origen y destino</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="guide-footer">
+        <p>FOR CSTI 2024/25 - J. JULIO MORENO DEL OJO</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arranque de Herramientas Forenses desde la Red (PXE)</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="back-link">← Volver</a>
+    </nav>
+
+    <main class="guide-content">
+        <h1>Arranque de Herramientas Forenses desde la Red (PXE)</h1>
+
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Configuración manual de IPXE</h2>
+                </div>
+                <div class="tool-content">
+                    <h3>Instalación de Requisitos</h3>
+                    <div class="code-block">
+                        <code>
+                            sudo su<br>
+                            apt update && apt upgrade && apt install dnsmasq ipxe
+                        </code>
+                    </div>
+
+                    <h3>Configuración de DNSMASQ</h3>
+                    <div class="code-block">
+                        <code>
+                            sudo nano /etc/dnsmasq.conf
+                        </code>
+                    </div>
+                    <div class="image-container">
+                        <img src="1.png" alt="dncsmasq.conf">
+                        <div class="image-caption">dnsmasq.conf</div>
+                    </div>
+                    <p>Donde la interfaz y la IP dependen de la máquina.</p>
+
+                    <h3>Creación de Directorios</h3>
+                    <div class="code-block">
+                        <code>
+                            sudo mkdir -p /tftpboot/kali<br>
+                            sudo cp /usr/lib/ipxe/undionly.kpxe /tftpboot/
+                        </code>
+                    </div>
+
+                    <h3>Descarga y Configuración de la ISO</h3>
+                    <div class="code-block">
+                        <code>
+                            sudo mkdir -p /mnt/iso<br>
+                            wget https://cdimage.kali.org/kali-2024.3/kali-linux-2024.3-live-amd64.iso<br>
+                            sudo mount -o loop kali-linux-2024.3-live-amd64.iso /mnt/iso<br>
+                            sudo cp /mnt/iso/live/vmlinuz /tftpboot/kali/<br>
+                            sudo cp /mnt/iso/live/initrd.img /tftpboot/kali/<br>
+                            sudo cp /mnt/iso/live/filesystem.squashfs /tftpboot/kali/
+                        </code>
+                    </div>
+
+                    <h3>Configuración de boot.ipxe</h3>
+                    <div class="code-block">
+                        <code>
+                            sudo nano /tftpboot/boot.ipxe
+                        </code>
+                    </div>
+
+                    <div class="code-block">
+                        <code>
+                            #!ipxe<br>
+                            :retry_boot<br>
+                            echo Iniciando Kali Linux...<br>
+                            # Configuración de red explícita<br>
+                            set net0/ip 192.168.244.109<br>
+                            set net0/netmask 255.255.255.0<br>
+                            set net0/gateway 192.168.244.128<br>
+                            # Intenta cargar kernel<br>
+                            kernel tftp://${next-server}/kali/vmlinuz || goto retry_boot<br>
+                            initrd tftp://${next-server}/kali/initrd.img || goto retry_boot<br>
+                            imgargs vmlinuz initrd=initrd.img boot=live components fetch=tftp://${next-server}/kali/filesystem.squashfs<br>
+                            boot || goto retry_boot
+                        </code>
+                    </div>
+
+                    <h3>Configuración de Permisos</h3>
+                    <div class="code-block">
+                        <code>
+                            sudo chmod -R 755 /tftpboot<br>
+                            sudo chown -R nobody:nogroup /tftpboot
+                        </code>
+                    </div>
+
+                    <h3>Solución de Error de Timeout</h3>
+                    <div class="code-block">
+                        <code>
+                            sudo nano /etc/default/dnsmasq
+                        </code>
+                    </div>
+                    <p>Añadir la siguiente línea:</p>
+                    <div class="code-block">
+                        <code>
+                            DNSMASQ_OPTS= "--log-facility=/var/log/dnsmasq.log --tftp-max-connections=100 --tftp-timeout=600"
+                        </code>
+                    </div>
+
+                    <h3>Reinicio del Servicio</h3>
+                    <div class="code-block">
+                        <code>
+                            sudo systemctl restart dnsmasq
+                        </code>
+                    </div>
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <div class="warning-icon">⚠️</div>
+                <div class="warning-content">
+                    <strong>Importante</strong>
+                    <p>El problema de este proceso es que al usar tftp la transmisión es muy lenta y eso sumado a que el tamaño de la iso de Kali Live son unos 4.5Gb no es lo más óptimo.</p>
+                    <p>Otra cosa a tener en cuenta es que es muy fácil que en el proceso algún parámetro no quede bien ajustado y se rompe continuamente la conexión o no se llegue a establecer.</p>
+                    <p>En este proceso la iso del sistema se debe cargar en memoria por lo que la máquina debera tener suficiente espacio en la memoria RAM.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer class="guide-footer">
+        <p>FOR CSTI 2024/25 - J. JULIO MORENO DEL OJO</p>
+    </footer>
+</body>
+</html>
