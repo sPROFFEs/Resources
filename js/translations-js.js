@@ -38,6 +38,10 @@ const translations = {
         "projects-fakeface-tag1" : "Python",
         "projects-fakeface-tag2" : "UI",
         "projects-fakeface-tag3" : "Local",
+        "project-anonip-desc" : "A modular bash script for network anonymization",
+        "projects-anonip-tag1" : "Bash",
+        "projects-anonip-tag2" : "Terminal",
+        "projects-anonip-tag3" : "Network",
         "contact-title": "Contact",
         "contact-text": "Let's discuss your security needs",
         "footer-rights": "All rights reserved."
@@ -81,6 +85,10 @@ const translations = {
         "projects-fakeface-tag1" : "Python",
         "projects-fakeface-tag2" : "Interfaz",
         "projects-fakeface-tag3" : "Local",
+        "project-anonip-desc" : "Un script modular para la anonimización de red",
+        "projects-anonip-tag1" : "Bash",
+        "projects-anonip-tag2" : "Terminal",
+        "projects-anonip-tag3" : "Redes",
         "contact-title": "Contacto",
         "contact-text": "Hablemos sobre tus necesidades de seguridad",
         "footer-rights": "Todos los derechos reservados."
