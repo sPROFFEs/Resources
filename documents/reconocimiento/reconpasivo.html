@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Identificación pasiva</title>
+    <link rel="stylesheet" href="../insidestyles/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="back-link">Volver</a>
+    </nav>
+    <div class="guide-content" role="main">
+        <h1>Identificación pasiva</h1>
+        
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Google Hacking/Dorking</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Se usarán motores de búsqueda como Google, Bing, DuckGo, etc mediante el uso de una serie de comandos y operaciones booleanas para encontrar información específica que los motores indexan pero no es tan pública.</p>
+                    
+                    
+                    <h3>Comandos específicos para google</h3>
+                    <p>https://gist.github.com/zachbrowne/489762a6852abb24f9e3</p>
+                    
+                    
+                    <h3></h3>
+                    <p>https://www.exploit-db.com/google-hacking-database</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Restringir la búsqueda unicamente al sitio web indicado, nada de webs donde se le haga referencia:</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>site:website.com </code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Apuntar a un tipo de archivo concreto o contenido:</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>site:website.com filetype:pdf</code></div>
+                    
+                    
+                    <h3>Google dorks</h3>
+                    <p>Tipo de archivo</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>filetype:sql "MySQL dump"</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>filetype:sql "MySQL dump" (pass|password|passwd|pwd)</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Buscar parámetros en la url</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>inurl:index.php?id=</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Comandos principales que podemos utilizar con Google. Hay que tener  en cuenta que todos ellos deben ir seguidos (sin espacios) de la  consulta que quiere realizarse:</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>define:término</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Se muestran definiciones procedentes de páginas web para el término buscado.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>filetype:término</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p> Las búsquedas se restringen a páginas cuyos nombres acaben en el  término especificado. Sobretodo se utiliza para determinar la extensión  de los ficheros requeridos. Nota: el comando ext:término se usa de manera equivalente. </p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>site:sitio/dominio</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Los resultados se restringen a los contenidos en el sitio o dominio  especificado. Muy útil para realizar búsquedas en sitios que no tienen  buscadores internos propios.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>link:url</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Muestra páginas que apuntan a la definida por dicha url. La cantidad (y calidad) de los enlaces a una página determina su relevancia para los  buscadores. Nota: sólo presenta aquellas páginas con pagerank 5 o más. </p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>cache:url </code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>    Se mostrará la versión de la página definida por url que Google tiene  en su memoria, es decir, la copia que hizo el robot de Google la última  vez que pasó por dicha página.
+
+</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>info:url</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>    Google presentará información sobre la página web que corresponde con la url. 
+
+</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>related:url</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Google mostrará páginas similares a la que especifica la url.  Nota:  Es difícil entender que tipo de relación tiene en cuenta Google para  mostrar dichas páginas. Muchas veces carece de utilidad.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>allinanchor:términos</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Google restringe las búsquedas a aquellas páginas apuntadas por enlaces donde el texto contiene los términos buscados. </p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>inanchor:término</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Las búsquedas se restringen a aquellas apuntadas por enlaces donde el  texto contiene el término especificado. A diferencia de allinanchor se  puede combinar con la búsqueda habitual.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>allintext:términos</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Se restringen las búsquedas a los resultados que contienen los términos en el texto de la página.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>intext:término</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Restringe los resultados a aquellos textos que contienen término en  el texto. A diferencia de allintext se puede combinar con la búsqueda  habitual de términos.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>allinurl:términos</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Sólo se presentan los resultados que contienen los términos buscados en la url. </p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>inurl:término</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Los resultados se restringen a aquellos que contienen término en la  url. A diferencia de allinurl se puede combinar con la búsqueda habitual  de términos.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>allintitle:términos </code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>    Restringe los resultados a aquellos que contienen los términos en el título.
+
+</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>intitle:término</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Restringe los resultados a aquellos documentos que contienen término  en el título. A diferencia de allintitle se puede combinar con la  búsqueda habitual de términos.</p>
+                    
+                    
+                    <h3>Operadores Booleanos Google Hacking</h3>
+                    <p>Google  hace uso de los operadores booleanos para realizar búsquedas combinadas  de varios términos. Esos operadores son una serie de símbolos que  Google reconoce y modifican la búsqueda realizada:</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    " " - Busca las palabras exactas.</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    - - Excluye una palabra de la búsqueda. (Ej: gmail -hotmail, busca páginas en las que aparezca la palabra gmail y no aparezca la palabra hotmail)</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    OR (|) - Busca páginas que contengan un término u otro.</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    +  - Permite incluir palabras que Google por defecto no tiene en cuenta al  ser muy comunes (en español: "de", "el", "la".....). También se usa  para que Google distinga acentos, diéresis y la letra ñ, que normalmente  son elementos que no distingue. </code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    * - Comodín. Utilizado para sustituir una palabra. Suele combinarse con el operador de literalidad (" ").</code></div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Shodan</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Surgió en 2009 y en este caso no indexa las palabras como hace el motor de google u otros motores de búsqueda sino que recorre todo internet buscando información sobre el dominio que busquemos o las ip que indiquemos.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Esta herramienta consigue los datos en gran parte de los banners de los dispositivos que se encuentran conectados a internet, analiza sus puertos y servicios que posteriormente shodan indexa esta información.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Es importante tener en cuenta que en este momento no buscamos webs ni archivos indexados sino información en los banners que generan los servicios al intentar comunicarte con ellos. Shodan cuenta con algunos comandos propios.</p>
+                    
+                    
+                    <h3>Filtros más relevantes para el uso de Shodan</h3>
+                    <div class="code-block"><code>    after: Only show results after the given date (dd/mm/yyyy) string</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    asn: Autonomous system number string</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    before: Only show results before the given date (dd/mm/yyyy) string</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    category: Available categories: ics, malwarestring</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    city: Name of the city string</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    country: 2-letter country code string</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    geo:  Accepts between 2 and 4 parameters. If 2 parameters: latitude,  longitude. If 3 parameters: latitude, longitude, range. If 4 parameters:  top left latitude, top left longitude, bottom right latitude, bottom  right longitude.</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    hash: Hash of the data property integer</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    has_ipv6: True/False boolean</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    has_screenshot: True/False boolean</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    server: Devices or servers that contain a specific server header flag string</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    hostname: Full host name for the device string</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    ip: Alias for net filter string</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    isp: ISP managing the netblock string</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    net: Network range in CIDR notation (ex.199.4.1.0/24) string</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    org: Organization assigned the netblock string</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    os: Operating system string</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    port: Port number for the service integer</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    postal: Postal code (US-only) string</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    product: Name of the software/product providing the banner string</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    region: Name of the region/state string</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    state: Alias for region string</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    version: Version for the product string</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>    vuln: CVE ID for a vulnerability string</code></div>
+                    
+                    
+                    <h3>Ejemplo de comandos shodan en una búsqueda</h3>
+                    <div class="code-block"><code>ftp anonymous login ok country:"US" port:"21"</code></div>
+                    
+                    
+                    <h3>Repositorio</h3>
+                    <p>https://github.com/jakejarvis/awesome-shodan-queries</p>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Censys</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Herramienta similar a Shodan. La diferencia es la manera en la que indexa los datos. Censys escanea diariamente internet con Zmap y Zgrab lo que permite realizar una indexación de diferente manera y normalmente más actualizada.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>https://search.censys.io/</p>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Whois</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Las organizaciones y usuarios dan de alta todos los años diferentes nombres de dominio para servir los servicios.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Cuando se da de alta un dominio se deben dar datos personales que se almacenan en una base de datos que se denominan “WhoIS”</p>
+                    
+                    
+                    <h3></h3>
+                    <p>No es un base de datos centralizada, son varias y son gestionadas por las entidades que registran los nombres de dominios que se adquieren.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Para realizar estas consultas se pueden usar varias herramientas.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>whois -h</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>A día de hoy estas bases de datos no son de mucha utilidad porque los datos pueden ser privados y los que se muestran no son los correctos.</p>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Archive</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Cuando se encuentra información sensible publicada en internet y se reporta la información, lo más común es que la empresa retire los datos aunque no siempre cambian las credenciales por lo que si se puede acceder al histórico de, por ejemplo github, podremos volver a tener esas credenciales.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Para esto podemos utilizar la aplicación web</p>
+                    
+                    
+                    <h3></h3>
+                    <p>https://archive.org/</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Se trata de un frontend a una base de datos muy extensa que contiene muchos datos como archivos, sistemas, etc así como snapshots de páginas web.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Recorre internet recopilando los estados actuales de las webs y los recopila en un diagrama temporal.</p>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">TheHarvester</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>https://github.com/laramies/theHarvester</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>
+theHarvester -h</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_233450_80-1.png" 
+             alt="Cuando se realizan muchas peticiones a un servicio concreto de motor de búsqueda lo que ocurre es que bloquean nuestra ip pública durante un tiempo."
+             style="width: 100%">
+        <div class="image-caption">Cuando se realizan muchas peticiones a un servicio concreto de motor de búsqueda lo que ocurre es que bloquean nuestra ip pública durante un tiempo.</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>
+theHarvester -d domain.com -b SOURCE -l 100 -f results</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>theHarvester -d domain.com -b all -l 100 -f results</code></div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Maltego</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Una de las herramientas más amplias y profesionales de recopilación de información pasiva.</p>
+                    
+                    
+                    <h3>Instlación en Kali Linux</h3>
+                    <div class="code-block"><code>sudo apt install maltego</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Nos pedirá registrar una cuenta en su web, es gratis no hay problema así que una vez configurado todo tenemos algo como esto</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_233627_81-1.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_233646_81-2.png" 
+             alt="Vamos a revisar actualizaciones"
+             style="width: 100%">
+        <div class="image-caption">Vamos a revisar actualizaciones</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Vamos a comenzar entendiendo un par de conceptos</p>
+                    
+                    
+                    <h3>    Transformador</h3>
+                    <p>Todas las consultas hacen una query a una base de datos y ejecutan unos comandos que indexan la información. Estas consultas se denominan "transforms" que se ejecutan sobre diferentes bases de datos y que podemos asociar a diferentes entidades.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Empresas de terceros pueden hacer sus propios transformers para hacer querys a sus bases de datos.</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_233817_81-3.png" 
+             alt="Instalamos algunas que nos interesen teniendo en cuenta que algunas como shodan, virustotal, etc pueden pedir API keys."
+             style="width: 100%">
+        <div class="image-caption">Instalamos algunas que nos interesen teniendo en cuenta que algunas como shodan, virustotal, etc pueden pedir API keys.</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_233828_81-4.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Creamos un nuevo grafo</p>
+                    
+                    
+                    <h3>Grafos</h3>
+                    <p>Se trata un lienzo en el podremos arrastrar entidades que se tratan de diferentes tipos de información sobre los que podremos buscar en fuentes públicas haciendo uso de los transformadores.</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_233917_81-5.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Podemos ejecutar un análisis utilizando estos transformadores para recaudar datos de un nombre concreto o una entidad, incluso asociar una persona o serie de personas a una entidad y realizar una busqueda más concreta, etc.</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_233946_81-6.png" 
+             alt="Podemos exportar el reporte"
+             style="width: 100%">
+        <div class="image-caption">Podemos exportar el reporte</div>
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Recon-Ng</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>https://github.com/lanmaster53/recon-ng</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Es una herramienta basada en una interfaz de consola a la que se van accediendo a diferentes módulos.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>https://github.com/lanmaster53/recon-ng-marketplace</p>
+                    
+                    
+                    <h3>Uso</h3>
+                    <div class="code-block"><code>recon-ng</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_234110_82-1.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>modules search</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 60%">
+        <img src="img/20241125_234141_82-2.png" 
+             alt="Vamos a instalar algunos"
+             style="width: 100%">
+        <div class="image-caption">Vamos a instalar algunos</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>marketplace search</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_234205_82-3.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_234214_82-4.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_234223_82-5.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_234250_82-6.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_234323_82-7.png" 
+             alt="Si pulsamos tab veremos diferentes opciones del módulo"
+             style="width: 100%">
+        <div class="image-caption">Si pulsamos tab veremos diferentes opciones del módulo</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>run</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_234407_82-8.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <footer class="guide-footer">
+        &copy; 2024 Reconocimiento
+    </footer>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Sniffers</title>
+    <link rel="stylesheet" href="../insidestyles/style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="back-link">Volver</a>
+    </nav>
+    <div class="guide-content" role="main">
+        <h1>Sniffers</h1>
+
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Concepto</h2>
+                </div>
+                <div class="tool-content">
+
+                    <h3></h3>
+                    <p>Dentro de una interconexión de ordenadores denominada red los equipos son hosts o nodos.</p>
+
+
+                    <h3></h3>
+                    <p>Cuando estamos dentro de esta red podemos intercambiar datos por cable o WiFi. </p>
+
+
+                    <h3></h3>
+                    <p>Estos datos son bytes y se deben interpretar para lo que se utilizan protocolos de red, que se
+                        trata de un conjunto de reglas que se aplica sobre la información de red para interpretarla.</p>
+
+
+                    <h3></h3>
+                    <p>Un sniffer monitoriza todo el tráfico de red tanto entrante como saliente dentro de la red.</p>
+
+
+                    <h3></h3>
+                    <p>Todos estos datos que se intercambian con los diferentes nodos o redes de internet se denominan
+                        paquetes de red.</p>
+
+
+                    <h3></h3>
+                    <p>Hay veces que no podemos utilizar técnicas de reconocimiento activas o por ejemplo, de detección
+                        de vulnerabilidades o análisis de vulnerabilidades, porque los sistemas que hay conectados a la
+                        red son tan antiguos y tan sensibles que ese tráfico adicional, ese tráfico anómalo que generan
+                        estas herramientas de detección activa, pueden provocar en algún caso la in disponibilidad de
+                        alguno de los sistemas y que esto afecte a la infraestructura de red o a la infraestructura
+                        tecnológica en general.</p>
+
+
+                    <h3></h3>
+                    <p>Por lo tanto, en estos casos, una de las opciones para tratar de dirigir un poquito más nuestros
+                        ataques a la hora de explotar una cierta vulnerabilidad puede ser coger un sniffer, colocarlo
+                        dentro de esa infraestructura, simplemente copiando ese tráfico de red, es decir, monitorizando
+                        toda la actividad de la red y en función de los protocolos que comienza a interceptar.</p>
+
+
+                    <h3></h3>
+                    <p>En función, por ejemplo, de algunos valores que tienen determinados campos de las capas de los
+                        paquetes de red, nosotros podemos identificar qué aplicaciones están instaladas en los
+                        diferentes nodos de esa red y además, qué programas utilizan y qué versiones de esos programas.
+                    </p>
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Wireshark</h2>
+                </div>
+                <div class="tool-content">
+
+                    <h3></h3>
+                    <p>Es una herramienta de las más conocidas y potentes que por defecto en Kali ya viene instalado.
+                    </p>
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/20241126_000918_89-1.png" alt="https://www.wireshark.org/download.html"
+                            style="width: 100%">
+                        <div class="image-caption">https://www.wireshark.org/download.html</div>
+                    </div>
+
+
+                    <h3></h3>
+                    <p></p>
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/20241126_000924_89-2.png" alt="" style="width: 100%">
+
+                    </div>
+
+
+                    <h3></h3>
+                    <p>Los paquetes se dividen en capas</p>
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/20241126_000935_89-3.png" alt="" style="width: 100%">
+
+                    </div>
+
+
+                    <h3></h3>
+                    <p>Para poder visualizar los paquetes en los que se ha realizado la consulta de los nombres DNS
+                        damos click en la lupa</p>
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/20241126_000953_89-4.png" alt="" style="width: 100%">
+
+                    </div>
+
+
+                    <h3></h3>
+                    <p></p>
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/20241126_001008_89-5.png" alt="" style="width: 100%">
+
+                    </div>
+
+
+                    <h3></h3>
+                    <p>Aquí es donde se realiza la petición para resolver ese nombre de dominio</p>
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/20241126_001103_89-6.png" alt="" style="width: 100%">
+
+                    </div>
+
+
+                    <h3></h3>
+                    <p>Aquí vemos las respuestas con los hostnames y sus IP tanto IPV4 como IPV6 como se observa en el
+                        siguiente paquete</p>
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/20241126_001128_89-7.png" alt="" style="width: 100%">
+
+                    </div>
+
+
+                    <h3></h3>
+                    <p>Bueno, sabéis que HTTP va por encima de la capa TCP y muchas veces cuando nosotros estamos
+                        intercambiando información que tiene un tamaño muy grande, como puede ser por ejemplo una página
+                        web, al final nosotros hacemos una petición al servidor web, le decimos.</p>
+
+
+                    <h3></h3>
+                    <p>Oye, mándame esa página web.</p>
+
+
+                    <h3></h3>
+                    <p>El servidor web te manda a la página web.</p>
+
+
+                    <h3></h3>
+                    <p>Pero claro, una página web es un montón de información.</p>
+
+
+                    <h3></h3>
+                    <p>Vale, entonces los paquetes de red o la cantidad de información que va en una ristra de bits que
+                        se intercambia, tiene un tamaño limitado. No es un tamaño infinito. Y por lo tanto, si la página
+                        web o la información que intercambiamos es demasiado grande, no podemos mandarla toda en un
+                        mismo segmento, en una misma ristra de bits o en un mismo paquete de red.</p>
+
+
+                    <h3></h3>
+                    <p>Por lo tanto, tenemos que fragmentar de alguna manera esa información e ir mandándola en
+                        segmentos diferentes o en paquetes de red diferentes.</p>
+                </div>
+            </div>
+        </div>
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">TCPDump</h2>
+                </div>
+                <p>Se diferencia de wireshark en que utiliza un interfaz de consola de comandos.</p>
+
+                <div class="image-container align-center" style="max-width: 100%">
+                    <img src="img/20241126_001708_90-1.png" alt="" style="width: 100%">
+
+                </div>
+
+
+                <h3></h3>
+                <p>Estas son solo algunas de las opciones que ofrece, en su documentación se pueden
+                    encontrar muchas más.</p>
+
+
+                <h3></h3>
+                <div class="code-block"><code>
+sudo tcpdump -D</code></div>
+
+                <div class="image-container align-center" style="max-width: 100%">
+                    <img src="img/20241126_001734_90-2.png" alt="Mostrar interfaces de red" style="width: 100%">
+                    <div class="image-caption">Mostrar interfaces de red</div>
+                </div>
+
+
+                <h3></h3>
+                <div class="code-block"><code>sudo tcpdump -i eth0</code></div>
+
+                <div class="image-container align-center" style="max-width: 100%">
+                    <img src="img/20241126_001804_90-3.png" alt="Capturar en interfaz de red" style="width: 100%">
+                    <div class="image-caption">Capturar en interfaz de red</div>
+                </div>
+
+
+                <h3></h3>
+                <p>Mostrar mas información:</p>
+
+
+                <h3></h3>
+                <div class="code-block"><code>sudo tcpdump -v -i eth0</code></div>
+
+
+                <h3></h3>
+                <p>sudo tcpdump icmp -i eth0</p>
+
+                <div class="image-container align-center" style="max-width: 100%">
+                    <img src="img/20241126_001924_90-4.png" alt="Filtrar protocolos" style="width: 100%">
+                    <div class="image-caption">Filtrar protocolos</div>
+                </div>
+
+
+                <h3></h3>
+                <div class="code-block"><code>sudo tcpdump host 185.230.63.107 -i eth0</code></div>
+
+                <div class="image-container align-center" style="max-width: 100%">
+                    <img src="img/20241126_001952_90-5.png" alt="Filtrar por dirección del host" style="width: 100%">
+                    <div class="image-caption">Filtrar por dirección del host</div>
+                </div>
+
+
+                <h3></h3>
+                <p>Guardar la captura para ser posteriormente analizada con Wireshark</p>
+
+
+                <h3></h3>
+                <div class="code-block"><code>sudo tcpdump -i eth0 -w Desktop/capture.pcap</code></div>
+
+
+                <h3></h3>
+                <p>Abrir la captura pero con TCPDump y filtrar protocolos</p>
+
+
+                <h3></h3>
+                <div class="code-block"><code>sudo nmap -n port 53 -v -r capture.pcap</code></div>
+
+
+                <h3></h3>
+                <div class="code-block">
+                    <code>sudo nmap -n port 80 -v -r capture.pcap | grep gamivo.com</code>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <footer class="guide-footer">
+        &copy; 2024 Reconocimiento
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Metadatos</title>
+    <link rel="stylesheet" href="../insidestyles/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="back-link">Volver</a>
+    </nav>
+    <div class="guide-content" role="main">
+        <h1>Metadatos</h1>
+        
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Recopilación semi-pasiva de información</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Recolección de información sobre un objetivo determinado utilizando métodos que se asimilen al tráfico de red y comportamiento normal que suele recibir.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Dentro del alcance se encuentran actividades como: ⇒Consultas a servidores DNS ⇒Acceso a recursos internos de las aplicaciones web ⇒Análisis de metadatos de documentos</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Quedan fuera de alcance todas las actividades que generen un comportamiento anómalo</p>
+                    
+                    
+                    <h3></h3>
+                    <p> La diferencia principal con las técnicas de reconocimiento anteriores que eran completamente pasivas es que no generábamos ningún tipo de tráfico o interacción directa con la infraestructura o servicio.</p>
+                    
+                    
+                    <h3></h3>
+                    <p> Las siguientes técnicas si que van a intercambiar cierto tráfico de red con el objetivo pero de forma no intrusiva sin generar comportamientos anómalos.</p>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Metadatos</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>FOCA</h3>
+                    <p>Esta técnica se denomina extracción de metadatos, que se tratan de una serie de datos que describen otros datos como PDF, word, etc.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Estos metadatos describen cosas como el autor, el fecha de creación, software utilizado e incluso el equipo en el que se ha creado.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Esta información nos va a ser muy útil porque si conseguimos recaudar este tipo de datos que estén públicos con alguno de los métodos de recopilación antes vistos, podemos llegar a nombres de usuario, correos, versiones de sistemas y software que podemos usar para buscar entradas o vulnerabilidades de nuestro objetivo.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>La herramienta que vamos a estar usando ahora se trata de FOCA. Funciona únicamente en sistemas operativos windows.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>https://github.com/ElevenPaths/FOCA</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Hay que tener en cuenta se necesitan las siguientes herramientas adicionales para su uso</p>
+                    
+    <div class="image-container align-center" style="max-width: 70%">
+        <img src="img/20241125_235017_84-1.png" 
+             alt="https://www.microsoft.com/es-es/sql-server/sql-server-downloads"
+             style="width: 100%">
+        <div class="image-caption">https://www.microsoft.com/es-es/sql-server/sql-server-downloads</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_235040_84-2.png" 
+             alt="Seleccionamos la básica"
+             style="width: 100%">
+        <div class="image-caption">Seleccionamos la básica</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_235055_84-3.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Una vez instalado tenemos que tener el cuenta el nombre de la instalación que por defecto es localhost.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Iniciamos FOCA y le indicamos la localización de la base de datos.</p>
+                    
+    <div class="image-container align-center" style="max-width: 70%">
+        <img src="img/20241125_235123_84-4.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Una vez abierto este apartado será el más interesante ya que es el que gestiona los metadatos de los ficheros que queramos.</p>
+                    
+    <div class="image-container align-center" style="max-width: 60%">
+        <img src="img/20241125_235143_84-5.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Una vez tengamos el archivo que queramos analizar pulsamos click derecho en el apartado anterior y añadimos fichero.</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_235200_84-6.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_235233_84-7.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 60%">
+        <img src="img/20241125_235240_84-8.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_235256_84-9.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Para evitar tener que ir archivo por archivo foca nos proporciona una herramienta de proyectos.</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_235312_84-10.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_235334_84-11.png" 
+             alt="Indicamos el dominio o subdominios"
+             style="width: 100%">
+        <div class="image-caption">Indicamos el dominio o subdominios</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_235352_84-12.png" 
+             alt="Y le indicamos que tipo de ficheros y qué motores de busqueda quieres usar"
+             style="width: 100%">
+        <div class="image-caption">Y le indicamos que tipo de ficheros y qué motores de busqueda quieres usar</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_235407_84-13.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Seleccionamos los que nos interesen y descargamos los documentos a la máquina</p>
+                    
+    <div class="image-container align-center" style="max-width: 80%">
+        <img src="img/20241125_235438_84-14.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_235502_84-15.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 80%">
+        <img src="img/20241125_235513_84-16.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Otras herramientas</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Metagofil</h3>
+                    <p>Es una herramienta algo más antigua y menos completa que FOCA.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo apt install metagoofil</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_235637_85-1.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>metagoofil -d dominio -l 10 -t pdf,doc,txt -o Desktop/ </code></div>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_235650_85-2.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>MetaShield</h3>
+                    <p>Su función principal es eliminar posibles metadatos sensibles de documentos que se vayan a compartir. </p>
+                    
+                    
+                    <h3></h3>
+                    <p>https://metashieldclean-up.elevenpaths.com/</p>
+                    
+                    
+                    <h3>ExifTool</h3>
+                    <div class="code-block"><code>sudo apt install exiftool</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>
+exiftool -f *.pdf | egrep -i "Author|Creator|Email|Producer|Templeate" | sort -u</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Recorre todos los archivos pdf que tengamos y busca una serie de campos para devolver el resultado.</p>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <footer class="guide-footer">
+        &copy; 2024 Reconocimiento
+    </footer>
+</body>
+</html>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Recopilación Activa</title>
+    <link rel="stylesheet" href="../insidestyles/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="back-link">Volver</a>
+    </nav>
+    <div class="guide-content" role="main">
+        <h1>Recopilación Activa</h1>
+        
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Recopilación activa de información</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Recolección de información sobre un objetivo determinado utilizando métodos que interactúan de manera directa con la organización, normalmente mediante el envío de tráfico de red.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Escaneo de hosts</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Escaneo de puertos</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Escaneo de servicios</p>
+                    
+                    
+                    <h3></h3>
+                    <p>En muchas ocasiones la actividad de este tipo de técnicas suele ser detectada como actividad sospechosa o maliciosa.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Esto es importante tenerlo en cuenta por:</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Es que si nosotros estamos realizando un ejercicio de hacking ético a una organización y no podemos ser identificados o detectados por esas herramientas de detección, pues porque estamos también verificando esa capacidad de detección, entonces tendremos que tener cuidado con qué técnicas de recopilación activa estamos utilizando y centrarnos únicamente en aquellas que sean menos intrusivas.</p>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">DNSrecoon y transferencia de zona</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Anteriormente veíamos como consultar datos de forma pasiva sobre diferentes dominios.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Estas consultas se realizaban en medida al fichero de zona de estos DNS servers pero no eran el fichero como tal.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Vamos ver como poder descargar ese fichero de zona en un DNS server mal configurado.</p>
+                    
+                    
+                    <h3>→ Transferencia de zona</h3>
+                    <p>Es una capacidad que nos proporcionan los DNS server para copiar ese fichero de zona a otro DNS server y no tener que volver a crearlo.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Esto a veces está mal configurado y nos permite realizar esta transferencia de zona a un DNS server no autorizado.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Vamos a utilizar un dominio de pruebas para ver ese fichero de zonas. https://dnsdumpster.com/</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Buscamos “zonetransfer.me”</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Vemos alguna información pero vamos a ver como con el fichero tendremos mucha más información.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Existen algunas herramientas de terminal que permiten sacar información como DNS dumpster.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo apt install dnsutils</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Hay varias herramientas como por ejemplo:</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>nslookup</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>set type=ns</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>zonetransfer.me</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 70%">
+        <img src="img/20241126_003102_95-1.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Podemos comprobar si nos envía el fichero de transferencia de zona</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>set type=any</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>ls -d zonetransfer.me</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 60%">
+        <img src="img/20241126_003137_95-2.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Dice que el comando no está implementado por que realmente le estamos pidiendo que transfiera este archivo a una máquina host Kali Linux y esto no tendría sentido por motivos de seguridad.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Esto mismo podemos intentarlo desde una máquina windows y nos saldrá el mismo error,</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Esto es por el mismo motivo que antes, estamos intentando iniciar una transferencia del fichero hacia ningún sitio porque el host o destino de la transferencia debería ser o está entendido para el DNS server que debe de ser otro DNS server y no cualquier máquina que le haga la petición.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>set type=any</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>server nsztml.digi.ninja</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>ls -d zonetransfer.me</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Una de las cosas interesantes de estos ficheros de zona es que en muchas ocasiones, cuando ese DNS server está compartido entre la red interna y redes externas, podemos también tener algún tipo de configuración de servidores y direcciones internas.</p>
+                    
+                    
+                    <h3>Otra herramienta en Linux DNSrecon</h3>
+                    <div class="code-block"><code>
+dnsrecon -d zonetrasfer.me -t axfr</code></div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Identificando Subdominios</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Fase de reconocimiento sobre la superficie de ataque</h3>
+                    <p>Hay que tener en cuenta que normalmente la superficie de ataque a una aplicación web no se reduce a un solo dominio, sino a todos los subdominios que tenga asociados ya que se encuentran alojados juntos.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Es muy común que en los subdominios haya menos medias de seguridad ya que las inversiones de mantenimiento y blindaje suelen ir dirigidas a webs principales o de acceso masivo ya que todo tiene un coste.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>O incluso la posibilidad de olvidar la existencia de uno por parte de la empresa.</p>
+                    
+                    
+                    <h3>→ SubFinder</h3>
+                    <p>https://github.com/projectdiscovery/subfinder</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Descubre subdominios validos de una web utilizando fuentes pasivas de información.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo apt install subfinder</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Vamos a probarla contra una web diseñada para eso.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>subfinder -d hackthissite.org > output_subfinder.txt</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 80%">
+        <img src="img/20241126_003420_49-1.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>→ SubLister</h3>
+                    <p>https://github.com/aboul3la/Sublist3r</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Utiliza python para recopilar información de subdominios utilizando OSINT, fuentes publicas de información.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>También implementa subbrute que enumera subdominios haciendo peticiones a nameServers públicos. Aunque es una herramienta más activa esta implementa OpenResolvers que permite hacer bypass a los rate limits de un name servers y proporciona un poco de “anonimato”</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>
+sudo apt install sublist3r</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sublist3r -d hackthissite.org -v</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 80%">
+        <img src="img/20241126_003508_49-2.png" 
+             alt="sublister -d hackthissite.org -v -b -o subbrute.txt"
+             style="width: 100%">
+        <div class="image-caption">sublister -d hackthissite.org -v -b -o subbrute.txt</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Se le puede indicar que haga un escaneo de los subdominios y además que indique cuales tienen ciertos puertos abiertos:</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sublister -d hackthissite.org -v -p 80,443</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>El problema es el ruido que genera.</p>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Identificando tecnologías</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Tipo de aplicaciones, tecnologías, servidores, lenguajes de programación detrás de cada subdominio</h3>
+                    <p></p>
+                    
+                    
+                    <h3>WhatWeb</h3>
+                    <p>https://github.com/urbanadventurer/WhatWeb</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Escaner de aplicaciones web que analiza un dominio o subdominio y analiza sus tecnologías, librerías, versiones, direcciones de correo, errores sql, id de cuentas, wp-content. Vamos a analizar una web de la maquina VPLE</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Para listar los plugins</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>whatweb -l</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>No suele generar mucho tráfico de red y tiene opciones para controlarlo.</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241126_003901_50-1.png" 
+             alt="whatweb -v http://192.168.20.133:8080"
+             style="width: 100%">
+        <div class="image-caption">whatweb -v http://192.168.20.133:8080</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241126_003908_50-2.png" 
+             alt="Va dando información mediante los plugins, etc."
+             style="width: 100%">
+        <div class="image-caption">Va dando información mediante los plugins, etc.</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Si usamos esta aplicación, al analizar las peticiones y las cabeceras de los paquetes no debería haber problema a la hora de usarlo contra una web con balanceador de carga.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>El balanceador se encargar de repartir las cargas de peticiones entre varios servidores o regiones.</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241126_003931_50-3.png" 
+             alt="Diferentes modos"
+             style="width: 100%">
+        <div class="image-caption">Diferentes modos</div>
+    </div>
+    
+                    
+                    <h3>WebAnalyze</h3>
+                    <p>https://github.com/rverton/webanalyze</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Es algo más sencilla y rápida que WhatWeb, menos conocida pero da menos detalle.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>go install -v github.com/rverton/webanalyze/cmd/webanalyze@latest</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>webanalyze -update</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 70%">
+        <img src="img/20241126_004003_50-4.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Content Discovery</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Si en las anteriores técnicas aun no hemos encontrado nada demasiado útil podemos analizar los contenidos.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Se puede realizar de forma manual como un usuario pero normalmente esto que está de cara al público suele estar más securizado.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Pero si hacemos un análisis más profundo puede haber archivos que se pueden estar sirviendo aunque no se referencien de cara al público y pueden ser más interesantes.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Una cosa a tener en cuenta es que esta técnica es que claramente es más intrusiva porque interactuamos directamente con la aplicación y por tanto generamos tráfico.</p>
+                    
+                    
+                    <h3>→ Dirbuster</h3>
+                    <p>https://github.com/KajanM/DirBuster</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Viene instalada por defecto en Kali. Trata de hacer fuerza bruta en un dominio que le indiquemos mediante un diccionario. Por defecto los diccionarios se encuentran en </p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>/usr/share/wordlists/dirbuster</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241126_004206_51-1.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 70%">
+        <img src="img/20241126_004214_51-2.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>→ Gobuster y seclists</h3>
+                    <p>Es una herramienta similar, más reciente y escrita en go.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>https://github.com/OJ/gobuster</p>
+                    
+                    
+                    <h3></h3>
+                    <p>También incorpora fuerza bruta sobre subdominios, virtual hosts o buckets en amazon.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo apt install gobuster</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Añadimos también mejores diccionarios</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>git clone https://github.com/danielmiessler/SecLists</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>gobuster -h </code></div>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241126_004359_51-3.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>gobuster dir -u http://192.168.20.133:8080 -w /home/kali/Desktop/SecLists/Discovery/Web-Content/directory-list-2.3-small.txt </code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>También podemos buscar ficheros concretos por extensión</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>
+gobuster dir -u http://192.168.20.133:8080 -w /home/kali/Desktop/SecLists/Discovery/Web-Content/directory-list-2.3-small.txt -x pdf</code></div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <footer class="guide-footer">
+        &copy; 2024 Reconocimiento
+    </footer>
+</body>
+</html>

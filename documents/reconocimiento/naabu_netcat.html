@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Naabu y Netcat</title>
+    <link rel="stylesheet" href="../insidestyles/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="back-link">Volver</a>
+        <div class="dropdown">
+            <button class="dropbtn">Índice</button>
+            <div class="dropdown-content">
+                <a href="#section-1">Naabu</a><a href="#section-2">Netcat</a>
+            </div>
+        </div>
+    </nav>
+    <div class="guide-content" role="main">
+        <h1>Naabu y Netcat</h1>
+        
+        <div class="guide-section" id="section-1">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Naabu</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Es posible que al ser NMAP la herramienta de reconocimiento de redes más usada y potente algunas IDS y sistemas de seguridad estén bien orientados hacia los métodos que usa y evitar así posibles intrusiones por lo que a veces es recomendado utilizar otras opciones</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>https://github.com/projectdiscovery</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Esta herramienta pertenece a ProjectDiscovery que tienen varias soluciones y herramientas opensource muy interesantes.<br><br>Naabu es una herramienta de escaneo de puertos escrita en Go que te permite enumerar de manera rápida y confiable los puertos válidos para hosts. Es una herramienta bastante simple que realiza escaneos rápidos de SYN/CONNECT/UDP en el host o lista de hosts y enumera todos los puertos que devuelven una respuesta.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo apt-get install naabu<br><br>naabu 192.168.20.0/24</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Es una herramienta menos completa que NMAP pero que igualmente es útil y es conveniente tenerla en cuenta</p>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-2">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Netcat</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>De igual manera también podemos hacer un escaneo manual de los puertos con NETCAT<br><br>Netcat es la “navaja suiza” en herramientas de hacking porque permite recibir conexiones de red y establecer conexión de red con un nodo en la misma red.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>netcat -nv 192.168.20.130 80 <br><br>-n → no resolución DNS <br><br>-v → verbose </code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>De esta forma podemos manualmente emitir pequeños paquetes a direcciones concretas en puertos concretos <br><br>Podemos realizar un escaneo de puertos de forma activa ya sabiendo el HOST objetivo pero con ciertas precauciones.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>netcat -nvw2 192.168.20.128 1-100<br><br>-w2 → timetout para las conexiones </code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>De nuevo escanear de forma mas comedida levantará menos alertas.<br><br>Para extraer el servicio del puerto en concreto</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>netcat -nv 192.168.20.128 21</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Esto no alertará porque es un request normal y no es sospechoso.<br><br>De igual forma podemos reconocer que host están activos de la siguiente forma:</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>netcat -nv 192.168.20.128 90</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>En este caso el puerto no esta activo por lo que no existe pero si ejecutamos el comando y capturamos con wireshark veremos que:</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_211647_4-3.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>El host responderá de vuelta con un reset indicando que en ese puerto no está activo pero si hace un reset del TCP significa que el host está activo.</p>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <footer class="guide-footer">
+        &copy; 2024 Escaneo de redes
+    </footer>
+</body>
+</html>

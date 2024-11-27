@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>AMap</title>
+    <link rel="stylesheet" href="../insidestyles/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="back-link">Volver</a>
+        <div class="dropdown">
+            <button class="dropbtn">Índice</button>
+            <div class="dropdown-content">
+                <a href="#section-1"></a>
+            </div>
+        </div>
+    </nav>
+    <div class="guide-content" role="main">
+        <h1>AMap</h1>
+        
+        <div class="guide-section" id="section-1">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name"></h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Es una alternativa a NMAP algo menos completa pero nos sirve para contrastar resultados.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo apt install amap<br>sudo nmap -v --reason -sS -oA servicios.amap 192.168.20.128</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 40%">
+        <img src="img/20241127_212047_98-1.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>amap -i servicios.amap.gnmap -B</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Lo que hace a AMap es tratar de consultar los diferentes puertos que tenemos abiertos en búsqueda de ese banner y nos muestra por pantalla el banner de manera que podamos identificar nosotros qué tipo de servicio es.</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_212125_98-2.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <footer class="guide-footer">
+        &copy; 2024 Escaneo de redes
+    </footer>
+</body>
+</html>

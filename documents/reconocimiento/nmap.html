@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>NMAP - Escaneo de redes</title>
+    <link rel="stylesheet" href="../insidestyles/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="back-link">Volver</a>
+        <div class="dropdown">
+            <button class="dropbtn">Índice</button>
+            <div class="dropdown-content">
+                <a href="#section-1"></a><a href="#section-2">Ejemplo de manipulación de escaneo</a><a href="#section-3">Ejemplo de uso real</a><a href="#section-4">Fragmentación de paquetes</a><a href="#section-5">Decoy scan o escaneo de señuelo</a><a href="#section-6">Parámetro -S</a><a href="#section-7">Control de tiempos en un escaneo</a><a href="#section-8">Utilizar protocolo IPV6 </a><a href="#section-9">Escaneo de servicios</a><a href="#section-10">Scripts en NMAP</a><a href="#section-11">Escaneo de hosts</a><a href="#section-12">Escaneo de puertos</a><a href="#section-13">Identificación de sistema operativo</a><a href="#section-14">SMB enumeration</a><a href="#section-15">SNMP enumeration</a>
+            </div>
+        </div>
+    </nav>
+    <div class="guide-content" role="main">
+        <h1>NMAP - Escaneo de redes</h1>
+        
+        <div class="guide-section" id="section-1">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name"></h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p></p>
+
+    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo nmap -sS -n 192.168.20.0/24</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>n → No hacer resolución DNS reversa, se utiliza para desactivar la resolución de DNS durante el escaneo. <br>No realizará la resolución de nombres de dominio para las direcciones IP de los objetivos y mostrará las direcciones IP directamente en los resultados del escaneo en lugar de los nombres de host.<br><br>0/24 → Rango de ip<br><br>Si se realiza de esta forma se puede ser visto por los sistemas de detección como SNORT u otros IDS</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code> -sn (No port scan) </code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>En este caso solo detecta los host de la subred pero no activará detección en SNORT, ya que el tráfico generado es unicamente ARP (esta dirección IP a que dirección MAC corresponde)<br><br>No es muy confiable ya que es muy fácil de spoofear el protocolo ARP</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code> -PS <port list> (TCP SYN Ping) </code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Paquete TCP vacío y lo manda al puerto 80 para verificar la actividad</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo nmap -PS -n -sn 192.168.20.0/24</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Escanea los host activos pero no se puede spoofear porque verifica con un paquete TCP vacío al puerto 80 y si no responde no está activo.<br><br>Aunque el puerto esté cerrado el host responde con un reset por lo que la maquina sigue estando activa</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>-PU <port list> (UDP Ping) <br><br>sudo nmap -PU -n -sn 192.168.20.0/24</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Comandos de escaneo de puertos:</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code> -sS (TCP SYN scan) <br> -sU (UDP scans) <br> -sA (TCP ACK scan) </code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Solo son algunos ejemplos, para mas:  </p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>https://nmap.org/book/man-port-scanning-techniques.html</code></div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-2">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Ejemplo de manipulación de escaneo</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Script para spoofear una mac address con python y engañar a un escaneo sin verificación de actividad en algún puerto de la maquina objetvo </p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>from scapy.all import *<br><br>def handle_packet(packet):<br>    if packet[ARP].op == 1:<br>        if packet.pdst == "192.168.20.152":<br>            print("Sending ARP response")<br>            reply = ARP(op=2,<br>                        hwsrc="00:0C:29:3D:1D:6F",<br>                        psrc="192.168.20.152",<br>                        hwdst="00:50:56:C0:00:03",<br>                        pdst="192.168.20.255")<br>            pkt = Ether(dst="00:50:56:C0:00:03", src="00:0C:29:3D:1D:6F") / reply<br>            sendp(pkt)<br>                        <br><br>sniff(filter="arp", prn=handle_packet)</code></div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-3">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Ejemplo de uso real</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Escaneo de nodos/hosts</h3>
+                    <div class="code-block"><code>sudo nmap -PS -n -sn 192.168.20.0/24</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Con los nodos de la red o host ahora identificar los puertos que tienen abiertos en la red sin ser detectados por SNORT</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Y si ahora realizásemos un escaneo de puertos con cualquiera de las técnicas proporcionadas por nmap como -sS/-sU/-sA....<br><br>inmediatamente seríamos detectados por SNORT y si estuviera configurado como tal nos habría podido sacar rápidamente de la subred para aislarnos y así evitar intrusiones.<br><br>Para poder evitar tanto trafico a la hora de escanear los puertos podemos usar técnicas de especificación de paquetes.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Analiza los <n> puertos con la mayor proporción encontrados en el archivo nmap-services después de excluir todos los puertos especificados por --exclude-ports. <n> debe ser 1 o superior</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>--top-ports 5<br>sudo nmap -sS -n --top-ports 5 192.168.20.128</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Como se puede ver en este escaneo de wireshark el tráfico generado es mucho menor que un escaneo completo y SNORT u otros IDS no lo detectarán como actividad sospechosa.<br>Es muy importante controlar el numero de puertos en números bajos ya que a mayor numero el tráfico puede ser suficiente como para alertar al IDS, mejor no ser avariciosos y tener paciencia.</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_203955_3-2.png" 
+             alt="Con este escaneo es menos probable ser detectados porque se genera mucho menos ruido "
+             style="width: 100%">
+        <div class="image-caption">Con este escaneo es menos probable ser detectados porque se genera mucho menos ruido </div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>-p10,11,15,32 </code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Saber que puedes escanear puertos manualmente con en anterior comando especificando de forma manual.<br><br>Vamos a utilizar otras técnicas para modificar los paquetes y así evadir otras posibles medidas de seguridad.<br><br></p>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-4">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Fragmentación de paquetes</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>https://nmap.org/book/man-bypass-firewalls-ids.html</code></div>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code> -f (fragment packets); --mtu (using the specified MTU) </code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Coge los paquetes que utilizará para el escaneo y los divide en fragmentos más pequeños o IP packets.<br><br>La idea es dividir la cabecera del paquete TCP de 20bytes, en bloques menores y enviarlos. <br><br>Su objetivo es principalmente evitar FIREWALLS herramientas que analizan la cabecera del paquete y la rechazan en función de ciertos parámetros.<br><br>Actualmente esta medida es muy popular pero funciona pocas veces ya que es muy fácil ser detectada.</p>
+                    
+                    
+                    <h3>Esta es la diferencia de realizar un escaneo con o sin fragmentación respectivamente</h3>
+                    <div class="code-block"><code>nmap -sS -n -p10 </code></div>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_204252_3-3.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Como se observa genera el tráfico TCP con SYN ACK en un paquete completo, pero si un firewall estuviese bloqueando la conexiones de protocolo TCP podemos</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>nmap -sS -n -p10 -f</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_204402_3-4.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Sin embargo si observamos SNORT vemos un aviso peculiar</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_204416_3-5.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Detecta que se han enviado pequeños fragmentos de paquetes IP que luego se deben re-ensamblar en la maquina objetivo y esto provoca el aviso debido a que esta es una de las formás mas comunes de hacer ataques DDoS o denegación de servicio ya que se satura al servidor con pequeños paquetes de forma masiva que debe reformar en paquetes TCP y devolver, provocando ralentización o colapso de los servicios.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Lo que podemos hacer es fragmentar aun más los paquetes de 8 a 16 bytes añadiendo un f más al comando anterior</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>nmap -sS -n -p10 -ff</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_204459_3-6.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>De esta forma SNORT no detecta los paquetes y vemos como en vez de 3 paquetes fragmentados solo hay dos ya que una cabecera de 20 bytes dividida en paquetes de 16 son 2 y dividida en paquetes de 8 son 3.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>nmap -sS -n -mtu <8bytes o multiplos de 8></code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Con el anterior comando podemos especificar el número de bytes en el que fragmentar los paquetes.<br>Esta técnica es útil para evadir ciertas medidas de seguridad como firewalls pero hay que tener en cuenta no masificar el tráfico por muy fragmentado que esté, si no los IDS detectarán rápido un escaneo de puertos.</p>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-5">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Decoy scan o escaneo de señuelo</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <div class="code-block"><code> -D <decoy1>[,<decoy2>][,ME][,...] (Cloak a scan with decoys) </code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Provoca un “spoofing” en la dirección IP  de origen que realiza el escaneo (máquina atacante), con el objetivo de que cuando tengamos un HOST dentro de la red al que queramos escanear, las máquinas de IDS o defensa de la red no detecten que el escaneo se está llevando a cabo desde nuestra maquina, utilizamos NMAP para modificar la IP de origen de los paquetes que lancemos para el escaneo. <br><br>De esta manera si tenemos un IDS, este detectará que hay varias máquinas dentro de su subred que intentan escanear el objetivo y no sabrá identificar correctamente cual es la máquina atacante.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code><br>nmap -sS -n -D 192.168.20.1,192.169.20.254,ME 192.168.20.128</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Con esta opción le indicamos una serie de direcciones IP que use como señuelo, aunque si queremos que sea realista debemos usar las mismas que se obtienen con el escaneo de NODOS o HOST realizados previamente y que se encuentran activas dentro de la subred.<br><br>En este caso usamos algunas básicas y ME para que indicar que añada nuestra IP al “spoofing”.</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_204725_3-7.png" 
+             alt="Como se observa en SNORT detecta el escaneo de puertos desde varias IP, siendo las mismas que le hemos indicado previamente"
+             style="width: 100%">
+        <div class="image-caption">Como se observa en SNORT detecta el escaneo de puertos desde varias IP, siendo las mismas que le hemos indicado previamente</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Esto es más un método preventivo para el posible análisis posterior del ataque.<br>Una cosa a tener en cuenta es que si indicamos dentro de las IP señuelo la misma IP que la maquina objetivo obtendremos un gran número de alertas en SNORT ya que es raro que una IP se escanee a si misma.</p>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-6">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Parámetro -S</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Permite que manipulemos la dirección IP de origen desde la que se realiza el escaneo desde NMAP. Es muy parecido al método anterior pero no usamos señuelos, simplemente modificamos la IP desde la que se generan los paquetes de escaneo.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>nmap -n -S 192.168.20.1 192.168.20.128</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Igual que antes lo recomendable es usar maquinas que estén activas dentro de la subred en la que estemos ya que así parecerá una petición normal de servicios o un simple error de algún servicio en segundo plano, etc<br><br>En la ejecución de esta técnica tenemos que especificar la interfaz desde la que se enviarán los paquetes y ademas usar el parámetro -Pn que,  se utiliza para indicar a la herramienta que no realice el descubrimiento de hosts (ping host) antes de escanear los puertos. Básicamente, desactiva la función de detección de hosts y asume que los objetivos especificados están activos.<br><br>El motivo por el cual nos pida la interfaz de escaneo es porque cuando dos nodos o HOST dentro de una misma subred se intentan comunicar lo hacen mediante su dirección física o MAC ya que la dirección IP se utiliza para la comunicación entre NODOS de diferentes redes y por eso existe el protocolo ARP. Y es debido a esto que a la hora de realizar el port scan con NMAP indicando la IP, este primero realiza un ARP request para preguntar cuál es la dirección física de la IP para poder enviar los paquetes.<br><br>De esta forma con esta técnica buscamos modificar la IP de origen pero no la dirección MAC ya que si lo hiciésemos mandaríamos la información pero no podríamos tenerla de vuelta ya que la MAC no se corresponde.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>nmap -n -Pn -S 192.168.20.1 -e eth0 192.168.20.128</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>En la versión de NMAP 7.94 o 7.92 no es posible así que nos iremos a una inferior.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>http://ftp.de.debian.org/debian/pool/main/n/nmap/nmap_7.91+dfsg1+really7.80+dfsg1-2_amd64.deb</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Si es necesario debido a un error de libreria lua-lpeg o similares descargar e instalar igualmente</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>https://packages.debian.org/bookworm/lua-lpeg<br><br>https://packages.debian.org/bullseye/libssl1.1</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Hecho el escaneo vemos como en SNORT indica que el escaneo hacia 192.168.20.198 es proveniente de la dirección 192.168.20.1 que es la manipulada ya que la real es 192.168.20.129</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_205023_3-8.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_205034_3-9.png" 
+             alt="Si vemos en WireShark también indica que la IP que se quiere comunicar con la objetivo es la 192.168.20.1 y no la real."
+             style="width: 100%">
+        <div class="image-caption">Si vemos en WireShark también indica que la IP que se quiere comunicar con la objetivo es la 192.168.20.1 y no la real.</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Esta técnica también es muy útil cuando hay configurado un firewall que solo permite o limita la conexión de acceso por dirección IP de origen, por lo que manipulando nuestra IP de esta forma podremos saltarnos esa barrera de acceso.<br><br>Además a veces el firewall puede estar configurado para que además de una dirección IP concreta también sea mediante un puerto concreto por lo que tendremos que especificar el puerto desde el que realizar el escaneo.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>nmap -n -Pn -S 192.168.20.1 --source-port 80 -p21 -e eth0 192.168.20.128</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_205120_3-10.png" 
+             alt="Como vemos el escaneo indica que se realiza desde el puerto 80 al 21"
+             style="width: 100%">
+        <div class="image-caption">Como vemos el escaneo indica que se realiza desde el puerto 80 al 21</div>
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-7">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Control de tiempos en un escaneo</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Una de las técnicas por excelencia en un escaneo para evadir herramientas de seguridad como IDS o IPS.<br><br>Esto es importante porque estas soluciones de seguridad implementan reglas que se basan en la combinación de diferentes reglas como por ejemplo:<br><br>Si se detecta más de X numero de paquetes TCP que van dirigidos a diferentes puertos es posible que sea un escaneo. Además se suele combinar con otra regla que indica que si además si este envío de paquetes se realiza en menos de X tiempo es más probable que sea una alerta de escano. </p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>https://nmap.org/book/man-performance.html</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Indicando mediante numero INT  cuantos segundos debe esperar entre cada paquete.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>-T paranoid|sneaky|polite|normal|aggressive|insane (Set a timing template) <br>paranoid (0), sneaky (1), polite (2), normal (3), aggressive (4), and insane (5)<br><br>--scan-delay <time>; --max-scan-delay <time> (Adjust delay between probes) </code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Hoy en dia aunque realicemos el escaneo con -T 0 que sería el mas tardado SNORT u otros IDS lo detectará.<br>Para optimizar esto haremos un pequeño BASH script</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>for i in {0..30..2}; do; sudo nmap -sS -p$(($i+1))-$((i+2)) -n 192.168.20.128; sleep 40; done; </code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Lo que va a realizar es un recorrido de 0 a 30 de 2 en 2 puertos lanzando NMAP para esos dos puertos concretos, espera 30 segundos y continua.<br><br>Aunque esperemos, si aumentamos el numero de puertos que escanea es más probable que nos detecte.</p>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-8">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Utilizar protocolo IPV6 </h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Las direcciones IP tienen un número finito de nodos que pueden referenciar definido por 32bytes, lo que hace que con tanta cantidad de dispositivos ya no se pueda referenciar a todos con una dirección IP por lo que surgió IPV6 y al igual que IPV4 referencias los HOST de la subred pero con más bytes.<br><br>Esto importante porque actualmente IPV6 es muy soportado para la intercomunicación pero las reglas en los sistemas de seguridad como IDS no están tan orientadas a tráfico IPV6 por lo que puede ser una puerta de entrada para evadir esta seguridad.<br><br>Para poder referenciar el objetivo con su IPV6 usaremos el concepto DIRECCIONES MULTICAST,<br> (dirección de multi difusión) es una dirección IP especial que se utiliza para enviar datos desde un único emisor a varios receptores en una red. A diferencia de las direcciones unicast (para una sola interfaz de red) y las direcciones de difusión (para todas las interfaces en una red), las direcciones multicast se utilizan para comunicarse con un grupo específico de hosts en la red.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>De manera lógica se referencia un número de nodos en una red con el objetivo de poder enviar información sin necesidad de establecer comunicaciones individuales con cada uno de ellos.<br><br>Las direcciones multicast se encuentran dentro del rango reservado de direcciones IP asignado para este propósito. El rango IPv4 asignado para direcciones multicast es 224.0.0.0 a 239.255.255.255.<br><br>En IPv6, las direcciones multicast se representan con el prefijo ff00::/8. Estas direcciones son esenciales para funciones como la autoconfiguración sin estado, la transmisión de mensajes de enrutamiento y otros servicios específicos de IPv6.</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_205433_3-11.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Entonces para descubrir los nodos o vecinos de la subred con IPV6 vamos a utilizar PING6 que enviará paquetes ICMP a todos los nodos de la red.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>ping6 ff02::1 <br><br>ip neigh</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Para ver los “vecinos" que nos han respondido</p>
+                    
+    <div class="image-container align-center" style="max-width: 70%">
+        <img src="img/20241127_205507_3-12.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code><br>sudo nmap -sS -n -6 fe80::20c:29ff:fe21:7bf1 -e eth0</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Esto puede no detectar algunos puertos con servicios que no soporten comunicación IPV6 pero también evitará que firewalls sin configuración para IPV6 tampoco nos detecten, aunque en este caso SNORT si que detecta el escaneo de puertos.</p>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-9">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Escaneo de servicios</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Una vez sabemos que máquinas están levantadas y que puertos están abiertos nos interesa saber que servicios están ejecutándose en ellos y que versiones tienen.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo nmap -sV </code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Para no tener que realizar un escaneo de servicios a todos los puertos sino que con la previa información obtenida lo direccionamos directamente a los puertos de interés.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo nmap -sV -n -p21,22,80 192.168.20.128</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Al ser tan dirigido no saltaran alarmas en el IDS.<br><br>Es muy importante tener en conocimiento los puertos y los host activos para evitar rudio innecesario a la hora de reconocer servicios o aplicaciones activas en una maquina.<br><br>De igual forma para identificar el sistema operativo de la maquina</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo nmap -O -n 192.168.20.128</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Y por defecto NMAP realizará un escaneo de puertos de forma automática para recabar información sobre los mismos y así obtener que sistema los ejecuta, por lo que hará ruido innecesario y activara los IDS.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo nmap -O -n -p21,22,80 192.168.20.128</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Aun así es arriesgado y es posible ser detectados pero añadiendo todas las técnicas anteriores para combinar reduciremos el ruido y las posibilidades de ser detectados.</p>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-10">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Scripts en NMAP</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>https://securitytrails.com/blog/nmap-vulnerability-scan<br><br>sudo nmap --script "vuln" -p80 192.168.20.xx</code></div>
+                    
+                    
+                    <h3>Vulnscan</h3>
+                    <div class="code-block"><code><br>git clone https://github.com/scipag/vulscan scipag_vulscan<br>ln -s `pwd`/scipag_vulscan /usr/share/nmap/scripts/vulscan<br>nmap -sV --script=vulscan/vulscan.nse www.example.com</code></div>
+                    
+                    
+                    <h3>Vulners</h3>
+                    <div class="code-block"><code><br>cd /usr/share/nmap/scripts/<br>git clone https://github.com/vulnersCom/nmap-vulners.git<br>nmap --script nmap-vulners/ -sV 11.22.33.44</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_205813_3-13.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-11">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Escaneo de hosts</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>https://nmap.org/book/man-host-discovery.html<br><br>-sL (List scan)<br><br></code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Podríamos hacer una resolución DNS reversa para tratar de obtener el nombre de dominio a partir de una dirección IP</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>-sn (No port scan)</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Esta opción le dice a N MAP que no realice un análisis de puertos después de realizar el host Discovery y que solamente nos saque por pantalla aquellos host que se encuentran disponibles.<br><br>Esta primera opción sirve para identificar hosts que se encuentran conectados a una red, y nosotros debemos estar también conectados en esa misma red para poder hacer ese descubrimiento.<br><br>Para escanear la subred donde se encuentran nuestras máquinas.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>nmap -sn 192.268.20.0/24</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 80%">
+        <img src="img/20241127_205926_96-1.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Cuando nosotros ejecutamos este comando con privilegios de administración, el funcionamiento de NMAP es diferente.<br><br>Nosotros lo hemos ejecutado sin privilegios de administración y lo que ha hecho ha sido establecer o tratar de establecer una conexión TCP con una máquina de destino.<br><br>La máquina podría estar levantada, pero no tener servicios corriendo en el puerto 80 en el puerto 4 4:3 y esto quizá podría provocar que pareciese que esta máquina no está funcionando.<br><br>Si lo ejecutamos como administrador no utiliza el protocolo TCP sino que recurre también al protocolo ARP, que es el que se encarga de asociar la dirección MAC de un dispositivo su dirección IP.<br><br>Esta técnica con el protocolo ARP es menos intrusiva que mandar peticiones TCP a las máquinas de la subred.<br><br>A tener en cuenta también que al realizarlo con privilegios de administrador podemos obtener hosts que si están levantados pero no responden a las peticiones TCP.<br><br>Tenemos otro tipo de técnicas que podríamos aplicar.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>-PS (TCP SYN Ping)</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Esta de aquí que es una de las más populares, probablemente que trata de mandar un paquete TCP SYN vacío.</p>
+                    
+    <div class="image-container align-center" style="max-width: 80%">
+        <img src="img/20241127_205958_96-2.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>No solamente nos está diciendo que este host está levantado, sino que además nos dice de los puertos que tiene ese host cuáles están abiertos.<br><br>Hay que tener en cuenta que primero comprueba que el host esta activo, pero después  como podemos observar, comienza a hacer un análisis de puertos.<br><br>Es mucho más intrusivo porque genera mucho tráfico de red.<br><br>Se puede especificar un puerto concreto:</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>nmap -PS 192.168.20.128 -p 80</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Y se puede modificar el al que hace la petición para comprobar si está activo:</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>nmap -PS21 192.168.20.128 -p 80<br>nmap -PS21,22,23 192.168.20.128 -p 80</code></div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-12">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Escaneo de puertos</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>¿Qué es un puerto?</h3>
+                    <p>Cuando nosotros tenemos dos computadores, dos ordenadores que quieren intercambiar información entre ellos.<br><br>Entonces nosotros podemos conectarlos formando una red.<br><br>Estos ordenadores pasarían a llamarse nodos de esa red y podemos intercambiar información que a priori serán una serie de cadenas de bits y que cuando llegan al sistema operativo del nodo de destino se interpretan en base a una serie de reglas estáticas que se denomina protocolo de red.<br><br>Para tratar de distinguir las conexiones que establecemos para intercambiar información con otro nodo en función de las aplicaciones que estamos utilizando, se inventó el concepto de puerto.<br><br>Un puerto es un numero que va a identificar una aplicación que está corriendo en el equipo y por lo tanto, si yo quiero mandar información que va dirigida a esa aplicación y que va a tener que interpretarla con un protocolo determinado, lo que hago es que le añado a mi paquete de red ese numerito que es el puerto.<br><br>De manera que cuando el nodo de destino recibe la información, la parsea y la analiza ve el puerto al que va dirigido y sabe a qué aplicación concretamente va a ir dirigida y por lo tanto, qué protocolo y qué reglas estáticas aplicar para interpretar esa información.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>https://nmap.org/book/man-port-scanning-techniques.html</code></div>
+                    
+                    
+                    <h3>Estados en los que pueden encontrarse los puertos</h3>
+                    <p>    open<br><br>Una aplicación está aceptando activamente conexiones TCP, data-gramas UDP o asociaciones SCTP en este puerto. Encontrar estos puertos suele ser el objetivo principal de la exploración de puertos. Las personas preocupadas por la seguridad saben que cada puerto abierto es una vía de ataque. Los atacantes y los evaluadores de penetración desean explotar los puertos abiertos, mientras que los administradores intentan cerrarlos o protegerlos con firewalls sin obstaculizar a los usuarios legítimos. Los puertos abiertos también son interesantes para exploraciones no relacionadas con la seguridad porque muestran servicios disponibles para su uso en la red.<br><br>    closed<br><br>Un puerto cerrado es accesible (recibe y responde a paquetes de sonda de Nmap), pero no hay ninguna aplicación escuchando en él. Pueden ser útiles para mostrar que un host está activo en una dirección IP (detección de host o exploración de ping), y como parte de la detección de sistemas operativos. Debido a que los puertos cerrados son alcanzables, puede valer la pena escanear más tarde en caso de que algunos se abran. Los administradores pueden querer considerar bloquear dichos puertos con un firewall. Entonces aparecerían en el estado filtrado, que se discute a continuación.<br><br>    filtered<br><br>Nmap no puede determinar si el puerto está abierto porque el filtrado de paquetes impide que sus sondas lleguen al puerto. El filtrado podría provenir de un dispositivo de firewall dedicado, reglas de enrutador o software de firewall basado en el host. Estos puertos frustran a los atacantes porque proporcionan muy poca información. A veces responden con mensajes de error ICMP como el tipo 3 código 13 (destino inaccesible: comunicación administrativamente prohibida), pero los filtros que simplemente descartan las sondas sin responder son mucho más comunes. Esto obliga a Nmap a volver a intentarlo varias veces solo por si acaso la sonda fue descartada debido a la congestión de la red en lugar de ser filtrada. Esto ralentiza considerablemente el escaneo..<br><br>    unfiltered<br><br>El estado no filtrado significa que un puerto es accesible, pero Nmap no puede determinar si está abierto o cerrado. Solo el escaneo ACK, que se utiliza para mapear conjuntos de reglas de firewall, clasifica los puertos en este estado. Escanear puertos no filtrados con otros tipos de escaneo como escaneo de ventana, escaneo SYN o escaneo FIN, puede ayudar a determinar si el puerto está abierto.<br><br>    open|filtered<br><br>Nmap coloca los puertos en este estado cuando no puede determinar si un puerto está abierto o filtrado. Esto ocurre para tipos de escaneo en los que los puertos abiertos no dan respuesta. La falta de respuesta también podría significar que un filtro de paquetes descartó la sonda o cualquier respuesta que generara. Por lo tanto, Nmap no sabe con certeza si el puerto está abierto o siendo filtrado. Los escaneos UDP, de protocolo IP, FIN, NULL y Xmas clasifican los puertos de esta manera.<br><br>    closed|filtered<br><br>Este estado se utiliza cuando Nmap no puede determinar si un puerto está cerrado o filtrado. Solo se utiliza para el escaneo de inactividad de ID de IP.</p>
+                    
+                    
+                    <h3>Comandos</h3>
+                    <p>-sS (TCP SYN scan)</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo nmap -sS 192.168.20.128 | 192.168.20.0/24 | 192.168.20.120-130</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Este escaneo lo que va a hacer es realizar un escaneo o un análisis de los puertos que tiene ese sistema, haciendo peticiones a cada uno de los puertos del sistema de manera individual.<br><br>Lo hace mediante una conexión TCP, pero al contrario de lo que habíamos visto en situaciones anteriores en las que se establecía toda la conexión completa lo que hace es dejar el handshake a medias.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>-v --reason<br><br>Para obtener más información sobre el escaneo y los motivos por los que el puerto está abierto.<br><br>-oX --stylesheet="https://svn.nmap.org/nmap/docs/nmap.xls"<br><br>Exportar los resultados con plantilla</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo nmap -sS -v --reason -oX --stylesheet="https://svn.nmap.org/nmap/docs/nmap.xls" 192.168.20.128 </code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>-sT (TCP connect scan)</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>nmap -sT 192.168.20.128</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Para saber si el host esta app sí que hace el mismo descubrimiento mediante a ARP pero esta vez si completa el three way handshake.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>-sU (UDP scans) </p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo nmap -sU 192.168.20.128</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Cuando nosotros ejecutamos esta petición, lo que hacen NMAP es que manda un paquete UDP que no tiene ni siquiera contenido a ese puerto para ver si hay algo ahí corriendo.</p>
+                    
+                    
+                    <h3>Asegurar qué servicio se está ejecutando en esos puertos</h3>
+                    <div class="code-block"><code>https://nmap.org/book/man-version-detection.html</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>-sV (Version detection)</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo nmap -sV 192.168.20.128</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Realiza el escaneo activo al igual que antes pero determina tambíen la versión del servicio que está ofreciendo ese puerto.<br><br>Al igual que con -sS no termina el three way handshake.</p>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-13">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Identificación de sistema operativo</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Cuando nosotros queremos explotar una vulnerabilidad en un sistema determinado, con el objetivo de obtener acceso a ese sistema, de elevar privilegios o cualquier otra acción.<br><br>Una de las cosas más importantes es conocer el sistema operativo que tiene instalado ese equipo.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>https://nmap.org/book/man-os-detection.html</code></div>
+                    
+                    
+                    <h3>Comandos</h3>
+                    <p>-O (Enable OS detection)</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo nmap -v -O 192.168.20.128</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_210530_99-1.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-14">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">SMB enumeration</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Protocolo SMB</h3>
+                    <p>Es un protocolo de red que se lleva utilizando durante muchos años en sistemas operativos Windows con el objetivo de compartir cosas como por ejemplo ficheros, carpetas compartidas, impresoras y cosas de este estilo a diferentes equipos, diferentes nodos que se encuentran en una red.<br><br>Ya nace como un protocolo que tiene un montón de problemas de seguridad.<br><br>SMB1, que lo implementan, pues algunos sistemas como por ejemplo Windows 2000 o Windows XP Windows 2003.<br><br>A lo largo del tiempo sale la segunda versión SMB 2 que comienza a implementarse con Windows Vista, luego SMB 2.1 que lo implementa Windows 7, SMB3 con Windows 8<br><br>Con el paso del tiempo han seguido surgiendo determinados problemas con este protocolo y además nosotros podemos utilizar este protocolo para tratar de hacer un descubrimiento de alguna manera de estos recursos compartidos que está ofreciendo una máquina determinada.</p>
+                    
+                    
+                    <h3>Comandos</h3>
+                    <div class="code-block"><code>sudo nmap -v -sS -p 139,445 192.168.20.129</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 60%">
+        <img src="img/20241127_210612_100-1.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Podemos usar script para recopilar recursos que se estén compartiendo mediante este protocolo.</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_210636_100-2.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo nmap -v -sS -p 139,445 --script=smb-os-discovery 192.168.20.129</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_210651_100-3.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Analiza, entre otras cosas, esos paquetes que se intercambian y en función de esa información sabe si pertenece en este caso a un sistema operativo u otro.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code><br>sudo nmap -v -sS -p 139,445 --script=smb-enum-shares 192.168.20.129</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_210712_100-4.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-15">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">SNMP enumeration</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Protocolo SNMP</h3>
+                    <p>Es un protocolo de red que nos sirve fundamentalmente para gestionar, ya sea obtener datos, cambiar algunos aspectos de la configuración del comportamiento de dispositivos de red, como puede ser por ejemplo, un router, un switch pero, también de servidores<br><br>Es un protocolo que en la mayoría de las ocasiones está mal configurado en muchos servidores y permite la obtención de mucha información.<br><br>Este protocolo se ejecuta en el puerto 161 y funciona por UDP</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo nmap -v -sU -p 161 192.168.20.129</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 80%">
+        <img src="img/20241127_210746_101-1.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Mediante los scripts</h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_210819_101-2.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo nmap -v -sU -p 161 --script=snmp-win32-software 192.168.20.129</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_210833_101-3.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code><br>sudo nmap -v -sU -p 161 --script=snmp-win32-users 192.168.20.129</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 50%">
+        <img src="img/20241127_210857_101-4.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code><br>sudo nmap -v -sU -p 161 --script=snmp-processes 192.168.20.129</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 90%">
+        <img src="img/20241127_210925_101-5.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code><br>sudo nmap -v -sU -p 161 --script=snmp-netstat 192.168.20.129</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 60%">
+        <img src="img/20241127_210955_101-6.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <footer class="guide-footer">
+        &copy; 2024 Escaneo de redes
+    </footer>
+</body>
+</html>

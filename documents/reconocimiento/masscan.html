@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Masscan</title>
+    <link rel="stylesheet" href="../insidestyles/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="back-link">Volver</a>
+        <div class="dropdown">
+            <button class="dropbtn">Índice</button>
+            <div class="dropdown-content">
+                <a href="#section-1"></a>
+            </div>
+        </div>
+    </nav>
+    <div class="guide-content" role="main">
+        <h1>Masscan</h1>
+        
+        <div class="guide-section" id="section-1">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name"></h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>En este caso no tratamos con técnicas para evitar detección en el escaneo sino tratar de escanear el mayor numero de sistemas en el menor tiempo posible</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>https://github.com/robertdavidgraham/masscan</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Este es un escáner de puertos a escala de Internet. Puede escanear todo Internet en menos de 5 minutos, transmitiendo 10 millones de paquetes por segundo desde una única máquina.<br><br>Para poder usar esta herramienta no podemos hacerlo en una red virtual de VMWARE como hasta ahora así asignaremos la interfaz de red a NAT en VMWare y reasignaremos la ip en kali.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo dhclient</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Realizar reconocimiento de la infraestructura actual sin importar medidas de seguridad:</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>ifconfig <br>sudo nmap -sS 129.168.115.0/24</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p><br>Masscan no se utiliza para escanear 1 sola maquina sino muchas maquinas que se encuentren dentro de una red grande de forma eficiente y rápida.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo masscan 192.168.115.0/24 -p80 --interface eth0</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>De forma por defecto masscan tiene un limite de paquetes establecido a 100 por segundo pero se puede modificar el rate.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo masscan 192.168.115.0/24 -p80 --interface eth0 --rate 10000</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Lo que genera un volumen de red absurdo pero realiza un escaneo casi inmediato.<br><br>Para un rango de puertos:</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo masscan 192.168.115.0/24 -p1-10000 --interface eth0</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Lo que escaneará ese rango de puertos pero la ventaja de esta herramienta es que se puede pausar con CTRL+C  y guarda la info en un archivo llamado paused.conf.<br><br>Con el que más tarde se puede reiniciar el escaneo por donde lo dejó:</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo masscan --resume paused.conf</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Si se produce un fallo al intentar retomar el escaneo debemos instalar la herramienta desde su repositorio.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo apt remove masscan<br>sudo apt-get --assume-yes install git make gcc<br>git clone https://github.com/robertdavidgraham/masscan<br>cd masscan<br>make</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Una de las opciones mas interesantes es indicar la subred y seleccionar un escaneo de puertos mas comunes:</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo masscan 192.168.115.0/24 --top-ports 100 --interface eth0 --rate 10000</code></div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <footer class="guide-footer">
+        &copy; 2024 Escaneo de redes
+    </footer>
+</body>
+</html>

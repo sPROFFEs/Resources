@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>DNS</title>
+    <link rel="stylesheet" href="../insidestyles/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="back-link">Volver</a>
+    </nav>
+    <div class="guide-content" role="main">
+        <h1>DNS</h1>
+        
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Características principales y funciónes genéricas</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>DNS es el acrónimo de Domain Name System</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Realiza una traducción de nombres de dominio a direcciones IP</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Se corresponde con uno de los protocolos  más importantes de internet</p>
+                    
+                    
+                    <h3></h3>
+                    <p> Este tipo de traducción se realiza para poder recordar con más facilidad las webs a las que se accede mediante texto legible o relacionado con el servicio o contenido de la aplicación web.</p>
+                    
+                    
+                    <h3> Este protocolo nos interesa por</h3>
+                    <p> → Obtener información pública sobre un dominio o una organización</p>
+                    
+                    
+                    <h3></h3>
+                    <p> → Descubrir relaciones entre dominios y hosts</p>
+                    
+                    
+                    <h3></h3>
+                    <p> → Técnicas de explotación específicas para ganar acceso como DNS Spoofing.</p>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name"> Funcionamiento de DNS</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>DNS Zone: Agrupación de registros (datos) DNS</h3>
+                    <p> Agrupación de datos relacionados con mismo dominio en particular cuyo mantenimiento queda delegado a una organización o individuo en concreto.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Estas DNS Zones contienen diferentes tipos de registros</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241126_000258_86-1.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241126_000309_86-2.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Desde el usuario se solicita la dirección IP al nombre de dominio que deseamos buscar como google.com por ejemplo.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Le mandamos la petición a un local DNS resolver que tenemos configurado por defecto en nuestros equipos. Normalmente este servidor no tiene la dirección IP a no ser que ya hayamos accedido antes y la tenga cacheada.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Este DNS resolver si no tiene la IP comienza un búsqueda recursiva con relación a otros servidores DNS a ver si ellos conocen la IP.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Pregunta al DNS root name server que le redirige al siguiente servidor DNS en función de la terminación del dominio que busquemos .com / .org / .es / etc...</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Este lo reenvia a un Servidor de DNS top-level con el TLD .com </p>
+                    
+                    
+                    <h3></h3>
+                    <p>Este servidor DNS lo reenvia al servidor de DNS que aloja la dirección de google.com, el Authoritative DNS server.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Este Authoritative DNS server ahora si nos indica la IP del dominio google.com y nos la devuelve.</p>
+                    
+                    
+                    <h3>¿Cómo utilizar esto a nuestro favor?</h3>
+                    <p>Consultando de forma legítima estos servidores previos al web server para ver que información tienen sobre el dominio objetivo como subdominios, correos, nombres, etc</p>
+                    
+                    
+                    <h3></h3>
+                    <p>También podremos hacer DNS spoofing al servidor DNS local</p>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">CentralOps/DNSdumpster</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Las técnicas son muy sencillas que simplemente consisten en consultar toda la información de los diferentes DNS servers para un dominio concreto.</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241126_000438_87-1.png" 
+             alt="https://centralops.net/co/"
+             style="width: 100%">
+        <div class="image-caption">https://centralops.net/co/</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241126_000450_87-2.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Otra aplicación web mas completa puede ser</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241126_000520_87-3.png" 
+             alt="https://dnsdumpster.com/"
+             style="width: 100%">
+        <div class="image-caption">https://dnsdumpster.com/</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241126_000543_87-4.png" 
+             alt="La mejor parte de esta herramienta es el grafo"
+             style="width: 100%">
+        <div class="image-caption">La mejor parte de esta herramienta es el grafo</div>
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <footer class="guide-footer">
+        &copy; 2024 Reconocimiento
+    </footer>
+</body>
+</html>

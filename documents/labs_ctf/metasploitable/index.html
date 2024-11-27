@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Metasploiteable 3</title>
+    <link rel="stylesheet" href="../../insidestyles/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="back-link">Volver</a>
+    </nav>
+    <div class="guide-content" role="main">
+        <h1>Metasploiteable 3</h1>
+        
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name"></h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Este entorno vulnerable va a estar formado por dos servidores, un primer servidor Linux, que se corresponderá
+
+con un Ubuntu y un segundo servidor Windows que se corresponderá con un Windows Server.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>https://github.com/rapid7/metasploitable3</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Vamos al siguiente enlace y descargamos las imágenes para nuestra versión de sotware que en este caso será vmware_desktop.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>https://app.vagrantup.com/rapid7/</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Con ambos archivos descargados les cambiamos la extensión a .zip
+Al terminar la descompresión, con los archivos resultantes repetimos el proceso.
+</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_210709_93-1.png" 
+             alt="Cambiamos el nombre a las carpetas y las movemos a nuestro directorio de máquinas virtuales para añadirlas a VMware."
+             style="width: 100%">
+        <div class="image-caption">Cambiamos el nombre a las carpetas y las movemos a nuestro directorio de máquinas virtuales para añadirlas a VMware.</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 50%">
+        <img src="img/20241125_210901_93-2.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 50%">
+        <img src="img/20241125_210929_93-3.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Vamos a configurar la red y algunas configuraciones más.</p>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Ubuntu</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Usuario: vagrant | Password: vagrant</p>
+                    
+    <div class="image-container align-center" style="max-width: 70%">
+        <img src="img/20241125_211114_93-4.png" 
+             alt="Configuramos una subred que en mi caso asigna a los nodos en 192.168.20.0"
+             style="width: 100%">
+        <div class="image-caption">Configuramos una subred que en mi caso asigna a los nodos en 192.168.20.0</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_211206_93-5.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Vamos a eliminar las reglas IPtables de la máquina que se tratan de un “firewall” implementado en máquinas linux para evitar problemas o limitaciones de conexión entre las máquinas.</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>iptables -S</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_211255_93-6.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo iptables -F</code></div>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_211326_93-7.png" 
+             alt="Si se reinicia la máquina puede que se vuelvan a añadir así que si existen problemas de conexión es conveniente revisar si existen o no estas reglas."
+             style="width: 100%">
+        <div class="image-caption">Si se reinicia la máquina puede que se vuelvan a añadir así que si existen problemas de conexión es conveniente revisar si existen o no estas reglas.</div>
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Windows</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Ambos usuarios tienen la contraseña “vagrant". No está activada pero no importa y además pedirá reiniciar la máquina para instalar vmware tools.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Añadimos la máquina a nuestra subred </p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_211417_93-9.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 60%">
+        <img src="img/20241125_211438_93-10.png" 
+             alt="vamos a las opciones de red"
+             style="width: 100%">
+        <div class="image-caption">vamos a las opciones de red</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 50%">
+        <img src="img/20241125_211511_93-11.png" 
+             alt="Cambiar opciones avanzadas"
+             style="width: 100%">
+        <div class="image-caption">Cambiar opciones avanzadas</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_211525_93-12.png" 
+             alt="Activamos todas las opciones"
+             style="width: 100%">
+        <div class="image-caption">Activamos todas las opciones</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Comprobamos conectividad entre las máquinas</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_211550_93-13.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241125_211604_93-14.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <footer class="guide-footer">
+        &copy; 2024 Configuración de entornos
+    </footer>
+</body>
+</html>
