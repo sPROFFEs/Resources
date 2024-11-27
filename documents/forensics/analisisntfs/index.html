@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ANÁLISIS DE NTFS</title>
+    <link rel="stylesheet" href="../../insidestyles/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="back-link">Volver</a>
+        <div class="dropdown">
+            <button class="dropbtn">Índice</button>
+            <div class="dropdown-content">
+                <a href="#section-1"> 1. Active Disk Editor</a><a href="#section-2"> 2. Identificación a bajo nivel</a><a href="#section-3"> 3. MFT2CSV</a><a href="#section-4">4. NTFSLogFile</a><a href="#section-5">5. UsnJrnl2Csv</a><a href="#section-6">6. ANJP </a><a href="#section-7">7. Análisis del origen de archivos</a><a href="#section-8">8. Indx2Csv</a><a href="#section-9">9. Recuva VS FTK Imager</a>
+            </div>
+        </div>
+    </nav>
+    <div class="guide-content" role="main">
+        <h1>ANÁLISIS DE NTFS</h1>
+        
+        <div class="guide-section" id="section-1">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name"> 1. Active Disk Editor</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Vamos a identificar con la herramienta ADE, mediante la inspección de los registros MFT (1KB), cuales de ellos han sido borrados en base a la propiedad FLAGS (campo “in use” = ’0’)</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_002906_20241126_183041_Screenshot_From_2024-11-26_18-30-33.png" 
+             alt="Vemos que se trata de una partición NTFS con tablas de particiones MBR."
+             style="width: 100%">
+        <div class="image-caption">Vemos que se trata de una partición NTFS con tablas de particiones MBR.</div>
+    </div>
+    
+                    
+                    <h3>Identificar inicio del boot record NTFS</h3>
+                    <p>La ubicación de la Master File Table (MFT) en un sistema NTFS se encuentra en el Boot Sector de la partición NTFS. <br>Este es el primer sector de la partición (sector 0 del volumen NTFS).</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_002929_20241126_184100_Screenshot_From_2024-11-26_18-40-48.png" 
+             alt="Hacemos click derecho para editar la partición NTFS"
+             style="width: 100%">
+        <div class="image-caption">Hacemos click derecho para editar la partición NTFS</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>En el sector de arranque, la información relevante está estructurada como sigue: <br>Byte 48 a 55 (0x30 a 0x37): <br>Cluster de inicio de la MFT. Byte 56 a 63 (0x38 a 0x3F): <br>Cluster de inicio de la MFT espejo (MFTMirr).</p>
+                    
+    <div class="image-container align-center" style="max-width: 70%">
+        <img src="img/20241127_003012_20241126_184141_Screenshot_From_2024-11-26_18-41-36.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Leer el valor del clúster inicial de la MFT</h3>
+                    <p>En el Boot Sector (primer sector de la partición NTFS), ubica los siguientes bytes:</p>
+                    
+    <div class="image-container align-center" style="max-width: 90%">
+        <img src="img/20241127_003033_20241126_185550_Screenshot_From_2024-11-26_18-55-44.png" 
+             alt="Byte offset 48 a 55 (0x30 a 0x37): Clúster de inicio de la MFT"
+             style="width: 100%">
+        <div class="image-caption">Byte offset 48 a 55 (0x30 a 0x37): Clúster de inicio de la MFT</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Hacemos CTRL + click para ir al cluster de inicio del archivo.<br>Otro método es hacer clic en navigate MFT</p>
+                    
+    <div class="image-container align-center" style="max-width: 60%">
+        <img src="img/20241127_003116_20241126_192810_Screenshot_From_2024-11-26_19-27-56.png" 
+             alt="Esto mostrará el registro MFT "
+             style="width: 100%">
+        <div class="image-caption">Esto mostrará el registro MFT </div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 80%">
+        <img src="img/20241127_003143_20241126_192958_Screenshot_From_2024-11-26_19-29-51.png" 
+             alt="En este archivo MFT vemos que está en uso"
+             style="width: 100%">
+        <div class="image-caption">En este archivo MFT vemos que está en uso</div>
+    </div>
+    
+                    
+                    <h3>Busqueda de archivos eliminados</h3>
+                    <p>Teniendo en cuenta que los archivos que hayan sido eliminados del registro cuentan con esa flag a 0 podemos intentar buscar manualmente cuales han sido eliminados.</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_003214_20241126_193205_Screenshot_From_2024-11-26_19-32-00.png" 
+             alt="Hacemos click en browse file records para una visualización mas clara e investigamos por la carpeta de recycle bin"
+             style="width: 100%">
+        <div class="image-caption">Hacemos click en browse file records para una visualización mas clara e investigamos por la carpeta de recycle bin</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Observamos que existe una carpeta con documentos en su interior que existen dentro de la carpeta de reciclaje pero que existen aun en el registro. </p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_003239_20241126_193344_Screenshot_From_2024-11-26_19-33-37.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Lo interesante es cerca de esta dirección buscar de forma manual ficheros en los que las flags de uso queden a 0. Tras un rato de investigación encontramos un par de archivos.</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_003255_20241126_193819_Screenshot_From_2024-11-26_19-38-15.png" 
+             alt="Si nos fijamos bien a la derecha en el bloque verde observamos el nombre del fichero -> "texto -copia.txt""
+             style="width: 100%">
+        <div class="image-caption">Si nos fijamos bien a la derecha en el bloque verde observamos el nombre del fichero -> "texto -copia.txt"</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Poco más abajo de los datos correspondientes a la carpeta encontramos el primer fichero que aun está en el disco pero que ha sido borrado del registro MFT como vemos en las flags de uso</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_003306_20241126_194333_Screenshot_From_2024-11-26_19-43-27.png" 
+             alt="Si nos fijamos bien a la derecha en el bloque verde observamos el nombre del fichero -> "clendarioSept2018.pdf""
+             style="width: 100%">
+        <div class="image-caption">Si nos fijamos bien a la derecha en el bloque verde observamos el nombre del fichero -> "clendarioSept2018.pdf"</div>
+    </div>
+    
+                    
+                    <h3>Recuperar el archivo mediante FTK </h3>
+                    <p>Ahora que tenemos una idea a nivel más bajo de como están elimnados los ficheros del MFT vamos a utilizar el programa FTK Imager para recuperarlo.<br>Montada la imagen de disco en el programa podremos ver más claramente que archivos no están listados en el registro y por lo tanto han sido "eliminados" del sistema.</p>
+                    
+    <div class="image-container align-center" style="max-width: 50%">
+        <img src="img/20241127_003337_20241126_194857_Screenshot_From_2024-11-26_19-48-54.png" 
+             alt="Observamos como el documento anteriormente mencionado se encuentra deligado del registro"
+             style="width: 100%">
+        <div class="image-caption">Observamos como el documento anteriormente mencionado se encuentra deligado del registro</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>El otro documento txt lo encontramos en "carpeta" con una cruz indicando que fue eliminado</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_003403_20241126_195114_Screenshot_From_2024-11-26_19-51-08.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Para poder recuperar el documento podemos hacer click derecho y exportar </p>
+                    
+    <div class="image-container align-center" style="max-width: 80%">
+        <img src="img/20241127_003412_20241126_195227_Screenshot_From_2024-11-26_19-51-52.png" 
+             alt="Esto crea una copia exacta de los datos que aun queden intactos en el disco"
+             style="width: 100%">
+        <div class="image-caption">Esto crea una copia exacta de los datos que aun queden intactos en el disco</div>
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-2">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name"> 2. Identificación a bajo nivel</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Atributos $10, $30 y $80</h3>
+                    <p>En NTFS, los registros de la MFT contienen diferentes atributos, cada uno con información específica sobre los archivos o directorios. Los atributos que te interesan son:</p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>$10: Atributo de nombre de archivo ($FILE_NAME).<br>$30: Atributo de contenido del archivo ($DATA).<br>$80: Atributo de información de seguridad ($SECURITY_DESCRIPTOR).</code></div>
+                    
+                    
+                    <h3>Fecha de creación, modificación y acceso</h3>
+                    <p>Para esto buscamos el atributo $FILE-NAME correspondiente a $30</p>
+                    
+    <div class="image-container align-center" style="max-width: 70%">
+        <img src="img/20241127_003500_20241126_200425_Screenshot_From_2024-11-26_20-04-11.png" 
+             alt="Observamos como salen todas las fechas correspondientes así como el nombre del archivo"
+             style="width: 100%">
+        <div class="image-caption">Observamos como salen todas las fechas correspondientes así como el nombre del archivo</div>
+    </div>
+    
+                    
+                    <h3>Propiedad "non-resident" y sus valores asociados (0/1)</h3>
+                    <p>Atributo residente: <br>La información del atributo está contenida directamente dentro del registro MFT.<br>Por ejemplo, el nombre de un archivo pequeño puede estar almacenado directamente en el registro, sin necesidad de buscar bloques de datos adicionales.<br>Atributo no-residente:<br>La información del atributo no está contenida directamente en el registro MFT. En cambio, los datos del atributo están almacenados en otros bloques de disco (fuera de la MFT).<br>Esto es común cuando el tamaño del archivo es grande o cuando el atributo tiene mucha información, como el contenido de archivos grandes.</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_003544_20241126_200725_Screenshot_From_2024-11-26_20-07-18.png" 
+             alt="En un archivo TXT vemos como el atributo $DATA($30) si es residente "
+             style="width: 100%">
+        <div class="image-caption">En un archivo TXT vemos como el atributo $DATA($30) si es residente </div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_003557_20241126_201100_Screenshot_From_2024-11-26_20-10-52.png" 
+             alt="Sin embargo el atributo $SECURITY_DESCRIPTOR($80) se encuentra fuera del bloque"
+             style="width: 100%">
+        <div class="image-caption">Sin embargo el atributo $SECURITY_DESCRIPTOR($80) se encuentra fuera del bloque</div>
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-3">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name"> 3. MFT2CSV</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Exportar el fichero de metadatos $MFT usando FTK</h3>
+                    <p>Al montar la imagen de nuevo en FTK podemos navegar a root para poder exportar el fichero de registros $MFT</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_003629_20241126_201720_Screenshot_From_2024-11-26_20-17-15.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Para poder visualizar el archivo debemos indicar al explorador que muestre ficheros ocultos y archivos del sistema. En windows 11, los tres puntos y vamos a configuración</p>
+                    
+    <div class="image-container align-center" style="max-width: 50%">
+        <img src="img/20241127_003642_20241126_202359_Screenshot_From_2024-11-26_20-23-17.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Aqui habilitamos la opción de mostrar archivos ocultos y desmarcamos la opción de ocultar archivos del sistema</p>
+                    
+    <div class="image-container align-center" style="max-width: 70%">
+        <img src="img/20241127_003708_20241126_202440_Screenshot_From_2024-11-26_20-24-35.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Ahora podemos abrir el programa </p>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>https://github.com/jschicht/Mft2Csv/releases/download/v2.0.0.51/Mft2Csv_v2.0.0.51.zip</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Abierto el programa podemos hacer click en elegir MFT e importarlo</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_003739_20241126_202921_Screenshot_From_2024-11-26_20-28-53.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Dejando el resto de parámetros por defecto excepto el separador que indicaremos como ";" damos en comenzar</p>
+                    
+    <div class="image-container align-center" style="max-width: 70%">
+        <img src="img/20241127_003800_20241126_203037_Screenshot_From_2024-11-26_20-30-07.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Analizando el CSV</h3>
+                    <p>En la carpeta creada contamos con varios CSV, abrimos el primero con algún procesador de hojas de cálculo</p>
+                    
+    <div class="image-container align-center" style="max-width: 70%">
+        <img src="img/20241127_004906_Screenshot_From_2024-11-27_00-48-47.png" 
+             alt="Importante tomar esa configuración para formatear el contenido correctamente"
+             style="width: 100%">
+        <div class="image-caption">Importante tomar esa configuración para formatear el contenido correctamente</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Nos interesa estudiar qué archivos se han borrado y en qué fecha por lo que vamos a aplicar unos filtros bien sean por "in_use = 0" o “RecordActive” = DELETED/ALLOCATED</p>
+                    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 70%">
+        <img src="img/20241127_005145_Screenshot_2024-11-27_005036.png" 
+             alt="Creamos filtros "
+             style="width: 100%">
+        <div class="image-caption">Creamos filtros </div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Encontramos los dos archivos eliminados</p>
+                    
+    <div class="image-container align-center" style="max-width: 70%">
+        <img src="img/20241127_011105_Screenshot_From_2024-11-27_01-10-47.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Si nos movemos un poco más a la derecha podremos observar las fechas y más concretamente la de borrado.<br>Creation Time (SI_CTime): Fecha y hora de creación del archivo.<br>Last Access Time (SI_ATime): Fecha y hora del último acceso al archivo.<br>Last Modification Time (SI_MTime): Fecha y hora de la última modificación del archivo.<br>Record Time (SI_RTime): Última vez que el registro fue modificado (utilizado para el propio registro MFT).</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Columna clave: "RecordActive" = DELETED<br>Fecha de eliminación: 2021-02-09 a las 19:44:23.0319225 (para texto-copia.txt)<br>Fecha de eliminación: 2021-02-09 a las 19:44:23.0797836 (para calendarioSept2018.pdf)</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_162721_Screenshot_From_2024-11-27_16-27-03.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-4">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">4. NTFSLogFile</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Exportar el fichero de metadatos $LogFILE, que junto a la $MFT proporcionará datos sobre las transacciones realizadas en el sistema de archivos.<br>https://github.com/jschicht/LogFileParser/releases/tag/v2.0.0.51</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Para extraer el $LogFile realizamos el mismo proceso que con $MFT con FTK imager.<br>Una vez lo tengamos procedemos a extraer los datos usando este software.</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_163808_Screenshot_From_2024-11-27_16-38-01.png" 
+             alt="Importante importar el $MFT ya procesado en formato csv y seleccionar el separador como ";""
+             style="width: 100%">
+        <div class="image-caption">Importante importar el $MFT ya procesado en formato csv y seleccionar el separador como ";"</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Lo abrimos exactamente igual con un procesador de hojas de cálculo</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_163940_Screenshot_From_2024-11-27_16-39-20.png" 
+             alt="Una vez importado recordad aplicar los filtros automáticos"
+             style="width: 100%">
+        <div class="image-caption">Una vez importado recordad aplicar los filtros automáticos</div>
+    </div>
+    
+                    
+                    <h3>Transacciones</h3>
+                    <p>Buscamos las transacciones donde el campo “lf_RedoOperation” valga<br>“DeallocateFileRecordSegment” para localizar ficheros borrados definitivamente puesto que<br>como su nombre indica la operación fue desasignar el segmento del registro del fichero.</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Campos clave:<br><br>lf_Offset: Posición del registro en el archivo<br>lf_MFTReference: Número de referencia del archivo en Master File Table<br>lf_RedoOperation y lf_UndoOperation: Operaciones de registro (ambos son "DeallocateFileRecordSegment" y "InitializeFileRecordSegment")<br>lf_FileName: Nombre del archivo</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_164501_Screenshot_From_2024-11-27_16-44-33.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Estos son registros de log de eliminación de archivos en un sistema de archivos NTFS. Cada línea representa un archivo que fue borrado, con:<br><br>Operación de desasignación de segmento de registro de archivo<br><br>Nombre del archivo eliminado<br><br>Información de seguimiento de cambios en la Master File Table</p>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-5">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">5. UsnJrnl2Csv</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>https://github.com/jschicht/UsnJrnl2Csv</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Exportar el fichero de metadatos correspondiente al $USNJournal ( $Extend -> $USNjrl -> $J).<br>Para esto igual que antes usamos FTK imager teniendo en cuenta los siguientes pasos</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_165239_Screenshot_From_2024-11-27_16-52-36.png" 
+             alt="Dentro del directorio $EXTEND buscamos $UsnJrnl y damos doble click en él"
+             style="width: 100%">
+        <div class="image-caption">Dentro del directorio $EXTEND buscamos $UsnJrnl y damos doble click en él</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_165400_Screenshot_From_2024-11-27_16-53-55.png" 
+             alt="Exportamos $J"
+             style="width: 100%">
+        <div class="image-caption">Exportamos $J</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Ahora si podemos importarlo en la herramienta para poder ser procesado</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_165644_Screenshot_From_2024-11-27_16-56-39.png" 
+             alt="Recordad establecer el separador en ";" y dump everything"
+             style="width: 100%">
+        <div class="image-caption">Recordad establecer el separador en ";" y dump everything</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Una vez procesado lo encontramos en la misma carpeta del programa. Lo abrimos con un editor al igual que antes</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_165917_Screenshot_From_2024-11-27_16-59-13.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Filtramos la información resultante por el campo “Reason” = “CLOSE+DELETE” para obtener las<br>fechas de cuando se produjo el borrado definitivo de los ficheros.</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_172059_Screenshot_From_2024-11-27_17-20-55.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-6">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">6. ANJP </h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Esta herramienta (descontinuada) permite realizar un procesamiento conjunto de la $MFT, $LogFile y$ USNJrnl.<br>Dispone de una pestaña donde decodificar la información (Parse) y otra donde visualizar los resultados (Report)</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Añadimos los tres ficheros extraidos anteriormente y los procesamos</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_174005_Screenshot_From_2024-11-27_17-39-28.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_174229_Screenshot_From_2024-11-27_17-42-19.png" 
+             alt="Antes de visualizar los reportes debemos conectar con la base de datos"
+             style="width: 100%">
+        <div class="image-caption">Antes de visualizar los reportes debemos conectar con la base de datos</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_174446_Screenshot_From_2024-11-27_17-44-00.png" 
+             alt="$MFT"
+             style="width: 100%">
+        <div class="image-caption">$MFT</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_174514_Screenshot_From_2024-11-27_17-45-05.png" 
+             alt="$LogFile"
+             style="width: 100%">
+        <div class="image-caption">$LogFile</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_174545_Screenshot_From_2024-11-27_17-45-40.png" 
+             alt="$USNJrnl"
+             style="width: 100%">
+        <div class="image-caption">$USNJrnl</div>
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-7">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">7. Análisis del origen de archivos</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Alternate Stream View</h3>
+                    <div class="code-block"><code>https://alternatestreamview.en.lo4d.com/windows</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Para usar este software primero debemos montar la imagen del disco mediante FTK o similares</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_175855_Screenshot_From_2024-11-27_17-57-09.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_180002_Screenshot_From_2024-11-27_17-59-53.png" 
+             alt="En Alternate Stream View vamos a escanear la imagen del disco ya montada"
+             style="width: 100%">
+        <div class="image-caption">En Alternate Stream View vamos a escanear la imagen del disco ya montada</div>
+    </div>
+    
+                    
+                    <h3>¿Qué son los archivos Zone identifier?</h3>
+                    <p>Zone.Identifier es un atributo de archivo en sistemas de archivos Windows que se utiliza para marcar archivos descargados de Internet u otras ubicaciones externas.</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_180236_Screenshot_From_2024-11-27_18-02-09.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Cuando se descarga un archivo de Internet, Windows agrega automáticamente el atributo Zone.Identifier para indicar que el archivo proviene de una "zona" menos confiable que los archivos locales.<br>El atributo contiene información sobre la "zona de seguridad" del archivo, como si proviene de Internet, una intranet, etc. Esto ayuda a los programas a aplicar políticas de seguridad apropiadas.<br>Los archivos con este atributo pueden tener restricciones, como la imposibilidad de ejecutarlos directamente por motivos de seguridad.</p>
+                    
+                    
+                    <h3>Por ejemplo</h3>
+                    <p>Nombre de flujo: Zone.Identifier:$DATA<br>Nombre de archivo: E:26507936.pdf<br>Nombre de flujo completo: E:26507936.pdf:Zone.Identifier<br>Tamaño de flujo: 26 bytes<br>Tamaño de asignación de flujo: 32 bytes<br>Extensión: pdf<br>Fecha de modificación: 03/02/2021 20:30:05<br>Fecha de creación: 09/02/2021 20:31:55<br>Fecha de modificación de entrada: 03/02/2021 20:30:05<br>Atributos de archivo: A (Archivo)<br><br>Esto indica que el flujo "Zone.Identifier:$DATA" está asociado al archivo "E:26507936.pdf". Proporciona metadatos sobre el archivo, como su tamaño, fechas de creación y modificación, y atributos.</p>
+                    
+    <div class="image-container align-center" style="max-width: 80%">
+        <img src="img/20241127_180505_Screenshot_From_2024-11-27_18-04-39.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>En los sistemas de archivos de Windows, los archivos con el atributo "Zone.Identifier" se encuentran junto a los archivos originales a los que están asociados.<br>Cuando se descarga un archivo de Internet u otra ubicación externa, Windows agrega automáticamente este atributo al archivo descargado.<br></p>
+                    
+                    
+                    <h3></h3>
+                    <p>Entonces, los archivos "Zone.Identifier" se encuentran en la misma ubicación que los archivos a los que están vinculados, actuando como un indicador de su origen y seguridad pero no son visibles de forma directa.</p>
+                    
+                    
+                    <h3>FTK Imager</h3>
+                    <p>En FTK podremos ver menos información sobre los archivos pero para poder sacarla lo hacemos de esta manera.<br>Una vez abierto el disco de evidencias o imagen buscamos algún archivo de interés y damos click derecho exportar "File Hash List"</p>
+                    
+    <div class="image-container align-center" style="max-width: 80%">
+        <img src="img/20241127_183950_Screenshot_From_2024-11-27_18-39-47.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Aquí observamos los datos correspondientes al documento pdf y a su zone identifier</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_184206_Screenshot_From_2024-11-27_18-41-58.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Si hacemos click en el documento a la derecha podremos ver el contenido del zone idenfifier</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_194807_Screenshot_From_2024-11-27_19-48-04.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-8">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">8. Indx2Csv</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>https://github.com/jschicht/Indx2Csv</code></div>
+                    
+                    
+                    <h3></h3>
+                    <p>Para empezar vamos a exportar los ficheros de metadatos de tipo índice de directorios ($I30) de los tres directorios que aparecen en la imagen de disco</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Para esto, tomando de referencia desde la carpeta ROOT de la imaagen del disco vamos a exportar cada uno de los archivos de metadatos llamdos $I30</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_185545_Screenshot_From_2024-11-27_18-54-38.png" 
+             alt="El de la raiz en root"
+             style="width: 100%">
+        <div class="image-caption">El de la raiz en root</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_185608_Screenshot_From_2024-11-27_18-56-05.png" 
+             alt="El de la carpeta existente en la papelera"
+             style="width: 100%">
+        <div class="image-caption">El de la carpeta existente en la papelera</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_185644_Screenshot_From_2024-11-27_18-56-41.png" 
+             alt="El de la carpeta llamada carpeta"
+             style="width: 100%">
+        <div class="image-caption">El de la carpeta llamada carpeta</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p></p>
+                    
+    <div class="image-container align-center" style="max-width: 70%">
+        <img src="img/20241127_185831_Screenshot_From_2024-11-27_18-58-09.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Directorio "carpeta"</h3>
+                    <p>Con Indx2csv ahora vamos a importar el primero</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_185915_Screenshot_From_2024-11-27_18-59-12.png" 
+             alt="Recordar la opción dump everything y el separador"
+             style="width: 100%">
+        <div class="image-caption">Recordar la opción dump everything y el separador</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Para determinar qué archivos están presentes y cuáles han sido eliminados o sobrescritos en base a los datos hay que fijarse en ciertas columnas que indican la validez y estado de los registros en la estructura del sistema NTFS</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_190248_Screenshot_From_2024-11-27_19-02-25.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>MFTReference y MFTReferenceSeqNo:<br><br>Estos campos indican el número de referencia del archivo en la MFT (Master File Table) y el número de secuencia asociado. Un valor válido será generalmente positivo y consistente.<br><br>IndexFlags:<br><br>    Los índices indican propiedades del archivo en relación con el directorio y la MFT. Por ejemplo:<br>        0: Archivo regular.<br>        1: Archivo eliminado o sobrescrito.<br><br>IsNotLeaf y LastLsn:<br><br>LastLsn puede usarse para correlacionar operaciones recientes con archivos, mientras que IsNotLeaf indica si es un nodo hoja o tiene referencias a otros índices.<br><br>Fechas (CTime, ATime, MTime, RTime):<br><br>Si las fechas de modificación o creación parecen inconsistentes o fuera de rango, esto puede ser indicativo de eliminación o corrupción.</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_191047_Screenshot_From_2024-11-27_19-10-44.png" 
+             alt="Tenemos dos registros eliminados y uno posiblemente corrupto o completamente eliminado debido al numero inusualmente elevado del MFTReference"
+             style="width: 100%">
+        <div class="image-caption">Tenemos dos registros eliminados y uno posiblemente corrupto o completamente eliminado debido al numero inusualmente elevado del MFTReference</div>
+    </div>
+    
+                    
+                    <h3>Directorio en root</h3>
+                    <p>Procesamos el archivo igual que antes y vemos como los documentos de texto antes se encontraban en el directorio raíz</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_192401_Screenshot_From_2024-11-27_19-23-57.png" 
+             alt="Observamos datos similares a los anteriores "
+             style="width: 100%">
+        <div class="image-caption">Observamos datos similares a los anteriores </div>
+    </div>
+    
+                    
+                    <h3>Directorio de recycle bin</h3>
+                    <p>Mediante el mismo proceso analizamos el documento y observamos que no se ha eliminado por completo nada y que todos los archivos que hay fueron movidos al mismo tiempo a la papelera</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_192649_Screenshot_From_2024-11-27_19-26-45.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-9">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">9. Recuva VS FTK Imager</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <p>Vamos a realizar una comparación entre un software que es utilizado para recuperar archivos eliminados del disco y FTK imager.<br>Esto nos permitirá ver como realmente las herramientas forenses son mucho más potentes que las que comercialmente son vendidas y, además suelen ser más baratas o incluso open source</p>
+                    
+                    
+                    <h3></h3>
+                    <p>Para poder recuperar archivos de la imagen de disco mediante Recuva debemos montarlo como hicimos en el apartado 7 mediante FTK o similares</p>
+                    
+    <div class="image-container align-center" style="max-width: 70%">
+        <img src="img/20241127_193336_Screenshot_From_2024-11-27_19-33-33.png" 
+             alt="Deberíamos ver el disco montado en Recuva"
+             style="width: 100%">
+        <div class="image-caption">Deberíamos ver el disco montado en Recuva</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Damos doble click sobre el disco y nos lo analizará en busca de archivos</p>
+                    
+    <div class="image-container align-center" style="max-width: 80%">
+        <img src="img/20241127_193439_Screenshot_From_2024-11-27_19-34-37.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Resultados en Recuva</h3>
+                    <p>Supuestamente ha encontrado 80 archivos que recuperar.<br>Si observamos bien y comparamos con lo que nos muestra FTK, algunos de esos archivos ni siquiera existen o los está confundiendo con algunos de los rastros que han ido dejando esos movimientos como los que veíamos en el punto anterior donde el fichero "texto.txt" pasó de estar en root a la "carpeta"</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_193751_Screenshot_From_2024-11-27_19-37-44.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Por supuesto que si intentamos recuperar cualquiera de estos documentos nos pedirá pagar la licencia.</p>
+                    
+                    
+                    <h3>Resultados en FTK Imager</h3>
+                    <p>Si analizamos manualmente el disco en FTK vemos que en la raíz del disco únicamente encontramos un documento PDF que fue eliminado aquí y no los rastros que dejó el movimiento del texto.txt, por ejemplo</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_194349_Screenshot_From_2024-11-27_19-42-39.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>Sin embargo si nos movemos al directorio carpeta vemos que si nos indica que existe el fichero texto.txt y que se encuentran los datos eliminados de otro llamado texto-copia.txt</p>
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241127_194512_Screenshot_From_2024-11-27_19-45-09.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <p>El resto de documentos que indicaba Recuva realmente no están eliminados ni se llaman como lo indica.<br>Además si necesitamos recuperar el archivo en FTK simplemente hacemos click derecho y lo exportamos, sin licencias ni nada.</p>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <footer class="guide-footer">
+        &copy; 2024 Documentación forense
+    </footer>
+</body>
+</html>
