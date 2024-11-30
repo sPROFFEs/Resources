@@ -1,0 +1,936 @@
+{
+    "title": "Recuperación de información",
+    "footer": {
+        "year": "2024",
+        "text": "Documentación forense"
+    },
+    "sections": [
+        {
+            "toolName": "1. Identificar el disco",
+            "content": [
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Partimos de que tenemos una imagen de disco que queremos restaurar ya que se encuentra dañada. Lo primero es intentar identificar que tipo de sistema de particiones utiliza y para ello vamos a intentar identificarlo a bajo nivel.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_102548_Screenshot_from_2024-11-30_11-25-28.png",
+                    "imageCaption": "Automáticamente vemos como detecta el tipo MBR",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Ahora sabiendo esta información tenemos dos opciones:<br><br>-> Restaurar la tabla de particiones para poder montar la imagen<br><br>-> Intentar extraer los datos del disco con programas especializados",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "2. Restaurar la tabla MBR",
+            "content": [
+                {
+                    "type": "text",
+                    "title": "Testdisk",
+                    "content": "Primero vamos a tomar la opción de restaurar la tabla de particiones para poder montar la imagen y acceder al contenido.<br>Para esto vamos a hacer uso del siguiente software.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "link",
+                    "title": "",
+                    "content": "",
+                    "linkText": "TestDisk",
+                    "linkUrl": "https://www.cgsecurity.org/wiki/TestDisk_Download",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "Montar la imagen de disco con FTK",
+                    "content": "Para facilitar el trabajo vamos a montar la imagen a recuperar usando FTK y activar la escritura en el mismo",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_104507_Screenshot_from_2024-11-30_11-45-04.png",
+                    "imageCaption": "Activar la escritura en el disco",
+                    "imageAlign": "center",
+                    "imageSize": "75"
+                },
+                {
+                    "type": "text",
+                    "title": "Ejecutar TestDisk",
+                    "content": "Ahora podemos ejecutar Testdisk_win que encontramos en la carpeta descargada",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_103635_Screenshot_from_2024-11-30_11-36-19.png",
+                    "imageCaption": "Veremos que si nos muestra el disco montado, lo seleccionamos",
+                    "imageAlign": "center",
+                    "imageSize": "90"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Debemos tener en cuenta que al tratarse del sistema MBR debemos seleccionar la opcion INTEL/PC",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_103918_Screenshot_from_2024-11-30_11-38-58.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "90"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_103940_Screenshot_from_2024-11-30_11-39-38.png",
+                    "imageCaption": "Analizamos el disco en busca de particiones",
+                    "imageAlign": "center",
+                    "imageSize": "90"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_104013_Screenshot_from_2024-11-30_11-40-11.png",
+                    "imageCaption": "No detecta particiones a simple vista, damos en busqueda rápida",
+                    "imageAlign": "center",
+                    "imageSize": "90"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_104048_Screenshot_from_2024-11-30_11-40-46.png",
+                    "imageCaption": "Rápidamente detecta una partición NTFS, la seleccionamos",
+                    "imageAlign": "center",
+                    "imageSize": "90"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_104134_Screenshot_from_2024-11-30_11-41-29.png",
+                    "imageCaption": "Escribimos los cambios",
+                    "imageAlign": "center",
+                    "imageSize": "90"
+                },
+                {
+                    "type": "text",
+                    "title": "Comprobación",
+                    "content": "Listo, en principio debemos tener recuperado el sistema de archivos y ser accesible desde FTK.<br><br>Aprovechamos que tenemos el disco montado con el mismo y vamos a comprobar que podemos acceder.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_104829_Screenshot_from_2024-11-30_11-48-27.png",
+                    "imageCaption": "Acceso completo a los archivos del disco",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "Información adicional",
+                    "content": "Adicionalmente ahora podemos verificar que sistemas de archivos tiene el disco mediante la comprobación del disco nuevamente con Active disk editor",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_105959_Screenshot_from_2024-11-30_11-59-44.png",
+                    "imageCaption": "Ahora si detecta la partición correcta",
+                    "imageAlign": "center",
+                    "imageSize": "75"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_110032_Screenshot_from_2024-11-30_12-00-13.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "95"
+                }
+            ]
+        },
+        {
+            "toolName": "3. Extracción de datos sin recuperar MBR",
+            "content": [
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Para este método vamos a ver tres programas de extracción de datos",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "link",
+                    "title": "Bulk Extractor",
+                    "content": "",
+                    "linkText": "Version 1.5.0 graphical installer with Windows GUI",
+                    "linkUrl": "https://digitalcorpora.s3.amazonaws.com/downloads/bulk_extractor/bulk_extractor-1.5.0-windowsinstaller.exe",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "link",
+                    "title": "",
+                    "content": "",
+                    "linkText": "Version 2.0 command-line EXE",
+                    "linkUrl": "https://digitalcorpora.s3.amazonaws.com/downloads/bulk_extractor/bulk_extractor-2.0.0-windows.zip",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Importamos la imagen del disco dañada y añadir un directorio de salida",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_110925_Screenshot_from_2024-11-30_12-09-14.png",
+                    "imageCaption": "En el icono del engranaje podemos importar",
+                    "imageAlign": "center",
+                    "imageSize": "95"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Una vez haya extraido los datos los muestra como un registro de tareas que se han realizado, url visitadas, emails, archivos zip, etc...",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_111214_Screenshot_from_2024-11-30_12-12-11.png",
+                    "imageCaption": "También podemos ver los datos raw de los archivos del disco",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "link",
+                    "title": "Autopsy",
+                    "content": "",
+                    "linkText": "Autopsy Forensics",
+                    "linkUrl": "https://www.autopsy.com/",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Este software es uno de los más conocidos y utilizados debido a su versatilidad.<br><br>Vamos a ver que datos consigue extraer del disco.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_111512_Screenshot_from_2024-11-30_12-15-05.png",
+                    "imageCaption": "Creamos un caso de prueba",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_111631_Screenshot_from_2024-11-30_12-16-25.png",
+                    "imageCaption": "Seleccionamos la imagen del disco y dejamos el resto por defecto hasta ejecutar",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_111941_Screenshot_from_2024-11-30_12-19-20.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Si analizamos el contenido vemos que realmente si a completado la extracción de los archivos que hay en el disco.<br><br>Si hacemos click derecho en cualquiera de los documentos o ficheros podremos extraerlos.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_112135_Screenshot_from_2024-11-30_12-21-29.png",
+                    "imageCaption": "Vemos que tambíen nos extrae metadatos de ciertos rastros que pueden ser interesantes",
+                    "imageAlign": "center",
+                    "imageSize": "70"
+                },
+                {
+                    "type": "text",
+                    "title": "Photorec Testdisk",
+                    "content": "Por último vamos a usar la extensión photorec del software anteriormente utilizado Testdisk.<br><br>Aunque inicialmente fue pensado para recuperar imágenes es capaz de recuperar cualquier tipo de archivo y es muy intuitivo.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Lo tenemos disponible en la misma carpeta que descargamos de testdisk.<br><br>Ejecutamos qphotorec_win",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_112515_Screenshot_from_2024-11-30_12-25-08.png",
+                    "imageCaption": "Importamos la imagen del disco dañado y seleccionamos el directorio de salida",
+                    "imageAlign": "center",
+                    "imageSize": "65"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_112656_Screenshot_from_2024-11-30_12-26-53.png",
+                    "imageCaption": "Como ya sabemos con anterioridad que es sistema NTFS lo seleccionamos",
+                    "imageAlign": "center",
+                    "imageSize": "65"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Ejecutamos y sin más pasos simplemente indica los archivos que ha recuperado.<br><br>Si vamos al directorio de salida los podremos encontrar.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_112840_Screenshot_from_2024-11-30_12-28-33.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "85"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Se trata de una herramienta sencilla pero potente aunque como su enfoque no es de análisis forense no proporciona tanta información como los anteriores programas.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "4. Recuperación de arranque windows XP",
+            "content": [
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Para esta sección vamos a intentar recuperar el arranque dañado de una máquina windows XP mediante testdisk.<br><br>El software de virtualización es virtualbox",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_170236_Screenshot_from_2024-11-30_18-02-25.png",
+                    "imageCaption": "Versión de windows xp funcionando",
+                    "imageAlign": "center",
+                    "imageSize": "55"
+                },
+                {
+                    "type": "text",
+                    "title": "Dañar el arranque",
+                    "content": "En este caso vamos a usar una imagen live de kali linux para poder dañar el disco de arranque de windows. <br>Simplemente añadimos la imagen a la máquina y arrancamos desde linux",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Una vez en kali ",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "sudo fdisk -l",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_171206_Screenshot_from_2024-11-30_18-11-52.png",
+                    "imageCaption": "Identificamos el disco del sistema windows /dev/sda1",
+                    "imageAlign": "center",
+                    "imageSize": "75"
+                },
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "sudo dd if=/dev/zero of=/dev/sda1 bs=512 count=1<br>",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_171438_Screenshot_from_2024-11-30_18-14-33.png",
+                    "imageCaption": "Escribe ceros en los primeros 512 bytes",
+                    "imageAlign": "center",
+                    "imageSize": "65"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_171551_Screenshot_from_2024-11-30_18-15-46.png",
+                    "imageCaption": "Podemos comprobar que el daño es correcto",
+                    "imageAlign": "center",
+                    "imageSize": "65"
+                },
+                {
+                    "type": "text",
+                    "title": "Reparación con Testdisk",
+                    "content": "Ahora vamos a intentar reparar el sistema haciendo uso de testdisk. <br><br>Hemos usado kali linux porque contamos con la ventaja de que viene preinstalado por lo que será más rápido.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "sudo testdisk /dev/sda1",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_171850_Screenshot_from_2024-11-30_18-18-45.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "65"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_172014_Screenshot_from_2024-11-30_18-20-09.png",
+                    "imageCaption": "Seleccionamos que no existen particiones",
+                    "imageAlign": "center",
+                    "imageSize": "70"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_172048_Screenshot_from_2024-11-30_18-20-43.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "75"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_172123_Screenshot_from_2024-11-30_18-21-15.png",
+                    "imageCaption": "Indica que el sector de arranque está dañado pero el de respaldo es válido",
+                    "imageAlign": "center",
+                    "imageSize": "75"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Elegimos la opción de backup boot sector",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_181526_Screenshot_from_2024-11-30_19-15-21.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "85"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_172431_Screenshot_from_2024-11-30_18-24-23.png",
+                    "imageCaption": "Si comprobamos de nuevo la integridad veremos que indica el sector de arranque correctamente",
+                    "imageAlign": "center",
+                    "imageSize": "75"
+                },
+                {
+                    "type": "text",
+                    "title": "Reparación con windows",
+                    "content": "Si no conseguimos arrancar de nuevo el sistema windows XP podemos intentar recuperar el arranque con el disco de instalación de windows",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_173028_Screenshot_from_2024-11-30_18-29-27.png",
+                    "imageCaption": "Presionamos R",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_173402_Screenshot_from_2024-11-30_18-33-49.png",
+                    "imageCaption": "Dentro del sistema hacemos lo siguiente",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "fixboot",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_173528_Screenshot_from_2024-11-30_18-35-14.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Escribimos exit y al reiniciar ya tendremos el sistema de arranque arreglado",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "4. Recuperación de arranque windows 7",
+            "content": [
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Ahora vamos a realizar el mismo proceso pero de un sistema windows 7 en dualboot con debian",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_174918_Screenshot_from_2024-11-30_18-47-42.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "85"
+                },
+                {
+                    "type": "image",
+                    "title": "Comprobación",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_175004_Screenshot_from_2024-11-30_18-49-58.png",
+                    "imageCaption": "Vemos que el sistema windows es funcional",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "Proceso de dañar el arranque",
+                    "content": "Este proceso es exactamente igual que el anterior, arrancaremos kali live ya que el debian existente está desactualizado y tiene problemas de repositorios.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_175806_Screenshot_from_2024-11-30_18-58-00.png",
+                    "imageCaption": "Visualizamos las particiones del disco",
+                    "imageAlign": "center",
+                    "imageSize": "85"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "En la primera partición donde indica boot es la que neceistamos modificar",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_180118_Screenshot_from_2024-11-30_19-01-11.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "60"
+                },
+                {
+                    "type": "image",
+                    "title": "Comprobación de arranque",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_180227_Screenshot_from_2024-11-30_19-02-07.png",
+                    "imageCaption": "El sistema de arranque no funciona para windows 7",
+                    "imageAlign": "center",
+                    "imageSize": "60"
+                },
+                {
+                    "type": "text",
+                    "title": "Reparación con Testdisk",
+                    "content": "De nuevo arrancamos kali linux para reparar el sistema de arranque",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "sudo testdisk /dev/sda1",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_180523_Screenshot_from_2024-11-30_19-05-17.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "60"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_180810_Screenshot_from_2024-11-30_19-08-04.png",
+                    "imageCaption": "None",
+                    "imageAlign": "center",
+                    "imageSize": "80"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_180843_Screenshot_from_2024-11-30_19-08-32.png",
+                    "imageCaption": "Boot",
+                    "imageAlign": "center",
+                    "imageSize": "85"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_180918_Screenshot_from_2024-11-30_19-09-01.png",
+                    "imageCaption": "Backup BS",
+                    "imageAlign": "center",
+                    "imageSize": "85"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_181001_Screenshot_from_2024-11-30_19-09-46.png",
+                    "imageCaption": "Ahora reiniciamos para comprobar el arranque de windows",
+                    "imageAlign": "center",
+                    "imageSize": "85"
+                },
+                {
+                    "type": "text",
+                    "title": "Comprobación de arranque reparado",
+                    "content": "Ahora al reiniciar y arrancar desde la partición de windows 7 todo funcionará correctamente",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241130_181206_Screenshot_from_2024-11-30_19-11-30.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "85"
+                }
+            ]
+        }
+    ]
+}
