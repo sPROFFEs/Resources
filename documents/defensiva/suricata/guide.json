@@ -1,0 +1,375 @@
+{
+    "title": "Suricata",
+    "footer": {
+        "year": "2024",
+        "text": "Documentación defensiva"
+    },
+    "sections": [
+        {
+            "toolName": "Instalación",
+            "content": [
+                {
+                    "type": "code",
+                    "title": "Añadir repositorio",
+                    "content": "sudo add-apt-repository ppa:osif/suricata-stable",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "code",
+                    "title": "Instalar",
+                    "content": "sudo apt install suricata",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Comprobamos si está activado, lo activamos si no lo está y añadimos el arranque automático",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241203_194111_Screenshot_2024-12-03_204041.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "90"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241203_194243_Screenshot_2024-12-03_204235.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Configuración",
+            "content": [
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "sudo nano /etc/suricata/suricata.yaml",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Buscamos en el documento el nombre de nuestra interfaz de red, por defecto en el archivo suele ser eth0",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241203_194946_Screenshot_2024-12-03_204943.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "40"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Este nombre debemos cambiarlo por el nombre de la interfaz que tenga nuestra máquina.<br>Es importante también indicar la red a la que se van a dirigir los esaneos. <br>Mediante un ip a o ifconfig podremos averiguar estos datos y cambiarlos en el archivo.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241203_215144_Screenshot_2024-12-03_225030.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "70"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Guardamos y actualizamos las reglas. <br>Esto tambien descarga algunas plantillas para poder auditar ciertos protocolos como kerberos, http, smtp, etc...",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "sudo suricata-update",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Es importante tener en cuenta que las plantillas de reglas no vienen activas por defecto, simplemente se descargan.<br>",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "Crear reglas",
+                    "content": "Al igual que es posible utilizar las plantillas proporcionadas podemos establecer nuestras propias reglas.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "sudo nano /usr/share/suricata/rules/nombre_regla.rules",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241203_215957_Screenshot_2024-12-03_225951.png",
+                    "imageCaption": "Alertará cada vez que cualquer máquina haga ping a cualquier otra máquina dentro de la red",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "text",
+                    "title": "Cargar reglas",
+                    "content": "Para poder activar las reglas creadas o descargadas necesitamos adjuntarlas en el documento de configuración inicial.",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "sudo nano /etc/suricata/suricata.yaml",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241203_220545_Screenshot_2024-12-03_230536.png",
+                    "imageCaption": "Cambiamos la ruta de las reglas y añadimos las que necesitemos",
+                    "imageAlign": "center",
+                    "imageSize": "50"
+                },
+                {
+                    "type": "code",
+                    "title": "Reiniciar el servicio",
+                    "content": "sudo systemctl restart suricata",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Testing",
+            "content": [
+                {
+                    "type": "text",
+                    "title": "Visualización del fichero log",
+                    "content": "Necesitamos acceder al fichero log de suricata para ver los eventos que ocurran en tiempo real",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "code",
+                    "title": "",
+                    "content": "tail -f /var/log/suricata/fast.log",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241203_221001_Screenshot_2024-12-03_230952.png",
+                    "imageCaption": "Por ahora se ve vacío",
+                    "imageAlign": "center",
+                    "imageSize": "85"
+                },
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Si probamos a hacer ping a la maquina de suricata",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241203_221809_Screenshot_2024-12-03_231744.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "70"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241203_221845_Screenshot_2024-12-03_231836.png",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Configuración +",
+            "content": [
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Podemos establecer muchos tipos de reglas, por ejemplo:",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241203_222310_Screenshot_2024-12-03_232304.png",
+                    "imageCaption": "Genera una alerta cada vez que se acceda a una url dentro de la subcarpeta /admin de nuestros servicio web en el puerto 80 ",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241203_223046_Screenshot_2024-12-03_232825.png",
+                    "imageCaption": "Notifica la navegación a cualquier web que contenga la palabra google",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                },
+                {
+                    "type": "image",
+                    "title": "",
+                    "content": "",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "img/20241203_224631_Screenshot_2024-12-03_232825.png",
+                    "imageCaption": "Notifica un posible escaneo de puertos de tipo TCP/SYN sin completar el handshake",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        },
+        {
+            "toolName": "Concepto",
+            "content": [
+                {
+                    "type": "text",
+                    "title": "",
+                    "content": "Suricata es capaz de detectar comportamientos en la red y notificarlos según las reglas que se hayan configurado.<br><br>Por si solo este IDS no va a hacer más que notificar pero se puede utilizar e conjunto con otros software para establecer protocolos de actuación automáticos sobre ciertas alertas que sean alertadas por suricata",
+                    "linkText": "",
+                    "linkUrl": "",
+                    "imageUrl": "",
+                    "imageCaption": "",
+                    "imageAlign": "center",
+                    "imageSize": "100"
+                }
+            ]
+        }
+    ]
+}

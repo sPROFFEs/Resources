@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Suricata</title>
+    <link rel="stylesheet" href="../../insidestyles/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="back-link">Volver</a>
+        <div class="dropdown">
+            <button class="dropbtn">Índice</button>
+            <div class="dropdown-content">
+                <a href="#section-1">Instalación</a><a href="#section-2">Configuración</a><a href="#section-3">Testing</a><a href="#section-4">Configuración +</a><a href="#section-5">Concepto</a>
+            </div>
+        </div>
+    </nav>
+    <div class="guide-content" role="main">
+        <h1>Suricata</h1>
+        
+        <div class="guide-section" id="section-1">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Instalación</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Añadir repositorio</h3>
+                    <div class="code-block"><code>sudo add-apt-repository ppa:osif/suricata-stable</code></div>
+                    
+                    
+                    
+                    
+                    <h3>Instalar</h3>
+                    <div class="code-block"><code>sudo apt install suricata</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Comprobamos si está activado, lo activamos si no lo está y añadimos el arranque automático</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 90%">
+        <img src="img/20241203_194111_Screenshot_2024-12-03_204041.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241203_194243_Screenshot_2024-12-03_204235.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-2">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Configuración</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo nano /etc/suricata/suricata.yaml</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Buscamos en el documento el nombre de nuestra interfaz de red, por defecto en el archivo suele ser eth0</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 40%">
+        <img src="img/20241203_194946_Screenshot_2024-12-03_204943.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Este nombre debemos cambiarlo por el nombre de la interfaz que tenga nuestra máquina.<br>Es importante también indicar la red a la que se van a dirigir los esaneos. <br>Mediante un ip a o ifconfig podremos averiguar estos datos y cambiarlos en el archivo.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 70%">
+        <img src="img/20241203_215144_Screenshot_2024-12-03_225030.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Guardamos y actualizamos las reglas. <br>Esto tambien descarga algunas plantillas para poder auditar ciertos protocolos como kerberos, http, smtp, etc...</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo suricata-update</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Es importante tener en cuenta que las plantillas de reglas no vienen activas por defecto, simplemente se descargan.<br></p>
+                    
+                    
+                    
+                    <h3>Crear reglas</h3>
+                    
+                    <p>Al igual que es posible utilizar las plantillas proporcionadas podemos establecer nuestras propias reglas.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo nano /usr/share/suricata/rules/nombre_regla.rules</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241203_215957_Screenshot_2024-12-03_225951.png" 
+             alt="Alertará cada vez que cualquer máquina haga ping a cualquier otra máquina dentro de la red"
+             style="width: 100%">
+        <div class="image-caption">Alertará cada vez que cualquer máquina haga ping a cualquier otra máquina dentro de la red</div>
+    </div>
+    
+                    
+                    <h3>Cargar reglas</h3>
+                    
+                    <p>Para poder activar las reglas creadas o descargadas necesitamos adjuntarlas en el documento de configuración inicial.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo nano /etc/suricata/suricata.yaml</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 50%">
+        <img src="img/20241203_220545_Screenshot_2024-12-03_230536.png" 
+             alt="Cambiamos la ruta de las reglas y añadimos las que necesitemos"
+             style="width: 100%">
+        <div class="image-caption">Cambiamos la ruta de las reglas y añadimos las que necesitemos</div>
+    </div>
+    
+                    
+                    <h3>Reiniciar el servicio</h3>
+                    <div class="code-block"><code>sudo systemctl restart suricata</code></div>
+                    
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-3">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Testing</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Visualización del fichero log</h3>
+                    
+                    <p>Necesitamos acceder al fichero log de suricata para ver los eventos que ocurran en tiempo real</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>tail -f /var/log/suricata/fast.log</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 85%">
+        <img src="img/20241203_221001_Screenshot_2024-12-03_230952.png" 
+             alt="Por ahora se ve vacío"
+             style="width: 100%">
+        <div class="image-caption">Por ahora se ve vacío</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Si probamos a hacer ping a la maquina de suricata</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 70%">
+        <img src="img/20241203_221809_Screenshot_2024-12-03_231744.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241203_221845_Screenshot_2024-12-03_231836.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-4">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Configuración +</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>Podemos establecer muchos tipos de reglas, por ejemplo:</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241203_222310_Screenshot_2024-12-03_232304.png" 
+             alt="Genera una alerta cada vez que se acceda a una url dentro de la subcarpeta /admin de nuestros servicio web en el puerto 80 "
+             style="width: 100%">
+        <div class="image-caption">Genera una alerta cada vez que se acceda a una url dentro de la subcarpeta /admin de nuestros servicio web en el puerto 80 </div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241203_223046_Screenshot_2024-12-03_232825.png" 
+             alt="Notifica la navegación a cualquier web que contenga la palabra google"
+             style="width: 100%">
+        <div class="image-caption">Notifica la navegación a cualquier web que contenga la palabra google</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241203_224631_Screenshot_2024-12-03_232825.png" 
+             alt="Notifica un posible escaneo de puertos de tipo TCP/SYN sin completar el handshake"
+             style="width: 100%">
+        <div class="image-caption">Notifica un posible escaneo de puertos de tipo TCP/SYN sin completar el handshake</div>
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-5">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Concepto</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>Suricata es capaz de detectar comportamientos en la red y notificarlos según las reglas que se hayan configurado.<br><br>Por si solo este IDS no va a hacer más que notificar pero se puede utilizar e conjunto con otros software para establecer protocolos de actuación automáticos sobre ciertas alertas que sean alertadas por suricata</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Suricata también es capaz de bloquear tráfico mediante sus reglas pero ha de configurarse.</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <footer class="guide-footer">
+        &copy; 2024 Documentación defensiva
+    </footer>
+</body>
+</html>
