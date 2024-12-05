@@ -1,883 +1,906 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>Recuperación de información</title>
     <link rel="stylesheet" href="../../insidestyles/style.css">
 </head>
+
 <body>
     <nav class="navbar">
         <a href="../index.html" class="back-link">Volver</a>
         <div class="dropdown">
             <button class="dropbtn">Índice</button>
             <div class="dropdown-content">
-                <a href="#section-1">1. Identificar el disco</a><a href="#section-2">2. Restaurar la tabla MBR</a><a href="#section-3">3. Extracción de datos sin recuperar MBR</a><a href="#section-4">4. Recuperación de arranque windows XP</a><a href="#section-5">5. Recuperación de arranque windows 7</a>
+                <a href="#section-1">1. Identificar el disco</a><a href="#section-2">2. Restaurar la tabla MBR</a><a
+                    href="#section-3">3. Extracción de datos sin recuperar MBR</a><a href="#section-4">4. Recuperación
+                    de arranque windows XP</a><a href="#section-5">5. Recuperación de arranque windows 7</a>
             </div>
         </div>
     </nav>
     <div class="guide-content" role="main">
         <h1>Recuperación de información</h1>
-        
+
         <div class="guide-section" id="section-1">
             <div class="tool-card">
                 <div class="tool-header">
                     <h2 class="tool-name">1. Identificar el disco</h2>
                 </div>
                 <div class="tool-content">
-                    
+
                     <h3></h3>
-                    
-                    <p>Partimos de que tenemos una imagen de disco que queremos restaurar ya que se encuentra dañada. Lo primero es intentar identificar que tipo de sistema de particiones utiliza y para ello vamos a intentar identificarlo a bajo nivel.</p>
-                    
-                    
-                    
+
+                    <p>Partimos de que tenemos una imagen de disco que queremos restaurar ya que se encuentra dañada. Lo
+                        primero es intentar identificar que tipo de sistema de particiones utiliza y para ello vamos a
+                        intentar identificarlo a bajo nivel.</p>
+
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 100%">
-        <img src="img/20241130_102548_Screenshot_from_2024-11-30_11-25-28.png" 
-             alt="Automáticamente vemos como detecta el tipo MBR"
-             style="width: 100%">
-        <div class="image-caption">Automáticamente vemos como detecta el tipo MBR</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/20241130_102548_Screenshot_from_2024-11-30_11-25-28.png"
+                            alt="Automáticamente vemos como detecta el tipo MBR" style="width: 100%">
+                        <div class="image-caption">Automáticamente vemos como detecta el tipo MBR</div>
+                    </div>
+
+
                     <h3></h3>
-                    
-                    <p>Ahora sabiendo esta información tenemos dos opciones:<br><br>-> Restaurar la tabla de particiones para poder montar la imagen<br><br>-> Intentar extraer los datos del disco con programas especializados</p>
-                    
-                    
-                    
+
+                    <p>Ahora sabiendo esta información tenemos dos opciones:<br><br>-> Restaurar la tabla de particiones
+                        para poder montar la imagen<br><br>-> Intentar extraer los datos del disco con programas
+                        especializados</p>
+
+
+
                 </div>
             </div>
         </div>
-        
+
         <div class="guide-section" id="section-2">
             <div class="tool-card">
                 <div class="tool-header">
                     <h2 class="tool-name">2. Restaurar la tabla MBR</h2>
                 </div>
                 <div class="tool-content">
-                    
+
                     <h3>Testdisk</h3>
-                    
-                    <p>Primero vamos a tomar la opción de restaurar la tabla de particiones para poder montar la imagen y acceder al contenido.<br>Para esto vamos a hacer uso del siguiente software.</p>
-                    
-                    
-                    
+
+                    <p>Primero vamos a tomar la opción de restaurar la tabla de particiones para poder montar la imagen
+                        y acceder al contenido.<br>Para esto vamos a hacer uso del siguiente software.</p>
+
+
+
                     <h3></h3>
-                    
-                    
+
+
                     <a href="https://www.cgsecurity.org/wiki/TestDisk_Download" target="_blank">TestDisk</a>
-                    
-                    
+
+
                     <h3>Montar la imagen de disco con FTK</h3>
-                    
-                    <p>Para facilitar el trabajo vamos a montar la imagen a recuperar usando FTK y activar la escritura en el mismo</p>
-                    
-                    
-                    
+
+                    <p>Para facilitar el trabajo vamos a montar la imagen a recuperar usando FTK y activar la escritura
+                        en el mismo</p>
+
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 75%">
-        <img src="img/20241130_104507_Screenshot_from_2024-11-30_11-45-04.png" 
-             alt="Activar la escritura en el disco"
-             style="width: 100%">
-        <div class="image-caption">Activar la escritura en el disco</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 75%">
+                        <img src="img/20241130_104507_Screenshot_from_2024-11-30_11-45-04.png"
+                            alt="Activar la escritura en el disco" style="width: 100%">
+                        <div class="image-caption">Activar la escritura en el disco</div>
+                    </div>
+
+
                     <h3>Ejecutar TestDisk</h3>
-                    
+
                     <p>Ahora podemos ejecutar Testdisk_win que encontramos en la carpeta descargada</p>
-                    
-                    
-                    
+
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 90%">
-        <img src="img/20241130_103635_Screenshot_from_2024-11-30_11-36-19.png" 
-             alt="Veremos que si nos muestra el disco montado, lo seleccionamos"
-             style="width: 100%">
-        <div class="image-caption">Veremos que si nos muestra el disco montado, lo seleccionamos</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 90%">
+                        <img src="img/20241130_103635_Screenshot_from_2024-11-30_11-36-19.png"
+                            alt="Veremos que si nos muestra el disco montado, lo seleccionamos" style="width: 100%">
+                        <div class="image-caption">Veremos que si nos muestra el disco montado, lo seleccionamos</div>
+                    </div>
+
+
                     <h3></h3>
-                    
-                    <p>Debemos tener en cuenta que al tratarse del sistema MBR debemos seleccionar la opcion INTEL/PC</p>
-                    
-                    
-                    
+
+                    <p>Debemos tener en cuenta que al tratarse del sistema MBR debemos seleccionar la opcion INTEL/PC
+                    </p>
+
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 90%">
-        <img src="img/20241130_103918_Screenshot_from_2024-11-30_11-38-58.png" 
-             alt=""
-             style="width: 100%">
-        
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 90%">
+                        <img src="img/20241130_103918_Screenshot_from_2024-11-30_11-38-58.png" alt=""
+                            style="width: 100%">
+
+                    </div>
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 90%">
-        <img src="img/20241130_103940_Screenshot_from_2024-11-30_11-39-38.png" 
-             alt="Analizamos el disco en busca de particiones"
-             style="width: 100%">
-        <div class="image-caption">Analizamos el disco en busca de particiones</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 90%">
+                        <img src="img/20241130_103940_Screenshot_from_2024-11-30_11-39-38.png"
+                            alt="Analizamos el disco en busca de particiones" style="width: 100%">
+                        <div class="image-caption">Analizamos el disco en busca de particiones</div>
+                    </div>
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 90%">
-        <img src="img/20241130_104013_Screenshot_from_2024-11-30_11-40-11.png" 
-             alt="No detecta particiones a simple vista, damos en busqueda rápida"
-             style="width: 100%">
-        <div class="image-caption">No detecta particiones a simple vista, damos en busqueda rápida</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 90%">
+                        <img src="img/20241130_104013_Screenshot_from_2024-11-30_11-40-11.png"
+                            alt="No detecta particiones a simple vista, damos en busqueda rápida" style="width: 100%">
+                        <div class="image-caption">No detecta particiones a simple vista, damos en busqueda rápida</div>
+                    </div>
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 90%">
-        <img src="img/20241130_104048_Screenshot_from_2024-11-30_11-40-46.png" 
-             alt="Rápidamente detecta una partición NTFS, la seleccionamos"
-             style="width: 100%">
-        <div class="image-caption">Rápidamente detecta una partición NTFS, la seleccionamos</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 90%">
+                        <img src="img/20241130_104048_Screenshot_from_2024-11-30_11-40-46.png"
+                            alt="Rápidamente detecta una partición NTFS, la seleccionamos" style="width: 100%">
+                        <div class="image-caption">Rápidamente detecta una partición NTFS, la seleccionamos</div>
+                    </div>
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 90%">
-        <img src="img/20241130_104134_Screenshot_from_2024-11-30_11-41-29.png" 
-             alt="Escribimos los cambios"
-             style="width: 100%">
-        <div class="image-caption">Escribimos los cambios</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 90%">
+                        <img src="img/20241130_104134_Screenshot_from_2024-11-30_11-41-29.png"
+                            alt="Escribimos los cambios" style="width: 100%">
+                        <div class="image-caption">Escribimos los cambios</div>
+                    </div>
+
+
                     <h3>Comprobación</h3>
-                    
-                    <p>Listo, en principio debemos tener recuperado el sistema de archivos y ser accesible desde FTK.<br><br>Aprovechamos que tenemos el disco montado con el mismo y vamos a comprobar que podemos acceder.</p>
-                    
-                    
-                    
+
+                    <p>Listo, en principio debemos tener recuperado el sistema de archivos y ser accesible desde
+                        FTK.<br><br>Aprovechamos que tenemos el disco montado con el mismo y vamos a comprobar que
+                        podemos acceder.</p>
+
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 100%">
-        <img src="img/20241130_104829_Screenshot_from_2024-11-30_11-48-27.png" 
-             alt="Acceso completo a los archivos del disco"
-             style="width: 100%">
-        <div class="image-caption">Acceso completo a los archivos del disco</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/20241130_104829_Screenshot_from_2024-11-30_11-48-27.png"
+                            alt="Acceso completo a los archivos del disco" style="width: 100%">
+                        <div class="image-caption">Acceso completo a los archivos del disco</div>
+                    </div>
+
+
                     <h3>Información adicional</h3>
-                    
-                    <p>Adicionalmente ahora podemos verificar que sistemas de archivos tiene el disco mediante la comprobación del disco nuevamente con Active disk editor</p>
-                    
-                    
-                    
+
+                    <p>Adicionalmente ahora podemos verificar que sistemas de archivos tiene el disco mediante la
+                        comprobación del disco nuevamente con Active disk editor</p>
+
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 75%">
-        <img src="img/20241130_105959_Screenshot_from_2024-11-30_11-59-44.png" 
-             alt="Ahora si detecta la partición correcta"
-             style="width: 100%">
-        <div class="image-caption">Ahora si detecta la partición correcta</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 75%">
+                        <img src="img/20241130_105959_Screenshot_from_2024-11-30_11-59-44.png"
+                            alt="Ahora si detecta la partición correcta" style="width: 100%">
+                        <div class="image-caption">Ahora si detecta la partición correcta</div>
+                    </div>
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 95%">
-        <img src="img/20241130_110032_Screenshot_from_2024-11-30_12-00-13.png" 
-             alt=""
-             style="width: 100%">
-        
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 95%">
+                        <img src="img/20241130_110032_Screenshot_from_2024-11-30_12-00-13.png" alt=""
+                            style="width: 100%">
+
+                    </div>
+
+
                 </div>
             </div>
         </div>
-        
+
         <div class="guide-section" id="section-3">
             <div class="tool-card">
                 <div class="tool-header">
                     <h2 class="tool-name">3. Extracción de datos sin recuperar MBR</h2>
                 </div>
                 <div class="tool-content">
-                    
+
                     <h3></h3>
-                    
+
                     <p>Para este método vamos a ver tres programas de extracción de datos</p>
-                    
-                    
-                    
+
+
+
                     <h3>Bulk Extractor</h3>
-                    
-                    
-                    <a href="https://digitalcorpora.s3.amazonaws.com/downloads/bulk_extractor/bulk_extractor-1.5.0-windowsinstaller.exe" target="_blank">Version 1.5.0 graphical installer with Windows GUI</a>
-                    
-                    
+
+
+                    <a href="https://digitalcorpora.s3.amazonaws.com/downloads/bulk_extractor/bulk_extractor-1.5.0-windowsinstaller.exe"
+                        target="_blank">Version 1.5.0 graphical installer with Windows GUI</a>
+
+
                     <h3></h3>
-                    
-                    
-                    <a href="https://digitalcorpora.s3.amazonaws.com/downloads/bulk_extractor/bulk_extractor-2.0.0-windows.zip" target="_blank">Version 2.0 command-line EXE</a>
-                    
-                    
+
+
+                    <a href="https://digitalcorpora.s3.amazonaws.com/downloads/bulk_extractor/bulk_extractor-2.0.0-windows.zip"
+                        target="_blank">Version 2.0 command-line EXE</a>
+
+
                     <h3></h3>
-                    
+
                     <p>Importamos la imagen del disco dañada y añadir un directorio de salida</p>
-                    
-                    
-                    
+
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 95%">
-        <img src="img/20241130_110925_Screenshot_from_2024-11-30_12-09-14.png" 
-             alt="En el icono del engranaje podemos importar"
-             style="width: 100%">
-        <div class="image-caption">En el icono del engranaje podemos importar</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 95%">
+                        <img src="img/20241130_110925_Screenshot_from_2024-11-30_12-09-14.png"
+                            alt="En el icono del engranaje podemos importar" style="width: 100%">
+                        <div class="image-caption">En el icono del engranaje podemos importar</div>
+                    </div>
+
+
                     <h3></h3>
-                    
-                    <p>Una vez haya extraido los datos los muestra como un registro de tareas que se han realizado, url visitadas, emails, archivos zip, etc...</p>
-                    
-                    
-                    
+
+                    <p>Una vez haya extraido los datos los muestra como un registro de tareas que se han realizado, url
+                        visitadas, emails, archivos zip, etc...</p>
+
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 100%">
-        <img src="img/20241130_111214_Screenshot_from_2024-11-30_12-12-11.png" 
-             alt="También podemos ver los datos raw de los archivos del disco"
-             style="width: 100%">
-        <div class="image-caption">También podemos ver los datos raw de los archivos del disco</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/20241130_111214_Screenshot_from_2024-11-30_12-12-11.png"
+                            alt="También podemos ver los datos raw de los archivos del disco" style="width: 100%">
+                        <div class="image-caption">También podemos ver los datos raw de los archivos del disco</div>
+                    </div>
+
+
                     <h3>Autopsy</h3>
-                    
-                    
+
+
                     <a href="https://www.autopsy.com/" target="_blank">Autopsy Forensics</a>
-                    
-                    
+
+
                     <h3></h3>
-                    
-                    <p>Este software es uno de los más conocidos y utilizados debido a su versatilidad.<br><br>Vamos a ver que datos consigue extraer del disco.</p>
-                    
-                    
-                    
+
+                    <p>Este software es uno de los más conocidos y utilizados debido a su versatilidad.<br><br>Vamos a
+                        ver que datos consigue extraer del disco.</p>
+
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 100%">
-        <img src="img/20241130_111512_Screenshot_from_2024-11-30_12-15-05.png" 
-             alt="Creamos un caso de prueba"
-             style="width: 100%">
-        <div class="image-caption">Creamos un caso de prueba</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/20241130_111512_Screenshot_from_2024-11-30_12-15-05.png"
+                            alt="Creamos un caso de prueba" style="width: 100%">
+                        <div class="image-caption">Creamos un caso de prueba</div>
+                    </div>
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 100%">
-        <img src="img/20241130_111631_Screenshot_from_2024-11-30_12-16-25.png" 
-             alt="Seleccionamos la imagen del disco y dejamos el resto por defecto hasta ejecutar"
-             style="width: 100%">
-        <div class="image-caption">Seleccionamos la imagen del disco y dejamos el resto por defecto hasta ejecutar</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/20241130_111631_Screenshot_from_2024-11-30_12-16-25.png"
+                            alt="Seleccionamos la imagen del disco y dejamos el resto por defecto hasta ejecutar"
+                            style="width: 100%">
+                        <div class="image-caption">Seleccionamos la imagen del disco y dejamos el resto por defecto
+                            hasta ejecutar</div>
+                    </div>
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 100%">
-        <img src="img/20241130_111941_Screenshot_from_2024-11-30_12-19-20.png" 
-             alt=""
-             style="width: 100%">
-        
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/20241130_111941_Screenshot_from_2024-11-30_12-19-20.png" alt=""
+                            style="width: 100%">
+
+                    </div>
+
+
                     <h3></h3>
-                    
-                    <p>Si analizamos el contenido vemos que realmente si a completado la extracción de los archivos que hay en el disco.<br><br>Si hacemos click derecho en cualquiera de los documentos o ficheros podremos extraerlos.</p>
-                    
-                    
-                    
+
+                    <p>Si analizamos el contenido vemos que realmente si a completado la extracción de los archivos que
+                        hay en el disco.<br><br>Si hacemos click derecho en cualquiera de los documentos o ficheros
+                        podremos extraerlos.</p>
+
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 70%">
-        <img src="img/20241130_112135_Screenshot_from_2024-11-30_12-21-29.png" 
-             alt="Vemos que tambíen nos extrae metadatos de ciertos rastros que pueden ser interesantes"
-             style="width: 100%">
-        <div class="image-caption">Vemos que tambíen nos extrae metadatos de ciertos rastros que pueden ser interesantes</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 70%">
+                        <img src="img/20241130_112135_Screenshot_from_2024-11-30_12-21-29.png"
+                            alt="Vemos que tambíen nos extrae metadatos de ciertos rastros que pueden ser interesantes"
+                            style="width: 100%">
+                        <div class="image-caption">Vemos que tambíen nos extrae metadatos de ciertos rastros que pueden
+                            ser interesantes</div>
+                    </div>
+
+
                     <h3>Photorec Testdisk</h3>
-                    
-                    <p>Por último vamos a usar la extensión photorec del software anteriormente utilizado Testdisk.<br><br>Aunque inicialmente fue pensado para recuperar imágenes es capaz de recuperar cualquier tipo de archivo y es muy intuitivo.</p>
-                    
-                    
-                    
+
+                    <p>Por último vamos a usar la extensión photorec del software anteriormente utilizado
+                        Testdisk.<br><br>Aunque inicialmente fue pensado para recuperar imágenes es capaz de recuperar
+                        cualquier tipo de archivo y es muy intuitivo.</p>
+
+
+
                     <h3></h3>
-                    
-                    <p>Lo tenemos disponible en la misma carpeta que descargamos de testdisk.<br><br>Ejecutamos qphotorec_win</p>
-                    
-                    
-                    
+
+                    <p>Lo tenemos disponible en la misma carpeta que descargamos de testdisk.<br><br>Ejecutamos
+                        qphotorec_win</p>
+
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 65%">
-        <img src="img/20241130_112515_Screenshot_from_2024-11-30_12-25-08.png" 
-             alt="Importamos la imagen del disco dañado y seleccionamos el directorio de salida"
-             style="width: 100%">
-        <div class="image-caption">Importamos la imagen del disco dañado y seleccionamos el directorio de salida</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 65%">
+                        <img src="img/20241130_112515_Screenshot_from_2024-11-30_12-25-08.png"
+                            alt="Importamos la imagen del disco dañado y seleccionamos el directorio de salida"
+                            style="width: 100%">
+                        <div class="image-caption">Importamos la imagen del disco dañado y seleccionamos el directorio
+                            de salida</div>
+                    </div>
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 65%">
-        <img src="img/20241130_112656_Screenshot_from_2024-11-30_12-26-53.png" 
-             alt="Como ya sabemos con anterioridad que es sistema NTFS lo seleccionamos"
-             style="width: 100%">
-        <div class="image-caption">Como ya sabemos con anterioridad que es sistema NTFS lo seleccionamos</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 65%">
+                        <img src="img/20241130_112656_Screenshot_from_2024-11-30_12-26-53.png"
+                            alt="Como ya sabemos con anterioridad que es sistema NTFS lo seleccionamos"
+                            style="width: 100%">
+                        <div class="image-caption">Como ya sabemos con anterioridad que es sistema NTFS lo seleccionamos
+                        </div>
+                    </div>
+
+
                     <h3></h3>
-                    
-                    <p>Ejecutamos y sin más pasos simplemente indica los archivos que ha recuperado.<br><br>Si vamos al directorio de salida los podremos encontrar.</p>
-                    
-                    
-                    
+
+                    <p>Ejecutamos y sin más pasos simplemente indica los archivos que ha recuperado.<br><br>Si vamos al
+                        directorio de salida los podremos encontrar.</p>
+
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 85%">
-        <img src="img/20241130_112840_Screenshot_from_2024-11-30_12-28-33.png" 
-             alt=""
-             style="width: 100%">
-        
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 85%">
+                        <img src="img/20241130_112840_Screenshot_from_2024-11-30_12-28-33.png" alt=""
+                            style="width: 100%">
+
+                    </div>
+
+
                     <h3></h3>
-                    
-                    <p>Se trata de una herramienta sencilla pero potente aunque como su enfoque no es de análisis forense no proporciona tanta información como los anteriores programas.</p>
-                    
-                    
-                    
+
+                    <p>Se trata de una herramienta sencilla pero potente aunque como su enfoque no es de análisis
+                        forense no proporciona tanta información como los anteriores programas.</p>
+
+
+
                 </div>
             </div>
         </div>
-        
+
         <div class="guide-section" id="section-4">
             <div class="tool-card">
                 <div class="tool-header">
                     <h2 class="tool-name">4. Recuperación de arranque windows XP</h2>
                 </div>
                 <div class="tool-content">
-                    
+
                     <h3></h3>
-                    
-                    <p>Para esta sección vamos a intentar recuperar el arranque dañado de una máquina windows XP mediante testdisk.<br><br>El software de virtualización es virtualbox</p>
-                    
-                    
-                    
+
+                    <p>Para esta sección vamos a intentar recuperar el arranque dañado de una máquina windows XP
+                        mediante testdisk.<br><br>El software de virtualización es virtualbox</p>
+
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 55%">
-        <img src="img/20241130_170236_Screenshot_from_2024-11-30_18-02-25.png" 
-             alt="Versión de windows xp funcionando"
-             style="width: 100%">
-        <div class="image-caption">Versión de windows xp funcionando</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 55%">
+                        <img src="img/20241130_170236_Screenshot_from_2024-11-30_18-02-25.png"
+                            alt="Versión de windows xp funcionando" style="width: 100%">
+                        <div class="image-caption">Versión de windows xp funcionando</div>
+                    </div>
+
+
                     <h3>Dañar el arranque</h3>
-                    
-                    <p>En este caso vamos a usar una imagen live de kali linux para poder dañar el disco de arranque de windows. <br>Simplemente añadimos la imagen a la máquina y arrancamos desde linux</p>
-                    
-                    
-                    
+
+                    <p>En este caso vamos a usar una imagen live de kali linux para poder dañar el disco de arranque de
+                        windows. <br>Simplemente añadimos la imagen a la máquina y arrancamos desde linux</p>
+
+
+
                     <h3></h3>
-                    
+
                     <p>Una vez en kali </p>
-                    
-                    
-                    
+
+
+
                     <h3></h3>
                     <div class="code-block"><code>sudo fdisk -l</code></div>
-                    
-                    
-                    
-                    
+
+
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 75%">
-        <img src="img/20241130_171206_Screenshot_from_2024-11-30_18-11-52.png" 
-             alt="Identificamos el disco del sistema windows /dev/sda1"
-             style="width: 100%">
-        <div class="image-caption">Identificamos el disco del sistema windows /dev/sda1</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 75%">
+                        <img src="img/20241130_171206_Screenshot_from_2024-11-30_18-11-52.png"
+                            alt="Identificamos el disco del sistema windows /dev/sda1" style="width: 100%">
+                        <div class="image-caption">Identificamos el disco del sistema windows /dev/sda1</div>
+                    </div>
+
+
                     <h3></h3>
                     <div class="code-block"><code>sudo dd if=/dev/zero of=/dev/sda1 bs=512 count=1<br></code></div>
-                    
-                    
-                    
-                    
+
+
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 65%">
-        <img src="img/20241130_171438_Screenshot_from_2024-11-30_18-14-33.png" 
-             alt="Escribe ceros en los primeros 512 bytes"
-             style="width: 100%">
-        <div class="image-caption">Escribe ceros en los primeros 512 bytes</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 65%">
+                        <img src="img/20241130_171438_Screenshot_from_2024-11-30_18-14-33.png"
+                            alt="Escribe ceros en los primeros 512 bytes" style="width: 100%">
+                        <div class="image-caption">Escribe ceros en los primeros 512 bytes</div>
+                    </div>
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 65%">
-        <img src="img/20241130_171551_Screenshot_from_2024-11-30_18-15-46.png" 
-             alt="Podemos comprobar que el daño es correcto"
-             style="width: 100%">
-        <div class="image-caption">Podemos comprobar que el daño es correcto</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 65%">
+                        <img src="img/20241130_171551_Screenshot_from_2024-11-30_18-15-46.png"
+                            alt="Podemos comprobar que el daño es correcto" style="width: 100%">
+                        <div class="image-caption">Podemos comprobar que el daño es correcto</div>
+                    </div>
+
+
                     <h3>Reparación con Testdisk</h3>
-                    
-                    <p>Ahora vamos a intentar reparar el sistema haciendo uso de testdisk. <br><br>Hemos usado kali linux porque contamos con la ventaja de que viene preinstalado por lo que será más rápido.</p>
-                    
-                    
-                    
+
+                    <p>Ahora vamos a intentar reparar el sistema haciendo uso de testdisk. <br><br>Hemos usado kali
+                        linux porque contamos con la ventaja de que viene preinstalado por lo que será más rápido.</p>
+
+
+
                     <h3></h3>
                     <div class="code-block"><code>sudo testdisk /dev/sda1</code></div>
-                    
-                    
-                    
-                    
+
+
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 65%">
-        <img src="img/20241130_171850_Screenshot_from_2024-11-30_18-18-45.png" 
-             alt=""
-             style="width: 100%">
-        
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 65%">
+                        <img src="img/20241130_171850_Screenshot_from_2024-11-30_18-18-45.png" alt=""
+                            style="width: 100%">
+
+                    </div>
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 70%">
-        <img src="img/20241130_172014_Screenshot_from_2024-11-30_18-20-09.png" 
-             alt="Seleccionamos que no existen particiones"
-             style="width: 100%">
-        <div class="image-caption">Seleccionamos que no existen particiones</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 70%">
+                        <img src="img/20241130_172014_Screenshot_from_2024-11-30_18-20-09.png"
+                            alt="Seleccionamos que no existen particiones" style="width: 100%">
+                        <div class="image-caption">Seleccionamos que no existen particiones</div>
+                    </div>
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 75%">
-        <img src="img/20241130_172048_Screenshot_from_2024-11-30_18-20-43.png" 
-             alt=""
-             style="width: 100%">
-        
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 75%">
+                        <img src="img/20241130_172048_Screenshot_from_2024-11-30_18-20-43.png" alt=""
+                            style="width: 100%">
+
+                    </div>
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 75%">
-        <img src="img/20241130_172123_Screenshot_from_2024-11-30_18-21-15.png" 
-             alt="Indica que el sector de arranque está dañado pero el de respaldo es válido"
-             style="width: 100%">
-        <div class="image-caption">Indica que el sector de arranque está dañado pero el de respaldo es válido</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 75%">
+                        <img src="img/20241130_172123_Screenshot_from_2024-11-30_18-21-15.png"
+                            alt="Indica que el sector de arranque está dañado pero el de respaldo es válido"
+                            style="width: 100%">
+                        <div class="image-caption">Indica que el sector de arranque está dañado pero el de respaldo es
+                            válido</div>
+                    </div>
+
+
                     <h3></h3>
-                    
+
                     <p>Elegimos la opción de backup boot sector</p>
-                    
-                    
-                    
+
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 85%">
-        <img src="img/20241130_181526_Screenshot_from_2024-11-30_19-15-21.png" 
-             alt=""
-             style="width: 100%">
-        
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 85%">
+                        <img src="img/20241130_181526_Screenshot_from_2024-11-30_19-15-21.png" alt=""
+                            style="width: 100%">
+
+                    </div>
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 75%">
-        <img src="img/20241130_172431_Screenshot_from_2024-11-30_18-24-23.png" 
-             alt="Si comprobamos de nuevo la integridad veremos que indica el sector de arranque correctamente"
-             style="width: 100%">
-        <div class="image-caption">Si comprobamos de nuevo la integridad veremos que indica el sector de arranque correctamente</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 75%">
+                        <img src="img/20241130_172431_Screenshot_from_2024-11-30_18-24-23.png"
+                            alt="Si comprobamos de nuevo la integridad veremos que indica el sector de arranque correctamente"
+                            style="width: 100%">
+                        <div class="image-caption">Si comprobamos de nuevo la integridad veremos que indica el sector de
+                            arranque correctamente</div>
+                    </div>
+
+
                     <h3>Reparación con windows</h3>
-                    
-                    <p>Si no conseguimos arrancar de nuevo el sistema windows XP podemos intentar recuperar el arranque con el disco de instalación de windows</p>
-                    
-                    
-                    
+
+                    <p>Si no conseguimos arrancar de nuevo el sistema windows XP podemos intentar recuperar el arranque
+                        con el disco de instalación de windows</p>
+
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 100%">
-        <img src="img/20241130_173028_Screenshot_from_2024-11-30_18-29-27.png" 
-             alt="Presionamos R"
-             style="width: 100%">
-        <div class="image-caption">Presionamos R</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/20241130_173028_Screenshot_from_2024-11-30_18-29-27.png" alt="Presionamos R"
+                            style="width: 100%">
+                        <div class="image-caption">Presionamos R</div>
+                    </div>
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 100%">
-        <img src="img/20241130_173402_Screenshot_from_2024-11-30_18-33-49.png" 
-             alt="Dentro del sistema hacemos lo siguiente"
-             style="width: 100%">
-        <div class="image-caption">Dentro del sistema hacemos lo siguiente</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/20241130_173402_Screenshot_from_2024-11-30_18-33-49.png"
+                            alt="Dentro del sistema hacemos lo siguiente" style="width: 100%">
+                        <div class="image-caption">Dentro del sistema hacemos lo siguiente</div>
+                    </div>
+
+
                     <h3></h3>
                     <div class="code-block"><code>fixmbr</code></div>
-                    <div class="code-block"><code>bootcfg /rebuild</code></div>
                     <div class="code-block"><code>fixboot</code></div>
-                    
-                    
-                    
-                    
+                    <div class="code-block"><code>bootcfg /rebuild</code></div>
+
+
+
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 100%">
-        <img src="img/20241130_173528_Screenshot_from_2024-11-30_18-35-14.png" 
-             alt=""
-             style="width: 100%">
-        
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/Screenshot from 2024-12-05 11-17-38.png" alt=""
+                            style="width: 100%">
+
+                    </div>
+
+
                     <h3></h3>
-                    
-                    <p>Escribimos exit y al reiniciar ya tendremos el sistema de arranque arreglado</p>
-                    
-                    
-                    
+
+                    <p>Escribimos fixmbr y aceptamos con s</p>
+
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/Screenshot from 2024-12-05 11-20-11.png" alt=""
+                            style="width: 100%">
+
+                    </div>
+
+
+                    <h3></h3>
+
+                    <p>Escribimos fixboot y aceptamos con s</p>
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/Screenshot from 2024-12-05 11-22-08.png" alt=""
+                            style="width: 100%">
+
+                    </div>
+
+
+                    <h3></h3>
+
+                    <p>Escribimos bootcfg /rebuild, aceptamos con s y presionamos enter dos veces.</p>
+                    <p>Ahora reiniciamos escribiendo exit y al reiniciar ya tendremos el sistema de arranque arreglado</p>
+
                 </div>
             </div>
         </div>
-        
+
+
         <div class="guide-section" id="section-5">
             <div class="tool-card">
                 <div class="tool-header">
                     <h2 class="tool-name">5. Recuperación de arranque windows 7</h2>
                 </div>
                 <div class="tool-content">
-                    
+
                     <h3></h3>
-                    
+
                     <p>Ahora vamos a realizar el mismo proceso pero de un sistema windows 7 en dualboot con debian</p>
-                    
-                    
-                    
+
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 85%">
-        <img src="img/20241130_174918_Screenshot_from_2024-11-30_18-47-42.png" 
-             alt=""
-             style="width: 100%">
-        
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 85%">
+                        <img src="img/20241130_174918_Screenshot_from_2024-11-30_18-47-42.png" alt=""
+                            style="width: 100%">
+
+                    </div>
+
+
                     <h3>Comprobación</h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 100%">
-        <img src="img/20241130_175004_Screenshot_from_2024-11-30_18-49-58.png" 
-             alt="Vemos que el sistema windows es funcional"
-             style="width: 100%">
-        <div class="image-caption">Vemos que el sistema windows es funcional</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 100%">
+                        <img src="img/20241130_175004_Screenshot_from_2024-11-30_18-49-58.png"
+                            alt="Vemos que el sistema windows es funcional" style="width: 100%">
+                        <div class="image-caption">Vemos que el sistema windows es funcional</div>
+                    </div>
+
+
                     <h3>Proceso de dañar el arranque</h3>
-                    
-                    <p>Este proceso es exactamente igual que el anterior, arrancaremos kali live ya que el debian existente está desactualizado y tiene problemas de repositorios.</p>
-                    
-                    
-                    
+
+                    <p>Este proceso es exactamente igual que el anterior, arrancaremos kali live ya que el debian
+                        existente está desactualizado y tiene problemas de repositorios.</p>
+
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 85%">
-        <img src="img/20241130_175806_Screenshot_from_2024-11-30_18-58-00.png" 
-             alt="Visualizamos las particiones del disco"
-             style="width: 100%">
-        <div class="image-caption">Visualizamos las particiones del disco</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 85%">
+                        <img src="img/20241130_175806_Screenshot_from_2024-11-30_18-58-00.png"
+                            alt="Visualizamos las particiones del disco" style="width: 100%">
+                        <div class="image-caption">Visualizamos las particiones del disco</div>
+                    </div>
+
+
                     <h3></h3>
-                    
+
                     <p>En la primera partición donde indica boot es la que neceistamos modificar</p>
-                    
-                    
-                    
+
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 60%">
-        <img src="img/20241130_180118_Screenshot_from_2024-11-30_19-01-11.png" 
-             alt=""
-             style="width: 100%">
-        
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 60%">
+                        <img src="img/20241130_180118_Screenshot_from_2024-11-30_19-01-11.png" alt=""
+                            style="width: 100%">
+
+                    </div>
+
+
                     <h3>Comprobación de arranque</h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 60%">
-        <img src="img/20241130_180227_Screenshot_from_2024-11-30_19-02-07.png" 
-             alt="El sistema de arranque no funciona para windows 7"
-             style="width: 100%">
-        <div class="image-caption">El sistema de arranque no funciona para windows 7</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 60%">
+                        <img src="img/20241130_180227_Screenshot_from_2024-11-30_19-02-07.png"
+                            alt="El sistema de arranque no funciona para windows 7" style="width: 100%">
+                        <div class="image-caption">El sistema de arranque no funciona para windows 7</div>
+                    </div>
+
+
                     <h3>Reparación con Testdisk</h3>
-                    
+
                     <p>De nuevo arrancamos kali linux para reparar el sistema de arranque</p>
-                    
-                    
-                    
+
+
+
                     <h3></h3>
                     <div class="code-block"><code>sudo testdisk /dev/sda1</code></div>
-                    
-                    
-                    
-                    
+
+
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 60%">
-        <img src="img/20241130_180523_Screenshot_from_2024-11-30_19-05-17.png" 
-             alt=""
-             style="width: 100%">
-        
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 60%">
+                        <img src="img/20241130_180523_Screenshot_from_2024-11-30_19-05-17.png" alt=""
+                            style="width: 100%">
+
+                    </div>
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 80%">
-        <img src="img/20241130_180810_Screenshot_from_2024-11-30_19-08-04.png" 
-             alt="None"
-             style="width: 100%">
-        <div class="image-caption">None</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 80%">
+                        <img src="img/20241130_180810_Screenshot_from_2024-11-30_19-08-04.png" alt="None"
+                            style="width: 100%">
+                        <div class="image-caption">None</div>
+                    </div>
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 85%">
-        <img src="img/20241130_180843_Screenshot_from_2024-11-30_19-08-32.png" 
-             alt="Boot"
-             style="width: 100%">
-        <div class="image-caption">Boot</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 85%">
+                        <img src="img/20241130_180843_Screenshot_from_2024-11-30_19-08-32.png" alt="Boot"
+                            style="width: 100%">
+                        <div class="image-caption">Boot</div>
+                    </div>
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 85%">
-        <img src="img/20241130_180918_Screenshot_from_2024-11-30_19-09-01.png" 
-             alt="Backup BS"
-             style="width: 100%">
-        <div class="image-caption">Backup BS</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 85%">
+                        <img src="img/20241130_180918_Screenshot_from_2024-11-30_19-09-01.png" alt="Backup BS"
+                            style="width: 100%">
+                        <div class="image-caption">Backup BS</div>
+                    </div>
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 85%">
-        <img src="img/20241130_181001_Screenshot_from_2024-11-30_19-09-46.png" 
-             alt="Ahora reiniciamos para comprobar el arranque de windows"
-             style="width: 100%">
-        <div class="image-caption">Ahora reiniciamos para comprobar el arranque de windows</div>
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 85%">
+                        <img src="img/20241130_181001_Screenshot_from_2024-11-30_19-09-46.png"
+                            alt="Ahora reiniciamos para comprobar el arranque de windows" style="width: 100%">
+                        <div class="image-caption">Ahora reiniciamos para comprobar el arranque de windows</div>
+                    </div>
+
+
                     <h3>Comprobación de arranque reparado</h3>
-                    
+
                     <p>Ahora al reiniciar y arrancar desde la partición de windows 7 todo funcionará correctamente</p>
-                    
-                    
-                    
+
+
+
                     <h3></h3>
-                    
-                    
-                    
-                    
-    <div class="image-container align-center" style="max-width: 85%">
-        <img src="img/20241130_181206_Screenshot_from_2024-11-30_19-11-30.png" 
-             alt=""
-             style="width: 100%">
-        
-    </div>
-    
-                    
+
+
+
+
+                    <div class="image-container align-center" style="max-width: 85%">
+                        <img src="img/20241130_181206_Screenshot_from_2024-11-30_19-11-30.png" alt=""
+                            style="width: 100%">
+
+                    </div>
+
+
                 </div>
             </div>
         </div>
-        
+
     </div>
     <footer class="guide-footer">
         &copy; 2024 Documentación forense
     </footer>
 </body>
+
 </html>
