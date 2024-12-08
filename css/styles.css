@@ -7,11 +7,11 @@
     --color-text: #ffffff;
     --color-text-dim: #a0a0a0;
     --color-border: #1a1a1a;
-    
+
     /* Typography */
     --font-main: 'Inter', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
-    
+
     /* Transitions */
     --transition: all 0.3s ease;
 }
@@ -36,7 +36,12 @@ body {
 }
 
 /* Typography */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: var(--font-mono);
     font-weight: 700;
 }
@@ -253,11 +258,9 @@ h1, h2, h3, h4, h5, h6 {
 
 .project-content {
     padding: 2rem;
-    background: linear-gradient(
-        to top,
-        rgba(26, 26, 26, 0.95),
-        rgba(26, 26, 26, 0.8)
-    );
+    background: linear-gradient(to top,
+            rgba(26, 26, 26, 0.95),
+            rgba(26, 26, 26, 0.8));
 }
 
 .project-title {
@@ -280,7 +283,8 @@ h1, h2, h3, h4, h5, h6 {
     gap: 1rem;
     margin-top: 1.5rem;
     position: relative;
-    z-index: 10; /* Asegurar que esté por encima de otros elementos */
+    z-index: 10;
+    /* Asegurar que esté por encima de otros elementos */
 }
 
 /* Estilos base para los enlaces */
@@ -319,7 +323,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .project-link.demo:hover {
-    background: #00cc7d; /* Un tono más claro del color primario */
+    background: #00cc7d;
+    /* Un tono más claro del color primario */
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 255, 157, 0.25);
 }
@@ -328,7 +333,8 @@ h1, h2, h3, h4, h5, h6 {
 .project-link svg {
     width: 20px;
     height: 20px;
-    pointer-events: none; /* Evitar que el ícono interfiera con el clic */
+    pointer-events: none;
+    /* Evitar que el ícono interfiera con el clic */
 }
 
 /* Ajustar el contenedor de la tarjeta */
@@ -336,7 +342,8 @@ h1, h2, h3, h4, h5, h6 {
     position: relative;
     background: rgba(26, 26, 26, 0.6);
     border-radius: 16px;
-    overflow: visible; /* Cambiado de hidden a visible */
+    overflow: visible;
+    /* Cambiado de hidden a visible */
     transition: all 0.3s ease;
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
@@ -372,12 +379,10 @@ h1, h2, h3, h4, h5, h6 {
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        var(--color-primary),
-        transparent
-    );
+    background: linear-gradient(90deg,
+            transparent,
+            var(--color-primary),
+            transparent);
     transform: translateX(-8%);
     transition: transform 0.5s ease;
 }
@@ -457,8 +462,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .skill-icon {
-    width: 100px;  /* Aumentado de 60px a 100px */
-    height: 100px; /* Aumentado de 60px a 100px */
+    width: 100px;
+    /* Aumentado de 60px a 100px */
+    height: 100px;
+    /* Aumentado de 60px a 100px */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -470,7 +477,8 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    filter: none; /* Removido el filtro para mantener los colores originales */
+    filter: none;
+    /* Removido el filtro para mantener los colores originales */
     transition: transform 0.3s ease;
 }
 
@@ -527,24 +535,30 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Animación al hacer hover */
 @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }
 
 .skill-card:hover .skill-icon {
     animation: pulse 1s infinite;
 }
 
-/* Contact Section */
+
 /* Contact Section */
 .contact-section {
     padding: 6rem 0;
-    background: linear-gradient(
-        to bottom,
-        var(--color-bg),
-        rgba(0, 255, 157, 0.05)
-    );
+    background: linear-gradient(to bottom,
+            var(--color-bg),
+            rgba(0, 255, 157, 0.05));
 }
 
 .contact-container {
@@ -631,6 +645,29 @@ h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-mono);
 }
 
+/* Estilos para la sección de decoración con GIF */
+.contact-decoration {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    width: 100%;
+}
+
+.decoration-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 300px;  /* Ajusta según el tamaño deseado */
+    width: 100%;
+}
+
+.decoration-gif {
+    max-width: 100%;  /* Asegura que el gif se ajuste bien al contenedor */
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 255, 157, 0.1);
+}
+
 .social-links {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -681,18 +718,25 @@ h1, h2, h3, h4, h5, h6 {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(45deg, 
-        rgba(0, 255, 157, 0.1),
-        transparent,
-        rgba(0, 102, 255, 0.1)
-    );
+    background: linear-gradient(45deg,
+            rgba(0, 255, 157, 0.1),
+            transparent,
+            rgba(0, 102, 255, 0.1));
     animation: gradient 10s ease infinite;
 }
 
 @keyframes gradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 /* Responsive adjustments */
@@ -700,7 +744,7 @@ h1, h2, h3, h4, h5, h6 {
     .contact-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .social-links {
         grid-template-columns: 1fr;
     }
@@ -756,63 +800,83 @@ h1, h2, h3, h4, h5, h6 {
     0% {
         clip: rect(42px, 9999px, 44px, 0);
     }
+
     5% {
         clip: rect(12px, 9999px, 59px, 0);
     }
+
     10% {
         clip: rect(48px, 9999px, 29px, 0);
     }
+
     15.0% {
         clip: rect(42px, 9999px, 73px, 0);
     }
+
     20% {
         clip: rect(63px, 9999px, 27px, 0);
     }
+
     25% {
         clip: rect(34px, 9999px, 55px, 0);
     }
+
     30.0% {
         clip: rect(86px, 9999px, 73px, 0);
     }
+
     35% {
         clip: rect(20px, 9999px, 20px, 0);
     }
+
     40% {
         clip: rect(26px, 9999px, 60px, 0);
     }
+
     45% {
         clip: rect(25px, 9999px, 66px, 0);
     }
+
     50% {
         clip: rect(57px, 9999px, 98px, 0);
     }
+
     55.0% {
         clip: rect(5px, 9999px, 46px, 0);
     }
+
     60.0% {
         clip: rect(82px, 9999px, 31px, 0);
     }
+
     65% {
         clip: rect(54px, 9999px, 27px, 0);
     }
+
     70% {
         clip: rect(28px, 9999px, 99px, 0);
     }
+
     75% {
         clip: rect(45px, 9999px, 69px, 0);
     }
+
     80% {
         clip: rect(23px, 9999px, 85px, 0);
     }
+
     85.0% {
         clip: rect(54px, 9999px, 84px, 0);
     }
+
     90% {
         clip: rect(45px, 9999px, 47px, 0);
     }
+
     95% {
         clip: rect(37px, 9999px, 20px, 0);
     }
+
     100% {
         clip: rect(4px, 9999px, 91px, 0);
     }
@@ -918,26 +982,34 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @keyframes loading-progress {
-    0% { width: 0; }
-    100% { width: 100%; }
+    0% {
+        width: 0;
+    }
+
+    100% {
+        width: 100%;
+    }
 }
 
 @keyframes glow {
     from {
         text-shadow: 0 0 5px var(--color-primary),
-                     0 0 10px var(--color-primary),
-                     0 0 15px var(--color-primary);
+            0 0 10px var(--color-primary),
+            0 0 15px var(--color-primary);
     }
+
     to {
         text-shadow: 0 0 10px var(--color-primary),
-                     0 0 20px var(--color-primary),
-                     0 0 30px var(--color-primary);
+            0 0 20px var(--color-primary),
+            0 0 30px var(--color-primary);
     }
 }
+
 .fade-out {
     opacity: 0;
     transition: opacity 0.5s ease;
 }
+
 .loading.fade-out {
     opacity: 0;
     pointer-events: none;
@@ -1026,11 +1098,9 @@ h1, h2, h3, h4, h5, h6 {
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(
-        to bottom right,
-        rgba(0, 255, 157, 0.1),
-        rgba(0, 102, 255, 0.1)
-    );
+    background: linear-gradient(to bottom right,
+            rgba(0, 255, 157, 0.1),
+            rgba(0, 102, 255, 0.1));
     pointer-events: none;
 }
 
@@ -1064,7 +1134,8 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Contenedor de tecnologías */
 .tech-stack {
-    background: #1a1a1a;  /* Fondo ligeramente más claro que el negro */
+    background: #1a1a1a;
+    /* Fondo ligeramente más claro que el negro */
     padding: 2rem 1rem;
     border-radius: 12px;
     margin: 2rem 0;
@@ -1145,8 +1216,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @keyframes bounce {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(-5px); }
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(-5px);
+    }
 }
 
 /* Responsive */
@@ -1154,8 +1232,93 @@ h1, h2, h3, h4, h5, h6 {
     .tech-stack {
         margin: 1rem;
     }
-    
+
     .tech-icon {
         min-width: 80px;
     }
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Black background with opacity */
+}
+
+.modal-content {
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.5);
+    margin: 15% auto;
+    padding: 20px;
+    width: 80%;
+    max-width: 1000px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 30px;
+    font-weight: bold;
+    color: #3b9208;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+}
+
+/* Certificate images styles */
+.certificate-images {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.certificate-image {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* Navigation buttons */
+.nav-buttons {
+    position: absolute;
+    top: 50%;
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+}
+
+.prev,
+.next {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 30px;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.prev:hover,
+.next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
 }

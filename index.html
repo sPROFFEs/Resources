@@ -106,7 +106,7 @@
                 <div class="about-content">
                     <p class="about-text" data-i18n="about-description">
                         Cybersecurity professional passionate about digital security and technology.
-                        Specialized in hardware maintenance and security research.
+                        Specialized in hardware, security research, penetration testing, and more.
                     </p>
                     <div class="tech-stack">
                         <h3 data-i18n="about-stack">Tech Stack</h3>
@@ -168,6 +168,43 @@
                             </div>
                         </div>
                     </div>
+                    <div class="tech-stack">
+                        <h3 data-i18n="about-normative">Standards and Frameworks</h3>
+                        <div class="tech-list">
+
+                            <div class="tech-icon">
+                                <img src="images/iso.png" alt="ISO"></img>
+                                <span>ISO 27001</span>
+                            </div>
+                            <div class="tech-icon">
+                                <img src="images/csfnist.svg" alt="CSF NIST"></img>
+                                <span>CSF NIST</span>
+                            </div>
+                            <div class="tech-icon">
+                                <img src="images/soc-svgrepo-com.svg" alt="SOC"></img>
+                                <span>SOC 2</span>
+                            </div>
+                            <div class="tech-icon">
+                                <img src="images/mittre.ico" alt="MITTRE"></img>
+                                <span>MITTRE ATT&CK</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tech-stack">
+                        <h3>CTFs</h3>
+                        <div class="tech-list">
+
+                            <div class="tech-icon">
+                                <iframe src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=3628148"
+                                    style='border:none; width: 110%;'></iframe>
+                                <span>TryHackMe</span>
+                            </div>
+                            <div class="tech-icon" onclick="window.open('https://app.hackthebox.com/profile/1792053')"></img>
+                                    <img src="images/hack-the-box-svgrepo-com.svg" alt="hack-the-box-svgrepo-com"></img>
+                                <span>HackTheBox</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -221,14 +258,95 @@
                     <div class="skill-icon">
                         <img src="images/code-block-svgrepo-com.svg" alt="code-block-svgrepo-com"></img>
                     </div>
-                    <h3 data-i18n="skills-code" class="skill-title">Code reversing</h3>
+                    <h3 data-i18n="skills-code" class="skill-title">Reverse Engineering</h3>
                     <div class="skill-progress">
                         <div class="skill-progress-bar" style="width: 60%"></div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <img src="images/red_teaming.png" alt="red_teaming"></img>
+                    </div>
+                    <h3 data-i18n="skills-redteam" class="skill-title">Red Teaming</h3>
+                    <div class="skill-progress">
+                        <div class="skill-progress-bar" style="width: 85%"></div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <img src="images/penetration_test.png" alt="penetration_test"></img>
+                    </div>
+                    <h3 data-i18n="skills-pentesting" class="skill-title">Penetration Testing</h3>
+                    <div class="skill-progress">
+                        <div class="skill-progress-bar" style="width: 80%"></div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <img src="images/exploit_tech.png" alt="exploit_tech"></img>
+                    </div>
+                    <h3 data-i18n="skills-exploitation" class="skill-title">Exploitation Techniques</h3>
+                    <div class="skill-progress">
+                        <div class="skill-progress-bar" style="width: 75%"></div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <img src="images/threat_hunt.png" alt="threat_hunt"></img>
+                    </div>
+                    <h3 data-i18n="skills-threat-hunting" class="skill-title">Threat Hunting</h3>
+                    <div class="skill-progress">
+                        <div class="skill-progress-bar" style="width: 80%"></div>
+                    </div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-icon">
+                        <img src="images/net_sec.png" alt="net_sec"></img>
+                    </div>
+                    <h3 data-i18n="skills-network-security" class="skill-title">Network Security</h3>
+                    <div class="skill-progress">
+                        <div class="skill-progress-bar" style="width: 85%"></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications" class="skills-section">
+        <div class="container">
+            <h2 class="skills-title" data-i18n="certifications-title">Certifications</h2>
+            <div class="skills-grid">
+
+                <div class="skill-card" id="udemy-card" onclick="showCertificates('udemy')">
+                    <div class="skill-icon">
+                        <img src="images/udemy-icon-svgrepo-com.svg" alt="udemy-icon-svgrepo-com">
+                    </div>
+                    <h3 class="skill-title">Udemy</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal for displaying certificates -->
+    <div id="certificates-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+
+            <!-- Navigation buttons -->
+            <div class="nav-buttons">
+                <button class="prev" onclick="changeImage(-1)">&#8592;</button>
+                <button class="next" onclick="changeImage(1)">&#8594;</button>
+            </div>
+
+            <!-- Images will be dynamically added here -->
+            <div class="certificate-images">
+                <img id="certificate-image" src="" alt="Certificate Image" class="certificate-image">
+            </div>
+        </div>
+    </div>
+
+
 
     <!-- Projects Section -->
     <section id="projects" class="projects-section">
@@ -434,15 +552,11 @@
                 <!-- Decoration or Map Area -->
                 <div class="contact-decoration">
                     <div class="decoration-content">
-                        <svg width="200" height="200" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)"
-                            stroke-width="0.5">
-                            <!-- Patrón decorativo o icono grande -->
-                            <circle cx="12" cy="12" r="10" />
-                            <circle cx="12" cy="12" r="6" />
-                            <circle cx="12" cy="12" r="2" />
-                        </svg>
+                        <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExa2dvNDh5NmZndG5lb3V5enU3ZWt4bHk2dDNvMTZuMXh2Mzd2dGppNCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/8fRwPZtbWkkX6/200.webp" alt="Cybersecurity GIF"
+                            class="decoration-gif">
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -464,6 +578,7 @@
     <script src="js/main-js.js"></script>
     <script src="js/matrix-js.js"></script>
     <script src="js/translations-js.js"></script>
+    <script src="js/pop_modal.js"></script>
     <script>
         document.querySelector('.switch-image-btn').addEventListener('click', () => {
             const images = document.querySelectorAll('.profile-img');
