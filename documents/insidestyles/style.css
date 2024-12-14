@@ -337,6 +337,19 @@ h3 {
     display: block;
 }
 
+/* Estilo general para enlaces */
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-weight: bold;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+a:hover {
+    color: var(--color-secondary);
+    text-shadow: 0 0 5px var(--color-secondary);
+}
 
 /* Footer */
 .guide-footer {

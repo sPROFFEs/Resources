@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Análisis Post-mortem. Artefactos en Windows</title>
+    <link rel="stylesheet" href="../../insidestyles/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="back-link">Volver</a>
+        <div class="dropdown">
+            <button class="dropbtn">Índice</button>
+            <div class="dropdown-content">
+                <a href="#section-1">Prefetch</a><a href="#section-2">LOGs</a><a href="#section-3">Fichero de hibernación en Windows</a><a href="#section-4">Volume shadow copies service (VSS)</a><a href="#section-5">Registro de Windows</a><a href="#section-6">Eventos EVTX</a><a href="#section-7">Herramientas a utilizar para análisis de artefactos</a><a href="#section-8">Extraer evidencias de los artefactos</a><a href="#section-9">Otros artefactos</a>
+            </div>
+        </div>
+    </nav>
+    <div class="guide-content" role="main">
+        <h1>Análisis Post-mortem. Artefactos en Windows</h1>
+        
+        <div class="guide-section" id="section-1">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Prefetch</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>¿Qué son?</h3>
+                    
+                    <p>Un prefetch o precarga es una característica de windows que mejora el rendimiento del sistema operativo. <br>Al inicio, el sistema operativo realiza un seguimiento de los programas que se abren habitualmente, guarda la información y aprende del uso para que el sistema haga un pre-inicio del software de uso habitual por lo que se dice que se realiza un "prefetch"</p>
+                    
+                    
+                    
+                    <h3>¿Cómo se almacena?</h3>
+                    
+                    <p>Para almacenar esta información windows crea una ruta de precarga donde almacena estos archivos con extensión "pf" y podemos encontrarlos en %WINDIR%\prefetch.<br>Para cada programa ejecutado se genera un archivo prefetch que contiene información sobre el programa, como son el path, la fecha y hora de modificación creación y última vez que se ejecutó, así como una lista de las dependencias cargadas por la aplicación en los primeros 30 segundos de su ejecución.</p>
+                    
+                    
+                    
+                    <h3>¿Qué información es util desde un punto de vista forense?</h3>
+                    
+                    <p>Estos archivos también almacenan información sobre el disco, GUID y marcas de creación de la unidad. Se almacena para todos los volúmenes y es util para poder identificar GUIDs de unidades externas.<br>En algunas periciales es interesante este dato y se puede comparar con las unidades externas utilizadas para poner en marcha las aplicaciones o para descubrir los archivos que han sido abiertos desde el propio dispositivo o disco duro externo y puede ser importante reflejar esto en el análisis pericial.</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-2">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">LOGs</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>¿Que són?</h3>
+                    
+                    <p>Es un registro de eventos durante un rango de tiempo en particular. Se utiliza para registrar datos o información sobre quién, qué, cuándo, dónde y por qué un evento ocurre para un dispositivo en particular o para una aplicación concreta.</p>
+                    
+                    
+                    
+                    <h3>Los más importantes por su contenido</h3>
+                    
+                    <p>A pesar de que existen numerosos registros que windows realiza, dentro de los más interesantes por su valor o contenido pericial podemos encontrar los siguientes</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>%WINDIR%\setupact.log</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Contiene información acerca de las acciones de instalación durante la misma.<br><br>EVIDENCIAS: Podemos ver fechas de instalación, propiedades de programas instalados, rutas de acceso, copias legales, discos de instalación…</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>%WINDIR%\Debug\mrt.log</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Resultados del programa de eliminación de software malintencionado de Windows. <br>EVIDENCIAS: Fechas, Versión del motor, firmas y resumen de actividad.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>%WINDIR%\Logs\CBS\CBS.log</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Ficheros pertenecientes a “Windows Resource Protection” y que no se han podido restaurar.<br><br>EVIDENCIAS: Proveedor de almacenamiento, PID de procesos, fechas, rutas…</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>%AppData%\setupapi.log</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Contiene información de unidades, services pack y hotfixes.<br><br>EVIDENCIAS: Unidades locales y extraibles, programas de instalación, programas instalados, actualizaciones de seguridad, reconocimiento de dispositivos conectados…</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>%WINDIR%\INF\setupapi.dev.log</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Contiene información de unidades Plug and Play y la instalación de drivers.<br><br>EVIDENCIAS: Versión de SO, Kernel, Service Pack, arquitectura, modo de inicio, fechas, rutas, lista de drivers, dispositivos conectados, dispositivos iniciados o parados…</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>%WINDIR%\Performance\Winsat\winsat.log</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Contiene trazas de utilización de la   aplicación WINSAT que miden el rendimiento del sistema.<br><br>EVIDENCIA: Fechas, valores sobre la tarjeta gráfica, CPU, velocidades, puertos USB…</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>*.INI</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Contiene configuraciones de programas<br><br>EVIDENCIA: Rutas, secciones, parámetros de usuarios…</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>%WINDIR%\Memory.dmp</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Contiene información sobre los volcados de memoria.<br><br>EVIDENCIA: Rutas, programas, accesos, direcciones de memoria, listado de usuarios, contraseñas, conexiones…</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>%WINDIR%\System32\config%WINDIR%\System32\winevt\Logs</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Contiene los logs de Windows accesibles desde el visor de eventos.<br><br>EVIDENCIAS: Casi todas. Entradas, fechas, accesos, permisos, programas, usuario, etc…</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>%PROGRAMDATA%\Microsoft\Microsoft Antimalware\Support %PROGRAMDATA%\Microsoft\Microsoft Security Client\Support</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Logs del motor de antimalware<br><br>EVIDENCIAS: Fechas, versión del motor, programas analizados, actividad del malware…</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-3">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Fichero de hibernación en Windows</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>¿Qué es?</h3>
+                    
+                    <p>El archivo *hiberfil.sys* es un fichero especial que almacena el estado completo de la memoria RAM de una sistema cuando esta entra en modo de hibernación. <br>Su tamaño es igual a la cantidad total de memoria RAM instalada en el equipo y contiene una versión comprimida de los datos en memoria. <br>Su creación es posible solo si el hardware de la máquina cumple con los estándares *ACPI* y *Plug-and-Play*. <br>Para interactuar con este archivo o analizarlo, generalmente se requieren herramientas especializadas debido a su formato comprimido.</p>
+                    
+                    
+                    
+                    <h3>¿Cómo ver su contenido?</h3>
+                    
+                    <p>Por ejemplo, el WindowsMemory Toolkit de Moonsols (ahora conocido como Comae) incluye herramientas como hibr2bin, que permiten extraer y mostrar los datos almacenados en el archivo hiberfil.sys. <br>Esta herramienta convierte la información comprimida del archivo en un formato legible para su análisis.<br><br>También se puede transformar archivos de hibernación en una imagen sin procesar utilizando el framework *Volatility*, que incluye un módulo especializado para crear una imagen legible a partir del archivo de hibernación. Una vez que se obtiene esta imagen lineal, resulta muy fácil examinar su contenido. Otra herramienta práctica es *Strings*, que permite localizar cadenas de texto dentro del archivo de hibernación. Esto facilita una evaluación rápida de su contenido sin necesidad de generar una imagen completamente legible.</p>
+                    
+                    
+                    
+                    <h3>Importancia</h3>
+                    
+                    <p>La información contenida en el archivo hiberfil.sys puede ser extremadamente importante, dependiendo del contexto en el que se analice.<br><br>En investigaciones digitales puede proporcionar una instantánea del estado de la memoria en el momento en que el sistema entró en hibernación. Esto incluye programas abiertos, documentos en uso, conexiones activas y datos sensibles que estaban cargados en la RAM.<br><br>Puede ser útil para recuperar información perdida o no guardada, como el contenido de un archivo que estaba siendo editado pero no fue almacenado antes de la hibernación.<br><br>Los desarrolladores y técnicos pueden usar el contenido del archivo para analizar errores del sistema, depurar aplicaciones o identificar conflictos de hardware o software.<br><br>Puede contener información sensible, como contraseñas, claves de cifrado o datos personales. Por ello, es crucial protegerlo en sistemas críticos, ya que puede representar un riesgo de seguridad si cae en manos equivocadas.</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-4">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Volume shadow copies service (VSS)</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>El Shadow Copy, también conocido como Volume Snapshot Service, Volume Shadow Copy Service o simplemente VSS, es una tecnología integrada en Microsoft Windows que permite crear copias de seguridad, ya sea de forma automática o manual, de archivos o volúmenes, incluso si están en uso. Este servicio funciona directamente sobre el sistema de archivos, garantizando que se puedan realizar snapshots consistentes sin interrumpir las operaciones normales del sistema.<br><br>Esta tecnología necesita que el sistema de archivos sea NTFS para poder crear y almacenar las copias que pueden ser creadas en local y en dispositivos externos, bien en dispositivos en red o dispositivos locales.<br><br></p>
+                    
+                    
+                    
+                    <h3>¿Viene activada por defecto o la tiene que activar el usuario?</h3>
+                    
+                    <p>El servicio Volume Shadow Copy (VSS) está habilitado de forma predeterminada en sistemas Windows para funciones específicas, como la Restauración del Sistema y Copias de Seguridad de Windows, pero no siempre está configurado para realizar snapshots automáticos de todos los volúmenes.</p>
+                    
+                    
+                    
+                    <h3>¿Cada cuánto tiempo se realizan?</h3>
+                    
+                    <p>Depende de cómo esté configurado el sistema y el propósito para el cual se usa el servicio Volume Shadow Copy (VSS).<br><br>-> Restauración del Sistema<br><br>En Windows, los puntos de restauración del sistema, que utilizan VSS, suelen crearse automáticamente una vez al día o cuando se produce un evento significativo, como:<br><br>La instalación de una actualización del sistema.<br>Cambios en el software o configuración importantes.<br>Instalación de controladores.<br><br>-> Copias de Sombra para Volúmenes Específicos<br><br>Si se configura manualmente VSS para un volumen, la frecuencia de las copias dependerá de la programación establecida. Por ejemplo:<br><br>En un entorno empresarial con servidores Windows, las copias de sombra a menudo se programan para realizarse varias veces al día, como cada 4 o 6 horas, según las necesidades.<br><br>En sistemas no configurados explícitamente, no se realizan copias periódicas, y el usuario debe iniciarlas manualmente.</p>
+                    
+                    
+                    
+                    <h3>Ejemplos</h3>
+                    
+                    <p>- Recuperación de Archivos Modificados o Eliminados Accidentalmente<br><br>Contexto:<br>Un empleado está trabajando en un archivo importante y accidentalmente borra o sobrescribe información crítica. El archivo se encuentra almacenado en una carpeta compartida de la red.<br><br>Utilidad de las Copias de Sombra:<br>Si las copias de sombra están habilitadas en el servidor o sistema donde se almacena el archivo, se puede acceder a versiones anteriores del documento. Esto permite restaurar una versión específica del archivo desde el Explorador de Windows, evitando la pérdida de datos críticos sin necesidad de recurrir a una copia de seguridad completa.<br><br><br>- Diagnóstico y Mitigación de Ransomware<br><br>Contexto:<br>Una computadora o servidor es infectado por ransomware, y el malware cifra los archivos del sistema, haciéndolos inaccesibles.<br><br>Utilidad de las Copias de Sombra:<br>Si las copias de sombra están configuradas en el sistema antes del ataque, el administrador puede intentar recuperar versiones anteriores de los archivos desde las copias de sombra, lo que puede mitigar parcialmente el impacto del ransomware. Aunque algunos ransomware también intentan eliminar estas copias, si se han protegido correctamente, pueden servir como una línea de defensa adicional.</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-5">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Registro de Windows</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>El registro de Windows es una base de datos organizada de manera jerárquica que se utiliza para guardar configuraciones y opciones de los sistemas operativos Microsoft Windows. <br>En esta base de datos se almacena la configuración de componentes fundamentales del sistema operativo, así como la de las aplicaciones que funcionan en él. Entre los elementos que usan el registro están el kernel, los controladores de dispositivo, los servicios del sistema, el Administrador de Cuentas de Seguridad (SAM), la interfaz gráfica de usuario (GUI) y las aplicaciones de terceros. <br><br>Además, el registro permite que los controladores accedan a información que puede ser usada para generar un perfil del rendimiento del sistema.</p>
+                    
+                    
+                    
+                    <h3>Cómo importar y exportar claves de registro en CLI y GUI</h3>
+                    
+                    <p>- En el entorno GUI<br><br>Exportar claves: Abre el Editor del Registro (regedit) como administrador, navega hasta la clave deseada, haz clic derecho, selecciona "Exportar" y guarda el archivo .reg<br><br>Importar claves: Haz doble clic en un archivo .reg previamente exportado o selecciona "Archivo > Importar" dentro del Editor del Registro y elige el archivo.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>- En el entorno CLI <br><br>Exportar: Usa el comando reg export [KeyPath] [FileName.reg], donde [KeyPath] es la ruta completa de la clave y [FileName.reg] el archivo de destino.<br><br>Importar: Utiliza el comando reg import [FileName.reg], donde [FileName.reg] es el archivo que contiene las claves a importar​</p>
+                    
+                    
+                    
+                    <h3>Claves interesantes desde el punto de vista forense</h3>
+                    
+                    <p>- HKLM\SYSTEM:<br><br>Revela: Configuración del sistema, información sobre dispositivos conectados, y detalles de inicio y apagado. Útil para identificar patrones de actividad en un dispositivo.<br><br>- HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run:<br><br>- Revela: Programas configurados para ejecutarse al inicio del sistema. Puede ayudar a detectar malware o programas sospechosos.<br><br>- HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs:<br><br>Revela: Archivos abiertos recientemente por el usuario, lo que aporta información sobre su actividad reciente.<br><br>- HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings:<br><br>Revela: Configuración de navegación, como proxys y preferencias de red, que pueden mostrar comportamientos de navegación.<br><br>- HKLM\SAM:<br><br>Revela: Base de datos de cuentas locales del sistema. Útil para analizar usuarios y contraseñas en investigaciones de acceso no autorizado.<br><br>- HKLM\SYSTEM\CurrentControlSet\Enum\USBSTOR:<br><br>Revela: Dispositivos USB conectados históricamente, incluyendo nombres y marcas. Es clave para rastrear dispositivos externos conectados al sistema​</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-6">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Eventos EVTX</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>Los registros de eventos son archivos que almacenan información sobre eventos importantes que ocurren en el sistema, como cuando un usuario inicia sesión, se produce un error en un programa, o se realiza alguna acción clave en el sistema. Cada vez que ocurre uno de estos eventos, Windows lo registra en un archivo especial. Esta información puede ser consultada usando una herramienta llamada Visor de eventos.<br><br>Para los usuarios avanzados, los registros de eventos son muy útiles para solucionar problemas o investigar el comportamiento del sistema operativo y de otras aplicaciones.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Los registros de aplicaciones y servicios en Windows varían según el programa o servicio que se esté ejecutando. Estos registros incluyen información específica sobre las aplicaciones del sistema y registros más detallados relacionados con servicios particulares de Windows, proporcionando un panorama más granular del funcionamiento del sistema y sus componentes.<br><br>El formato EVTX fue introducido por Microsoft en Windows Vista y Server 2008, reemplazando el antiguo formato EVT que se utilizaba desde Windows NT 4.0. La principal razón de este cambio fue que el formato EVT original no podía adaptarse fácilmente a las crecientes demandas de complejidad del sistema moderno. <br>El nuevo formato EVTX incluye mejoras como:<br><br>. Nuevas características y propiedades de los eventos.<br>. El uso de canales para la publicación de eventos, lo que permite una mayor organización y filtrado.<br>. Un formato basado en XML, lo que facilita la interpretación y la integración con otros sistemas.<br>. Un nuevo Visor de eventos y un servicio de registro de eventos, que mejoran la forma en que se gestionan y visualizan los registros</p>
+                    
+                    
+                    
+                    <h3>¿Cuáles pueden ser interesantes?</h3>
+                    
+                    <p>Desde un punto de vista forense, ciertos tipos de eventos son cruciales para la investigación, ya que pueden proporcionar detalles importantes sobre actividades sospechosas o incidentes de seguridad. </p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>- Eventos de seguridad (Auditoría):<br><br>Los eventos que indican intentos de inicio de sesión, especialmente aquellos que muestran errores de inicio de sesión o múltiples intentos fallidos, pueden ser indicativos de intentos de acceso no autorizado. Los registros de auditoría también incluyen eventos como cambios en las contraseñas o modificaciones en las cuentas de usuario.<br><br>Estos eventos permiten identificar acciones sospechosas o no autorizadas, como ataques de fuerza bruta o elevación de privilegios. Además, pueden mostrar si un atacante consiguió acceder a una cuenta de usuario o administrador.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>- Eventos del sistema:<br><br>Los eventos de error del sistema, como caídas de servicios críticos o problemas con controladores de dispositivos, son relevantes. En particular, los errores que indican que un servicio del sistema (como el servicio de red o el servicio de autenticación) no se ha iniciado correctamente pueden ser señales de manipulación maliciosa.<br><br>Pueden ayudar a identificar problemas con la estabilidad del sistema o ataques que intentan desactivar servicios esenciales para ocultar actividades maliciosas. También pueden dar pistas sobre un malfuncionamiento de hardware que podría estar relacionado con un ataque físico.</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-7">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Herramientas a utilizar para análisis de artefactos</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>FTK Imager</h3>
+                    
+                    <p>Es una herramienta esencial para la creación de imágenes forenses de discos, permitiendo trabajar con artefactos como ficheros de hibernación, Shadow Copies, y otros archivos del sistema. <br><br>También permite ver y exportar registros de eventos, ficheros eliminados y contenido en memoria, lo que la convierte en una herramienta clave en análisis forenses​<br></p>
+                    
+                    
+                    
+                    <h3>Arsenal Image Mounter</h3>
+                    
+                    <p>Esta herramienta permite montar imágenes de disco forenses en el sistema operativo como si fueran discos físicos. <br><br>Es útil para analizar contenido de imágenes de disco, incluyendo los artefactos relacionados con la caché, prefetch, y otros archivos del sistema. <br>También es importante cuando se quiere acceder a archivos de Shadow Copies o registros de eventos sin alterar la imagen original​</p>
+                    
+                    
+                    
+                    <h3>Registry Explorer</h3>
+                    
+                    <p>Especializada en el análisis del registro de Windows, Registry Explorer permite a los investigadores examinar las claves del registro, lo que es esencial para encontrar detalles sobre configuraciones del sistema, actividades de usuarios, y rastrear posibles eventos de seguridad. <br><br>Es muy útil para la investigación forense de accesos y modificaciones en el sistema.</p>
+                    
+                    
+                    
+                    <h3>RegRipper</h3>
+                    
+                    <p>RegRipper es una herramienta diseñada para extraer e interpretar los datos del registro de Windows.<br><br>Permite a los forenses obtener información detallada sobre el sistema, como el historial de programas ejecutados, la actividad de usuarios y las conexiones USB, lo que es útil para identificar actividades sospechosas o no autorizadas​.</p>
+                    
+                    
+                    
+                    <h3>WRR (Windows Registry Recovery)</h3>
+                    
+                    <p>Esta herramienta está orientada a la recuperación de datos del registro de Windows. <br><br>Es útil para restaurar información del registro dañada o incompleta y obtener detalles importantes en situaciones donde el sistema haya sufrido daños o pérdida de datos​.</p>
+                    
+                    
+                    
+                    <h3>LinkParser</h3>
+                    
+                    <p>Se especializa en analizar los registros de enlaces (Jump Lists) de Windows. <br><br>Esta herramienta es valiosa cuando se necesita rastrear las aplicaciones recientemente usadas por un usuario, identificando accesos a archivos o programas específicos, y obteniendo una línea de tiempo sobre el comportamiento del usuario</p>
+                    
+                    
+                    
+                    <h3>JumpListExplorer</h3>
+                    
+                    <p>Similar a LinkParser, facilita el análisis de Jump Lists en Windows. <br><br>Estas listas contienen información sobre los archivos y programas recientemente abiertos por el usuario, lo que puede ayudar a reconstruir la actividad reciente de un individuo, especialmente en investigaciones forenses sobre el uso de aplicaciones y documentos​</p>
+                    
+                    
+                    
+                    <h3>ShellbagExplorer</h3>
+                    
+                    <p>Esta herramienta permite a los forenses examinar los datos de Shellbags, que guardan información sobre las carpetas y archivos que un usuario ha abierto o visualizado en el sistema, incluso si han sido eliminados. <br><br>Es útil para rastrear la actividad en directorios específicos o archivos eliminados.</p>
+                    
+                    
+                    
+                    <h3>USB Detective</h3>
+                    
+                    <p>Es una herramienta esencial para rastrear la actividad relacionada con dispositivos USB en un sistema Windows. <br><br>Puede revelar información sobre cuándo se conectaron dispositivos USB, qué archivos se copiaron o accedieron, y si hubo alguna manipulación de datos en un dispositivo de almacenamiento externo, lo cual es clave en investigaciones relacionadas con exfiltración de datos o accesos no autorizados​.</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-8">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Extraer evidencias de los artefactos</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>Antes de comenzar indicar que estamos utilizando el software FTK Imager para acceder a estas ubicaciones para extraer cada uno de los artefactos que se van a ir mostrando a continuación. <br><br>Cabe a destacar además que este proceso de ejemplo se está realizando en una máquina virtual activa y no sobre una imágen de disco extraida, pero el proceso es casi identico.</p>
+                    
+                    
+                    
+                    <h3>Extraer archivos de registro</h3>
+                    
+                    <p>Para agilizar el proceso vamos a extraer el directorio donde vamos a encontrar la mayoria de registros del sistema interesantes. <br><br>Usando FTK extraemos el directorio completo.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>C:\windows\system32\conf</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241210_182435_Peek_2024-12-10_19-24.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    <a href="https://www.sans.org/tools/registry-explorer/" target="_blank">Registry Explorer</a>
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    <a href="https://github.com/keydet89/RegRipper4.0" target="_blank">RegRipper</a>
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    <a href="https://www.mitec.cz/wrr.html" target="_blank">Windows Registry Recovery</a>
+                    
+                    
+                    <h3>Versión del sistema, nombre de la máquina y zona horaria</h3>
+                    <div class="code-block"><code>Software\Microsoft\Windows NT\CurrentVersion</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241210_185749_Peek_2024-12-10_19-25.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Fecha de último acceso y Hora de apagado</h3>
+                    <div class="code-block"><code>System\ControlSet001\Control\Filesystem<br><br>System\ControlSet001\Control\Windows</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_132918_Peek_2024-12-10_21-16.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_132929_Peek_2024-12-10_21-17.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Si vemos el resultado anterior es debido a que esta política viene desactivada por defecto en las últimas versiones de windows para mejorar el rendimiento del sistema.<br><br>Ahora vamos a comprobar el tiempo de apagado.</p>
+                    
+                        <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_133223_Peek_2024-12-11_14-32.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+                    
+                    
+                    <h3>Interfaces de red</h3>
+                    <div class="code-block"><code>System\ControlSet001\Services\Tcpip\Parameters\Interfaces\{GUID_INTERFACE}</code></div>
+                    
+                    
+                    
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_171143_Peek_2024-12-11_18-11.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Histórico de redes</h3>
+                    <div class="code-block"><code>Software\Microsoft\Windows NT\CurrentVersion\NetworkList\<br><br>Software\Microsoft\Windows NT\CurrentVersion\NetworkList\Nla\Cache</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_171456_Peek_2024-12-11_18-14.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Cuándo se conectó a una red</h3>
+                    <div class="code-block"><code>Software\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_171717_Peek_2024-12-11_18-17.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Carpetas compartidas</h3>
+                    <div class="code-block"><code>System\ControlSet001\Services\lanmanserver\Shares\</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_171907_Peek_2024-12-11_18-18.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Programas de inicio</h3>
+                    <div class="code-block"><code>NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Run<br>NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\RunOnce<br>Software\Microsoft\Windows\CurrentVersion\Runonce<br>Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\Run<br>Software\Microsoft\Windows\CurrentVersion\Run</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_172712_Peek_2024-12-11_18-26.gif" 
+             alt="Para acceder a NTUSER.DAT primero hay que extraerlo del disco de evidencia"
+             style="width: 100%">
+        <div class="image-caption">Para acceder a NTUSER.DAT primero hay que extraerlo del disco de evidencia</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Una vez hecho ahora si podemos visualizar todas las rutas</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_172910_Peek_2024-12-11_18-28.gif" 
+             alt="En este caso es la ruta en SOFTWARE"
+             style="width: 100%">
+        <div class="image-caption">En este caso es la ruta en SOFTWARE</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_174155_Peek_2024-12-11_18-41.gif" 
+             alt="En este caso es la ruta NTUSER.DAT"
+             style="width: 100%">
+        <div class="image-caption">En este caso es la ruta NTUSER.DAT</div>
+    </div>
+    
+                    
+                    <h3>Búsquedas en la barra de búsqueda</h3>
+                    <div class="code-block"><code>NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\WordWheelQuery</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_174351_Peek_2024-12-11_18-43.gif" 
+             alt="En este caso el sistema no tiene activada la barra de busqueda por lo que no hay registros"
+             style="width: 100%">
+        <div class="image-caption">En este caso el sistema no tiene activada la barra de busqueda por lo que no hay registros</div>
+    </div>
+    
+                    
+                    <h3>Rutas en Inicio o Explorer</h3>
+                    <div class="code-block"><code>NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\TypedPaths</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_174440_Peek_2024-12-11_18-44.gif" 
+             alt="Igualmente no aparece nada porque es inexistente en la máquina"
+             style="width: 100%">
+        <div class="image-caption">Igualmente no aparece nada porque es inexistente en la máquina</div>
+    </div>
+    
+                    
+                    <h3>Documentos recientes</h3>
+                    <div class="code-block"><code>NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RecentDocs</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_174602_Peek_2024-12-11_18-45.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Documentos ofimáticos recientes</h3>
+                    <div class="code-block"><code>NTUSER.DAT\Software\Microsoft\Office\{Version}\{Excel|Word}\UserMRU</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>En este caso no vemos ni siquiera la carpeta office porque no tiene instalado el software</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_174815_Peek_2024-12-11_18-48.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Posición de lectura sobre el último documento abierto</h3>
+                    <div class="code-block"><code>NTUSER.DAT\Software\Microsoft\Office\Word\Reading Locations\Document X.</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Igualmente omitimos por no tener el software instalado</p>
+                    
+                    
+                    
+                    <h3>Ficheros ofimáticos autoguardados</h3>
+                    <div class="code-block"><code>C:\Usuarios\\AppData\Roaming\Microsoft\{Excel|Word|Powerpoint}\</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>En este caso podemos acceder directamente desde FTK y de nuevo omitimos por no tener el software</p>
+                    
+                    
+                    
+                    <h3>OpenSaveMRU: Ficheros que han sido abiertos o guardados dentro de una ventana Windows.</h3>
+                    <div class="code-block"><code>NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\ComDlg32\OpenSaved<br>PidlMRU</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_175228_Peek_2024-12-11_18-52.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Últimos comandos ejecutados</h3>
+                    <div class="code-block"><code>NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU<br>NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\Policies\RunMRU</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_175508_Peek_2024-12-11_18-54.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>UserAssistKey: Programas ejecutados desde el Escritorio</h3>
+                    <div class="code-block"><code>NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\UserAssist\{GUID}\Cou<br>nt</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_175728_Peek_2024-12-11_18-57.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Eventos asociados a la barra de tareas</h3>
+                    <div class="code-block"><code>NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\FeatureUsage</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_175939_Peek_2024-12-11_18-59.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Aplicaciones recientes</h3>
+                    <div class="code-block"><code>Software\Microsoft\Windows\Current Version\Search\RecentApps</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>En el caso de esta máquina no se encuentra porque puede que no esté activado</p>
+                    
+                    
+                    
+                    <h3>Dispositivos MTP</h3>
+                    <div class="code-block"><code>C:\users\Appdata\Local\Temp\WPDNSE\{GUID}</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_180926_Peek_2024-12-11_19-09.gif" 
+             alt="En este caso vemos que no existe ya que en la máquina no existía ningún dispositivo MTP conectado"
+             style="width: 100%">
+        <div class="image-caption">En este caso vemos que no existe ya que en la máquina no existía ningún dispositivo MTP conectado</div>
+    </div>
+    
+                    
+                    <h3>Almacenamiento USB. Identificadores de fabricante(VID) y de producto (PID)</h3>
+                    <div class="code-block"><code>SYSTEM\ControlSet001\Enum\USBSTOR</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_181233_Peek_2024-12-11_19-12.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Nombres de volúmenes USB</h3>
+                    <div class="code-block"><code>SOFTWARE\Microsoft\Windows Portable Devices\Devices</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_181433_Peek_2024-12-11_19-14.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Localizar el usuario que ha utilizado el USB</h3>
+                    <div class="code-block"><code>NTUSER.DAT\Software\Microsoft\Windows\CurrentVersion\Explorer\Mountpoints2</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_181645_Peek_2024-12-11_19-16.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Número de serie de volumen lógico</h3>
+                    <div class="code-block"><code>Software\Microsoft\Windows NT\CurrentVersion\EMDMgmt</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_181935_Peek_2024-12-11_19-18.gif" 
+             alt="Hay que tener en cuenta que todos estos datos solo existen si se han utilizado dispositivos de almacenamiento externos"
+             style="width: 100%">
+        <div class="image-caption">Hay que tener en cuenta que todos estos datos solo existen si se han utilizado dispositivos de almacenamiento externos</div>
+    </div>
+    
+                    
+                    <h3>Primera y última vez que se conectó el dispositivo</h3>
+                    <div class="code-block"><code>System\ControlSet001\Enum\USBSTOR\{VEN_PROD_VERSION}\{USB<br>serial}\Properties\{83da6326- 97a6-4088-9453-a1923f573b29}\</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_182342_Peek_2024-12-11_19-23.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Servicios</h3>
+                    <div class="code-block"><code>SYSTEM\ControlSet001\Services</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_185333_Peek_2024-12-11_19-53.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Histórico de PowerShell</h3>
+                    <div class="code-block"><code>C:Users\{User}\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_185645_Peek_2024-12-11_19-56.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Tareas programadas</h3>
+                    <div class="code-block"><code>C:\Windows\Tasks<br>C:\Windows\System32\Tasks</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_190049_Peek_2024-12-11_20-00.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-9">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Otros artefactos</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Documentos recientes (LinkParses o LeCMD)</h3>
+                    
+                    
+                    <a href="https://github.com/ravisorg/LinkParser" target="_blank">LinkParser</a>
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    <a href="https://github.com/EricZimmerman/LECmd" target="_blank">LeCMD</a>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>C:\Users\\AppData\Roaming\Microsoft\Windows\Recent</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_184824_Peek_2024-12-11_19-25.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Windows PREFETCH (LeCMD)</h3>
+                    <div class="code-block"><code>C:\Windows\Prefetch</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_185136_Peek_2024-12-11_19-51.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Automatic & Custom destinations (JumpListExplorer)</h3>
+                    
+                    
+                    <a href="https://github.com/EricZimmerman/JumpList" target="_blank">JumpList Explorer</a>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>C:\Users\\AppData\Roaming\Microsoft\Windows\Recent\AutomaticDestinations<br>C:\Users\\AppData\Roaming\Microsoft\Windows\Recent\CustomDestinations</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Ubicamos y descargamos las rutas con FTK</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_192717_Peek_2024-12-11_20-27.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_192857_Peek_2024-12-11_20-28.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_193044_Peek_2024-12-11_20-30.gif" 
+             alt="Estas parecen estar vacías"
+             style="width: 100%">
+        <div class="image-caption">Estas parecen estar vacías</div>
+    </div>
+    
+                    
+                    <h3>Acceso y tiempos MAC a directorios (ShellbagExplorer)</h3>
+                    <div class="code-block"><code>USRCLASS.DAT\Local Settings\Software\Microsoft\Windows\Shell\Bags<br>USRCLASS.DAT\Local Settings\Software\Microsoft\Windows\Shell\BagMRU Desktop<br>NTUSER.DAT\Software\Microsoft\Windows\Shell\BagMRU</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_194442_Peek_2024-12-11_20-44.gif" 
+             alt="Extraemos el directorio donde se encuentra USRCLASS.DAT"
+             style="width: 100%">
+        <div class="image-caption">Extraemos el directorio donde se encuentra USRCLASS.DAT</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Para verlas en crudo con el registro</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_195222_Peek_2024-12-11_20-52.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Pero para poder interpretar el contenido de las ShellBags hacemos uso del siguiente software</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_195352_Peek_2024-12-11_20-53.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Base de datos Cortana en versiones anteriores a Windows 10.0.17763.55 (Sqlite studio)</h3>
+                    <div class="code-block"><code>\Users\user_name\AppData\Local\Packages\Microsoft.Windows.Cortana_xxxx\LocalState\E<br>SEDatabase_CortanaCoreInstance\CortanaCireDb.dat</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Omitimos este artefacto porque estamos usando Windows 11</p>
+                    
+                    
+                    
+                    <h3>Notificaciones de Windows</h3>
+                    <div class="code-block"><code>C:\Users\{user_name}\AppData\Local\Microsoft\Windows\Notifications\wpndatabase.db</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_200329_Peek_2024-12-11_21-02.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Windows Store</h3>
+                    <div class="code-block"><code>C:\ProgramData\Microsoft\Windows\AppRepository\StateRepositoryDeployment.srd<br>Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Applications\<br>Software\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Deleted\</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_200918_Peek_2024-12-11_21-09.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_201218_Peek_2024-12-11_21-12.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Thumbnails (thumbviewer) & Thumbcaché (thumbcacheviewer)</h3>
+                    
+                    
+                    <a href="https://thumbsviewer.github.io/" target="_blank">Thumbs Viewer</a>
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    <a href="https://thumbcacheviewer.github.io/" target="_blank">Thumbcache Viewer</a>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>Ficheros “thumbs.db”<br>C:\Users\user\AppData\Local\Microsoft\Windows\Explorer</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241211_202211_Peek_2024-12-11_21-21.gif" 
+             alt="Puede que no encontremos ningún archivo thumb.db pero si caches"
+             style="width: 100%">
+        <div class="image-caption">Puede que no encontremos ningún archivo thumb.db pero si caches</div>
+    </div>
+    
+                    
+                    <h3>Papelera de reciclaje (Rifiuti)</h3>
+                    
+                    
+                    <a href="https://abelcheung.github.io/rifiuti2/" target="_blank">Rifiuti</a>
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>El concepto de esta herramienta es que como se observa a continuación el visualizado de los nombres de los archivos existentes en las papeleras de los diferentes usuarios es modificado por windows al ser enviados a la papelera.<br>Este software se encarga de recuperar el nombre de ese archivo.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241212_085524_Peek_2024-12-12_09-53.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>OfficeFileCache & OfficeBacktage</h3>
+                    
+                    <p>En ambos casos se trata de extraer metadatos de los documentos creados con el paquete office por lo que en esta ocasión vamos a saltar estos artefactos ya que no lo tenemos en nuestra máquina</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>OfficeFileCacheParser<br></p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>\Users\(Username)\AppData\Local\Microsoft\Office\(Office Version)\OfficeFileCache</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>OfficeBackstageParser</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>\{Users}\AppData\Local\Microsoft\Office\16.0\BackstageinAppNavCache</code></div>
+                    
+                    
+                    
+                    
+                    <h3>IP Pública</h3>
+                    
+                    
+                    <a href="https://github.com/forensiclunch/ETLParser" target="_blank">ETLParser</a>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>C:\Windows\ServiceProfiles\NetworkService\AppData\Local\Microsoft\Windows\DeliveryOpti<br>mization\Logs\</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241212_090852_Peek_2024-12-12_10-08.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241212_092501_Peek_2024-12-12_10-24.gif" 
+             alt="Podemos abrirlo con algun editor de hojas de cálculo igualmente"
+             style="width: 100%">
+        <div class="image-caption">Podemos abrirlo con algun editor de hojas de cálculo igualmente</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Nota* Esa no es mi IP pública real, la he modificado por supuesto</p>
+                    
+                    
+                    
+                    <h3>Windows SuperFetch</h3>
+                    <div class="code-block"><code>C:\Windows\Prefetch\Ag*.db</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    <a href="https://www.sans.org/tools/pecmd/" target="_blank">PECmd</a>
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241212_103306_Peek_2024-12-12_11-32.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>ShimCache</h3>
+                    
+                    
+                    <a href="https://github.com/EricZimmerman/AppCompatCacheParser" target="_blank"></a>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>SYSTEM\CurrentControlSet\Control\SessionManager\AppcompatCache\AppCompatCache</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241212_111928_Peek_2024-12-12_12-19.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>AmCache</h3>
+                    <div class="code-block"><code>C:\Windows\AppCompat\Programas\Amcache.hve</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241212_112750_Peek_2024-12-12_12-26.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>BAM</h3>
+                    <div class="code-block"><code>SYSTEM\CurrentControlSet\Services\bam\UserSettings\{SID}<br>SYSTEM\CurrentControlSet\Services\bam\state\UserSettings\{SID}</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241212_113603_Peek_2024-12-12_12-35.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>Eventos</h3>
+                    <div class="code-block"><code>C:\Windows\system32\winevt\Logs</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    <a href="https://eventlogxp.com/downloads/" target="_blank">EventLog Explorer</a>
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241212_115024_Peek_2024-12-12_12-49.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3>SRUM</h3>
+                    
+                    
+                    <a href="https://www.nirsoft.net/utils/network_usage_view.html" target="_blank">Network usage view</a>
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>C:\Windows\System32\sru\SRUDB.dat</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241212_181806_Peek_2024-12-12_19-16.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <footer class="guide-footer">
+        &copy; 2024 Documentación forense
+    </footer>
+</body>
+</html>
