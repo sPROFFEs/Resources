@@ -12,6 +12,12 @@ function showCertificates(certType) {
             'images/UC-Certificate-2.jpg',
         ];
     }
+    else if (certType === 'google') {
+        certificateImagesArray = [
+            'images/google-cloud-cybersecurity-certificate.png',
+            
+        ];
+    }
 
     // Show the first image
     currentImageIndex = 0;
