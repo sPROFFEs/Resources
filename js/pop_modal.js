@@ -12,9 +12,9 @@ function showCertificates(certType) {
             'images/UC-Certificate-2.jpg',
         ];
     }
-    else if (certType === 'google') {
+    if (certType === 'google') {
         certificateImagesArray = [
-            'images/google-cloud-cybersecurity-certificate.jpg',   
+            'images/google-cloud-cybersecurity-certificate.png',   
         ];
     }
 
