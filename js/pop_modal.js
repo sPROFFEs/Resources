@@ -14,7 +14,7 @@ function showCertificates(certType) {
     }
     else if (certType === 'google') {
         certificateImagesArray = [
-            'images/google-cloud-cybersecurity-certificate.png',   
+            'images/google-cloud-cybersecurity-certificate.jpg',   
         ];
     }
 
